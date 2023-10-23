@@ -1,0 +1,25 @@
+{
+  "name": "com.gloryjam.Inventories",
+  "version": "1.0.0",
+  "displayName": "GloryJam Inventories",
+  "description": "This package contain inventory system",
+  "unity": "2020.3",
+  "unityRelease": "17f1",
+  "documentationUrl": "",
+  "changelogUrl": "",
+  "licensesUrl": "",
+  "keywords": [
+    "Inventory",
+    "Item"
+  ],
+  "author": {
+    "name": "Glory Jam",
+    "email": "",
+    "url": ""
+  },
+  "type": "",
+  "dependencies": {
+    "com.gloryjam.dataasset":"1.0.0",
+    "com.gloryjam.probabilities": "1.0.0"
+  }
+}
