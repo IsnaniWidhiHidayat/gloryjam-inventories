@@ -11,7 +11,13 @@ using Sirenix.OdinInspector;
 namespace GloryJam.Inventories
 {
     [AddComponentMenu("App/Inventory/" + nameof(Inventory))]
-    public class Inventory : SerializedMonoBehaviour
+    public class Inventory : 
+#if ODIN_INSPECTOR
+    SerializedMonoBehaviour
+#else
+    MonoBehaviour
+#endif
+    
     {
         #region const
         const string grpConfig = "Config";
