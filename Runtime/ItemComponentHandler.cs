@@ -12,8 +12,11 @@ namespace GloryJam.Inventories
 
         #region methods
         public void Init(ItemComponent component){
-            this.component = component;
+            SetComponent(component);
             OnInit();
+        }
+        public void SetComponent(ItemComponent component){
+            this.component = component;
         }
         public void Dispose(){
             OnDispose();

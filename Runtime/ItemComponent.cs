@@ -92,7 +92,7 @@ namespace GloryJam.Inventories
                 for (int i = 0; i < handlers.Count; i++)
                 {
                     if(handlers[i] == null) continue;
-                    handlers[i].Init(this);
+                    handlers[i].SetComponent(this);
                 }
             }
         }
