@@ -165,15 +165,27 @@ namespace GloryJam.Inventories
     public static class ItemComponentExtend
     {
         #region static
+        public static bool TryGetComponent<T>(this Item item,out T result)where T : ItemComponent
+        {
+            result = item?.GetComponent<T>();
+            return result != null;
+        }
+        public static bool TryGetComponent<T>(this ItemStack stack,out T result)where T : ItemComponent
+        {
+            result = stack?.GetComponent<T>();
+            return result != null;
+        }
+        
         public static T GetComponent<T>(this Item item) where T : ItemComponent
         {
-            var result = item.component.Find(x => x is T && x.Enabled);
-            return result as T;
+            var result = item.component.Find(x => x is T && x.Enabled) as T;
+            result?.SetItem(item);
+            return result;
         }
-        public static T GetComponent<T>(this ItemStack item) where T : ItemComponent
+        public static T GetComponent<T>(this ItemStack stack) where T : ItemComponent
         {
-            var result = item.component.Find(x => x is T && x.Enabled);
-            return result as T;
+            var result = stack.component.Find(x => x is T && x.Enabled) as T;
+            return result;
         }
 
         public static bool ContainComponent<T>(this Item item) where T : ItemComponent
@@ -181,9 +193,9 @@ namespace GloryJam.Inventories
             var component = item.GetComponent<T>();
             return component != null && component.Enabled;
         }
-        public static bool ContainComponent<T>(this ItemStack item) where T : ItemComponent
+        public static bool ContainComponent<T>(this ItemStack stack) where T : ItemComponent
         {
-            var component = item.GetComponent<T>();
+            var component = stack.GetComponent<T>();
             return component != null && component.Enabled;
         }
 

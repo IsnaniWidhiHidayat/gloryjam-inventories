@@ -115,7 +115,6 @@ namespace GloryJam.Inventories
         }
         public static bool TryGetComponentDetail(this Item item,out ItemDetailComponent result){
             result = item?.GetComponent<ItemDetailComponent>();
-            result?.SetItem(item);
             return result != null;
         }
     
