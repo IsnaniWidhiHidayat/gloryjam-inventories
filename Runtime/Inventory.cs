@@ -10,7 +10,7 @@ using Sirenix.OdinInspector;
 
 namespace GloryJam.Inventories
 {
-    [AddComponentMenu("Glory Jam/Inventories/Inventory/" + nameof(Inventory))]
+    [AddComponentMenu("Glory Jam/Inventory/" + nameof(Inventory))]
     public class Inventory : 
 #if ODIN_INSPECTOR
     SerializedMonoBehaviour

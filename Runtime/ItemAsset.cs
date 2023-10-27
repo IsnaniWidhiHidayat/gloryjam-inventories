@@ -134,33 +134,13 @@ namespace GloryJam.Inventories
             var value = new ItemStack(){
                 component = component.CreateInstance()
             };
-            // if(details   == null) details    = new ItemDetailComponent();
-            // if(dismantle == null) dismantle  = new ItemDismantleComponent();
-            // //if(subItems  == null) subItems   = new ItemUseableGroupDataReference<Item, ItemStack>();
-            // if(usage     == null) usage      = new ItemUseableComponent();
-            // if(component == null) component  = new List<ItemComponent>();
-
-            // value.details     = details.CreateInstance() as ItemDetailComponent;
-            // value.dismantle   = dismantle.CreateInstance() as ItemDismantleComponent;  
-            // //value.subItems    = subItems.CreateInstance();
-            // value.usage       = usage.CreateInstance() as ItemUseableComponent;
-            
+           
             return value;
         }
         #endregion
     }
 
-    [CreateAssetMenu(menuName = "Glory Jam/Inventories/Item")]
+    [CreateAssetMenu(menuName = "Glory Jam/Inventory/Item")]
     public class ItemAsset : DataAsset<Item>{
-
-        // [Button]
-        // public void Resolve(){
-        //     foreach (var component in value.component)
-        //     {
-        //         component.Resolve();
-        //     }
-
-        //     UnityEditor.EditorUtility.SetDirty(this);
-        // }
     }
 }
