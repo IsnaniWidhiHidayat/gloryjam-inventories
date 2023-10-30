@@ -200,6 +200,18 @@ namespace GloryJam.Inventories
 
             return true;
         }
+        public void SaveState(){
+            for (int i = 0; i < _stack.Count; i++)
+            {
+                _stack[i]?.SaveState();
+            }
+        }
+        public void LoadState(){
+            for (int i = 0; i < _stack.Count; i++)
+            {
+                _stack[i]?.LoadState();
+            }
+        }
         #endregion
     }
 }

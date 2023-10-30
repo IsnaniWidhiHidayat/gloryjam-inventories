@@ -56,6 +56,8 @@ namespace GloryJam.Inventories
                 _stack.slot.inventory?.InvokeOnItemUse(_stack);
             }
 
+            _stack.slot.inventory.SaveState();
+
             return result;
         }
         public virtual bool Unuse(){
@@ -72,6 +74,8 @@ namespace GloryJam.Inventories
             if(!inUse) {
                 _stack.slot.inventory?.InvokeOnItemUnuse(_stack);
             }
+
+            _stack.slot.inventory.SaveState();
 
             return result;
         }

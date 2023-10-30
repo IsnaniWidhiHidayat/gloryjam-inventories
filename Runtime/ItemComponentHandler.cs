@@ -23,6 +23,8 @@ namespace GloryJam.Inventories
         public void SetComponent(ItemComponent component){
             this.component = component;
         }
+        public virtual void SaveState(){}
+        public virtual void LoadState(){}
         public virtual void Dispose(){
             OnDispose();
         }
@@ -55,13 +57,6 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public override void Init(ItemComponent component)
-        {
-            base.Init(component);
-            LoadState();
-        }
-        public abstract void SaveState();
-        public abstract void LoadState();
         public override ItemComponentHandler CreateInstance()
         {
             var result = base.CreateInstance() as ItemComponentHandler<T1,T2>;

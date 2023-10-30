@@ -53,12 +53,19 @@ namespace GloryJam.Inventories
         [BoxGroup(grpConfig)]
         #endif
         protected string _id = "Main";
-        
+
         [SerializeField]
         #if ODIN_INSPECTOR
         [BoxGroup(grpConfig)]
         #endif
-        protected int _maxSlot = 10; 
+        protected int _maxSlot = 10;
+
+        [SerializeField]
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpConfig)]
+        [ShowIf(nameof(InspectorShowLoadState))]
+        #endif
+        protected bool _loadState;
 
         #if ODIN_INSPECTOR
         [TableList,BoxGroup(grpConfig)]
@@ -115,6 +122,12 @@ namespace GloryJam.Inventories
         private bool _inited;
         #endregion
 
+        #region inspectpr
+        private bool InspectorShowLoadState(){
+            return data.useReference;
+        }
+        #endregion
+
         #region methods
         private void OnEnable() {
             AddInventory(this);
@@ -127,17 +140,11 @@ namespace GloryJam.Inventories
         }
         private void Initialize()
         {
-            //set slot inventory
-            if(items?.Length > 0){
-                for (int i = 0; i < items.Length; i++)
-                {
-                    if(items[i] == null) continue;
-                    items[i]?.SetInventory(this);
-                }
-            }
-
             //add default items
-            items = new ItemSlot[maxSlot];
+            if(items.Length != maxSlot) Array.Resize(ref data.value.slots,maxSlot);
+
+            //load state
+            if(data.useReference && _loadState) LoadState();
 
             foreach (var item in initialItems)
             {
@@ -671,7 +678,23 @@ namespace GloryJam.Inventories
                 return result;
             });
         }
-        
+        public void SaveState(){
+            if(items == null) return;
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                items[i]?.SaveState();
+            }
+        }
+        public void LoadState(){
+            if(items == null) return;
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                items[i]?.LoadState();
+            }
+        }
+
         public void InvokeOnItemInit(ItemStack stack){
             onItemInit?.Invoke(stack);
             InventoryEvent.Trigger(new InventoryEvent(){

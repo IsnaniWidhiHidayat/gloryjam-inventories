@@ -39,6 +39,8 @@ namespace GloryJam.Inventories
         public void SetItemStack(ItemStack stack){
             this._stack = stack;
         }
+        public abstract void SaveState();
+        public abstract void LoadState();
         public abstract void Dispose();
         public abstract ItemComponent CreateInstance();
         #endregion
@@ -93,6 +95,24 @@ namespace GloryJam.Inventories
                 {
                     if(handlers[i] == null) continue;
                     handlers[i].SetComponent(this);
+                }
+            }
+        }
+        public override void SaveState(){
+            if(handlers?.Count > 0) {
+                for (int i = 0; i < handlers.Count; i++)
+                {
+                    if(handlers[i] == null) continue;
+                    handlers[i].SaveState();
+                }
+            }
+        }
+        public override void LoadState(){
+            if(handlers?.Count > 0) {
+                for (int i = 0; i < handlers.Count; i++)
+                {
+                    if(handlers[i] == null) continue;
+                    handlers[i].LoadState();
                 }
             }
         }
