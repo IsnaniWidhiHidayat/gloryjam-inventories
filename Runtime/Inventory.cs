@@ -144,6 +144,13 @@ namespace GloryJam.Inventories
 
             //add default items
             if(items.Length != maxSlot) Array.Resize(ref data.value.slots,maxSlot);
+            
+            //set inventory
+            for (int i = 0; i < items.Length; i++)
+            {
+                if(items[i] == null) continue;
+                items[i]?.SetInventory(this);
+            }
 
             //load state
             if(data.useReference && _loadState) LoadState();
