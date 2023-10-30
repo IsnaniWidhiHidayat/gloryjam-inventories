@@ -674,15 +674,35 @@ namespace GloryJam.Inventories
         
         public void InvokeOnItemInit(ItemStack stack){
             onItemInit?.Invoke(stack);
+            InventoryEvent.Trigger(new InventoryEvent(){
+                id = _id,
+                type = InventoryEvent.Type.Init,
+                stack = stack,
+            });
         }
         public void InvokeOnItemUse(ItemStack stack){
             onItemUse?.Invoke(stack);
+            InventoryEvent.Trigger(new InventoryEvent(){
+                id = _id,
+                type = InventoryEvent.Type.Use,
+                stack = stack,
+            });
         }
         public void InvokeOnItemUnuse(ItemStack stack){
             onItemUnuse?.Invoke(stack);
+            InventoryEvent.Trigger(new InventoryEvent(){
+                id = _id,
+                type = InventoryEvent.Type.Unuse,
+                stack = stack,
+            });
         }
         public void InvokeOnItemDispose(ItemStack stack){
             onItemDispose?.Invoke(stack);
+            InventoryEvent.Trigger(new InventoryEvent(){
+                id = _id,
+                type = InventoryEvent.Type.Dispose,
+                stack = stack,
+            });
         }
         #endregion
         

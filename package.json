@@ -20,6 +20,7 @@
   "type": "",
   "dependencies": {
     "com.gloryjam.dataasset":"1.0.0",
-    "com.gloryjam.probabilities": "1.0.0"
+    "com.gloryjam.probabilities": "1.0.0",
+    "com.gloryjam.event": "1.0.0"
   }
 }
