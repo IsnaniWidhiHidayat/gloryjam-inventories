@@ -41,6 +41,9 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
+        #if ODIN_INSPECTOR
+        [Button]
+        #endif
         public virtual bool Use(){
             var result = true;
 
@@ -60,6 +63,10 @@ namespace GloryJam.Inventories
 
             return result;
         }
+        
+        #if ODIN_INSPECTOR
+        [Button]
+        #endif
         public virtual bool Unuse(){
             var result = true;
 
