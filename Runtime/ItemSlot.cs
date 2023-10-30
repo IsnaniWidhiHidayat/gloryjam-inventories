@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 
 namespace GloryJam.Inventories
 {
+    [Serializable]
     public class ItemSlot : IDisposable
     {
         #region static

@@ -71,14 +71,29 @@ namespace GloryJam.Inventories
         public ItemPair[] initialUseItems;
 
         #if ODIN_INSPECTOR
-        [BoxGroup(grpRuntime),ListDrawerSettings(IsReadOnly = true),ShowInInspector]
+        [BoxGroup(grpRuntime),SerializeField]
         #endif
-        protected ItemSlot[] items;
+        protected DataReference<InventoryData> data;
         #endregion
 
         #region property
         public string id => _id;
         public int maxSlot => _maxSlot;
+        public int length => items != null? items.Length : 0;
+        public bool inited => _inited;
+        protected ItemSlot[] items {
+            get{
+                if(data != null){
+                    return data.value.items;
+                }
+
+                return default;
+            }
+            set{
+                data.value.items = value;
+            }
+        }
+        
         public ItemSlot this[int index]
         {
             get { return  items[index]; }
@@ -87,8 +102,6 @@ namespace GloryJam.Inventories
                 value?.SetInventory(this);
             }
         }
-        public int length => items != null? items.Length : 0;
-        public bool inited => _inited;
         #endregion 
 
         #region events

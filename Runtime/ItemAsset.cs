@@ -140,7 +140,7 @@ namespace GloryJam.Inventories
         #endregion
     }
 
-    [CreateAssetMenu(menuName = "Glory Jam/Inventory/Item")]
+    [CreateAssetMenu(menuName = "Glory Jam/Inventory/" + nameof(ItemAsset))]
     public class ItemAsset : DataAsset<Item>{
     }
 }
