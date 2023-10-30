@@ -52,7 +52,7 @@ namespace GloryJam.Inventories
     where T2 : ItemComponentState, new()
     {
         #region protected
-        [ShowInInspector,ShowIf(nameof(state)),BoxGroup("State")]
+        [ShowInInspector,ShowIf(nameof(state)),BoxGroup("State"),HideLabel,HideReferenceObjectPicker,HideDuplicateReferenceBox]
         protected T2 state;
         #endregion
 

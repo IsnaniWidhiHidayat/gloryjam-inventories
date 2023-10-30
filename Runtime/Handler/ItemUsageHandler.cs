@@ -13,10 +13,15 @@ namespace GloryJam.Inventories
     public abstract class ItemUsageHandler<T> : ItemComponentHandler<ItemUsageHandler,T>
     where T : ItemUsageState,new()
     {
-        #region property
-        [ShowInInspector]
+        #region const
+        protected const string grpConfig = "Config";
+        protected const string grpRuntime = "Runtime";
+        protected const string grpRequired = "Required";
+        #endregion
+
+        #region property 
         #if ODIN_INSPECTOR
-        [HideInEditorMode]
+        [ShowInInspector,HideInEditorMode,BoxGroup(grpRuntime)]
         #endif
         public abstract bool inUse {get;}
         #endregion
