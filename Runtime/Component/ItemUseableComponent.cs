@@ -52,7 +52,7 @@ namespace GloryJam.Inventories
                 if(handlers[i] == null)
                     continue;
 
-                result &= handlers[i].InternalUse();
+                result &= handlers[i].Use();
             }
 
             if(inUse) {
@@ -75,7 +75,7 @@ namespace GloryJam.Inventories
                 if(handlers[i] == null)
                     continue;
 
-                result &= handlers[i].InternalUnuse();
+                result &= handlers[i].Unuse();
             }
             
             if(!inUse) {

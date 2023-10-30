@@ -21,18 +21,7 @@ namespace GloryJam.Inventories
         public abstract bool inUse {get;}
         #endregion
 
-        #region methods
-        public virtual bool InternalUse(){
-            var r = Use();
-            SaveState();
-            return r;
-        }
-        public virtual bool InternalUnuse(){
-            var r = Unuse();
-            SaveState();
-            return r;
-        }
-        
+        #region methods  
         public abstract bool Use();
         public abstract bool Unuse();
         
