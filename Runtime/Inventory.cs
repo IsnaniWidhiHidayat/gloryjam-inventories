@@ -84,13 +84,13 @@ namespace GloryJam.Inventories
         protected ItemSlot[] items {
             get{
                 if(data != null){
-                    return data.value.items;
+                    return data.value.slots;
                 }
 
                 return default;
             }
             set{
-                data.value.items = value;
+                data.value.slots = value;
             }
         }
         

@@ -13,15 +13,17 @@ namespace GloryJam.Inventories
     public class InventoryData
     {
         #region fields
+        
+
         #if ODIN_INSPECTOR
         [ListDrawerSettings(IsReadOnly = true)]
         #endif
-        public ItemSlot[] items;
+        public ItemSlot[] slots;
         #endregion
 
         #region constructor
         public InventoryData(){
-            items = new ItemSlot[0];
+            slots = new ItemSlot[0];
         }
         #endregion
     }

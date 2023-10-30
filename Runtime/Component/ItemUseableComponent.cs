@@ -49,7 +49,7 @@ namespace GloryJam.Inventories
                 if(handlers[i] == null)
                     continue;
 
-                result &= handlers[i].Use();
+                result &= handlers[i].InternalUse();
             }
 
             if(inUse) {
@@ -66,7 +66,7 @@ namespace GloryJam.Inventories
                 if(handlers[i] == null)
                     continue;
 
-                result &= handlers[i].Unuse();
+                result &= handlers[i].InternalUnuse();
             }
             
             if(!inUse) {
@@ -75,47 +75,6 @@ namespace GloryJam.Inventories
 
             return result;
         }
-
-        // public bool ContainUseableType<T>() where T : ItemUsageHandler
-        // {
-        //     return GetUseableType<T>() != null;
-        // }      
-        // public T GetUseableType<T>() where T : ItemUsageHandler
-        // {
-        //     if(handlers?.Count > 0) {
-        //         for (int i = 0; i < handlers.Count; i++)
-        //         {
-        //             if(handlers[i] is T){
-        //                 return handlers[i] as T;
-        //             }
-        //         }
-        //     }
-
-        //     return default;
-        // }
-        // public T[] GetUseablesType<T>() where T : ItemUsageHandler
-        // {
-        //     var list = default(List<T>);
-        //     if(handlers?.Count > 0) {
-        //         for (int i = 0; i < handlers.Count; i++)
-        //         {
-        //             if(handlers[i] is T){
-        //                 if(list == null){
-        //                     list = new List<T>();
-        //                 }
-
-        //                 list.Add(handlers[i] as T);
-        //             }
-        //         }
-        //     }
-
-        //     var result = list?.ToArray();
-        //     list?.Clear();
-        //     list = null;
-
-        //     return result;
-        // }
-        
         #endregion
     }
 
