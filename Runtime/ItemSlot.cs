@@ -131,17 +131,12 @@ namespace GloryJam.Inventories
             _item = item;
         }
         public void SetInventory(Inventory inventory){
-            if(_inventory != inventory){
-                var prevInventory = _inventory;
-                _inventory = inventory;
-                for (int i = 0; i < _stack.Count; i++)
-                {
-                    if(prevInventory != null){
-                        _inventory.InvokeOnItemDispose(_stack[i]);
-                    }
-                    
-                    _stack[i].Init(this);
-                }
+            if(_inventory == inventory) return;
+
+            _inventory = inventory;
+            for (int i = 0; i < _stack.Count; i++)
+            {
+                _stack[i].Init(this);
             }
         }  
         public ItemStack[] Peek(int count){

@@ -127,6 +127,15 @@ namespace GloryJam.Inventories
         }
         private void Initialize()
         {
+            //set slot inventory
+            if(items?.Length > 0){
+                for (int i = 0; i < items.Length; i++)
+                {
+                    if(items[i] == null) continue;
+                    items[i]?.SetInventory(this);
+                }
+            }
+
             //add default items
             items = new ItemSlot[maxSlot];
 
@@ -683,6 +692,14 @@ namespace GloryJam.Inventories
             onItemUse       = null;
             onItemUnuse     = null;
             onItemDispose   = null;
+
+            //set all slot inventory to null
+            if(items?.Length > 0){
+                for (int i = 0; i < items.Length; i++)
+                {
+                    items[i]?.SetInventory(null);
+                }
+            }
         }
         #endregion
     }
