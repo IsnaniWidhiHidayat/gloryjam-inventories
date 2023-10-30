@@ -13,10 +13,9 @@ namespace GloryJam.Inventories
     public class InventoryData
     {
         #region fields
-        
-
         #if ODIN_INSPECTOR
         [ListDrawerSettings(IsReadOnly = true)]
+        [NonSerialized,ShowInInspector]
         #endif
         public ItemSlot[] slots;
         #endregion
