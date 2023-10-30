@@ -140,6 +140,8 @@ namespace GloryJam.Inventories
         }
         private void Initialize()
         {
+            if(items == null) items = new ItemSlot[maxSlot];
+
             //add default items
             if(items.Length != maxSlot) Array.Resize(ref data.value.slots,maxSlot);
 
