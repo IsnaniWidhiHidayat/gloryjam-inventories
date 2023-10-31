@@ -15,6 +15,7 @@ namespace GloryJam.Inventories
     {
         #region const
         const string grpRuntime = "Runtime";
+        const string grpDebug = "Debug";
         #endregion
 
         #region property
@@ -40,10 +41,21 @@ namespace GloryJam.Inventories
         public override string ComponentName => "Usage";
         #endregion
 
-        #region methods
+        #region inspector
         #if ODIN_INSPECTOR
-        [Button]
+        [Button("Use"),HideIf(nameof(inUse)),BoxGroup(grpDebug)]
+        private void InspectorUse(){
+            Use();
+        }
+
+        [Button("Unuse"),ShowIf(nameof(inUse)),BoxGroup(grpDebug)]
+        private void InspectorUnUse(){
+            Unuse();
+        }
         #endif
+        #endregion
+
+        #region methods
         public virtual bool Use(){
             var result = true;
 
@@ -56,17 +68,13 @@ namespace GloryJam.Inventories
             }
 
             if(inUse) {
-                _stack.slot.inventory?.InvokeOnItemUse(_stack);
+                inventory?.InvokeOnItemUse(_stack);
             }
 
-            _stack.slot.inventory.SaveState();
+            inventory?.SaveState();
 
             return result;
         }
-        
-        #if ODIN_INSPECTOR
-        [Button]
-        #endif
         public virtual bool Unuse(){
             var result = true;
 
@@ -85,6 +93,17 @@ namespace GloryJam.Inventories
             _stack.slot.inventory.SaveState();
 
             return result;
+        }
+
+        public override void LoadState()
+        {
+            var _inUse = inUse;
+            
+            base.LoadState();
+
+            if(!_inUse && inUse){
+                inventory?.InvokeOnItemUse(_stack);
+            }
         }
         #endregion
     }

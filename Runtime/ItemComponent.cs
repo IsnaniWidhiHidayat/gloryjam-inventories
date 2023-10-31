@@ -17,6 +17,8 @@ namespace GloryJam.Inventories
         #region property
         public ItemStack stack => _stack;
         public Item item => _item;
+        public ItemSlot slot => _stack?.slot;
+        public Inventory inventory => slot?.inventory;
         #endregion
 
         #region protected

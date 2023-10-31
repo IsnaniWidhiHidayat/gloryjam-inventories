@@ -24,6 +24,7 @@ namespace GloryJam.Inventories
         const string grpRequired = "Required";
         const string grpRuntime = "Runtime";
         const string grpEvent = "Events";
+        const string grpDebug = "Debug";
         #endregion
 
         #region static
@@ -78,7 +79,7 @@ namespace GloryJam.Inventories
         public ItemPair[] initialUseItems;
 
         #if ODIN_INSPECTOR
-        [BoxGroup(grpRuntime),SerializeField]
+        [BoxGroup(grpRuntime),SerializeField,HideLabel]
         #endif
         protected DataReference<InventoryData> data;
         #endregion
@@ -122,10 +123,28 @@ namespace GloryJam.Inventories
         private bool _inited;
         #endregion
 
-        #region inspectpr
+        #region inspector
+        #if ODIN_INSPECTOR
         private bool InspectorShowLoadState(){
             return data.useReference;
         }
+
+        [SerializeField,BoxGroup(grpDebug),LabelText("Item")]
+        private ItemAsset _debugItem;
+
+        [SerializeField,BoxGroup(grpDebug),LabelText("Count")]
+        private int _debugCount;
+
+        [Button("Add Item"),BoxGroup(grpDebug)]
+        private void DebugAddItem(){
+            AddItem(_debugItem.value,_debugCount,true);
+        }
+
+        [Button("Dispose Item"),BoxGroup(grpDebug)]
+        private void DebugDisposeItem(){
+            DisposeItem(_debugItem.value,_debugCount);
+        }
+        #endif
         #endregion
 
         #region methods
