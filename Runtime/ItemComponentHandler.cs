@@ -1,4 +1,6 @@
+
 using Sirenix.OdinInspector;
+
 
 namespace GloryJam.Inventories
 {
@@ -13,6 +15,9 @@ namespace GloryJam.Inventories
 
         #region protected
         protected ItemComponent component;
+
+        [ShowInInspector,ShowIf(nameof(state)),BoxGroup("State"),HideLabel]
+        protected ItemComponentHandlerState state;
         #endregion
 
         #region methods
@@ -28,42 +33,19 @@ namespace GloryJam.Inventories
         public virtual void Dispose(){
             OnDispose();
         }
-        public abstract ItemComponentHandler CreateInstance();
+        public virtual ItemComponentHandler CreateInstance(){
+            var r = (ItemComponentHandler)MemberwiseClone();
+            r.state = CreateState();
+            return r; 
+        }
+        protected virtual ItemComponentHandlerState CreateState(){
+            return default;
+        }
         #endregion
 
         #region callback
         protected virtual void OnInit(){}
         protected virtual void OnDispose(){}
-        #endregion
-    }
-
-    public abstract class ItemComponentHandler<T> : ItemComponentHandler
-    where T : ItemComponentHandler
-    {
-        #region methods
-        public override ItemComponentHandler CreateInstance(){
-            return (T)MemberwiseClone();
-        }
-        #endregion
-    }
-
-    public abstract class ItemComponentHandler<T1,T2> : ItemComponentHandler<T1>
-    where T1 : ItemComponentHandler
-    where T2 : ItemComponentState, new()
-    {
-        #region protected
-        [ShowInInspector,ShowIf(nameof(state)),BoxGroup("State"),HideLabel,HideReferenceObjectPicker,HideDuplicateReferenceBox]
-        protected T2 state;
-        #endregion
-
-        #region methods
-        public override ItemComponentHandler CreateInstance()
-        {
-            var result = base.CreateInstance() as ItemComponentHandler<T1,T2>;
-                result.state = new T2();
-    
-            return result;
-        }
         #endregion
     }
 }

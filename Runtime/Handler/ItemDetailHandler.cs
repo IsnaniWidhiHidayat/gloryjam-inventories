@@ -8,7 +8,7 @@ using Sirenix.OdinInspector;
 namespace GloryJam.Inventories
 {
     [Serializable]
-    public abstract class ItemDetailHandler : ItemComponentHandler<ItemDetailHandler>
+    public abstract class ItemDetailHandler : ItemComponentHandler
     {
         #region const
         protected const string grpConfig = "Config";

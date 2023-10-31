@@ -4,14 +4,7 @@ using Sirenix.OdinInspector;
 namespace GloryJam.Inventories
 {
     [Serializable]
-    public abstract class ItemUsageHandler : ItemUsageHandler<ItemUsageState>
-    {   
-
-    }
-
-    [Serializable]
-    public abstract class ItemUsageHandler<T> : ItemComponentHandler<ItemUsageHandler,T>
-    where T : ItemUsageState,new()
+    public abstract class ItemUsageHandler : ItemComponentHandler
     {
         #region const
         protected const string grpConfig = "Config";
@@ -32,16 +25,26 @@ namespace GloryJam.Inventories
         
         public override void SaveState()
         {
+            var state = this.state as ItemUsageState;
+            if(state == null) return;
+
             state.inUse = inUse;
         }
         public override void LoadState()
         {
+            var state = this.state as ItemUsageState;
             if(state == null) return;
+            
             if(!inUse && state.inUse){
                 Use();
             }else if(inUse && !state.inUse){
                 Unuse();
             }
+        }
+        
+        protected override ItemComponentHandlerState CreateState()
+        {
+            return new ItemUsageState();
         }
         #endregion
     }

@@ -10,7 +10,7 @@ using Sirenix.OdinInspector;
 namespace GloryJam.Inventories
 {
     [Serializable]
-    public class ItemDismantleHandler : ItemComponentHandler<ItemDismantleHandler>
+    public class ItemDismantleHandler : ItemComponentHandler
     {
         #region field
         [SerializeField]
