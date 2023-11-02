@@ -184,7 +184,7 @@ namespace GloryJam.Inventories
                 var count = item.count - GetItemCount(item.item.value);
                 if(count <= 0) continue;
 
-                AddItem(item.item.value,item.count,true);
+                AddItem(item.item.value,count,true);
             }
 
             //use default item
