@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using GloryJam.DataAsset;
+using UnityEngine.AI;
+
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -178,6 +180,9 @@ namespace GloryJam.Inventories
             {
                 if(item == null)
                     continue;
+                
+                var count = item.count - GetItemCount(item.item.value);
+                if(count <= 0) continue;
 
                 AddItem(item.item.value,item.count,true);
             }
@@ -188,16 +193,19 @@ namespace GloryJam.Inventories
                 if(item == null)
                     continue;
 
-                var itemSlots = this.GetSlots(item.item.value);
+                var itemSlots = GetSlots(item.item.value);
                 var useRemain = item.count;
                
                 if (itemSlots?.Length > 0 && useRemain > 0)
                 {
                     for (int i = 0; i < itemSlots.Length; i++)
                     {
+                        if(itemSlots[i].InUse()) continue;
+
                         if(itemSlots[i].count >= useRemain ){
                             itemSlots[i].Use(useRemain);
                             useRemain = 0;
+                            break;
                         }else{
                             useRemain -= itemSlots[i].count;
                             itemSlots[i].Use(itemSlots[i].count);
