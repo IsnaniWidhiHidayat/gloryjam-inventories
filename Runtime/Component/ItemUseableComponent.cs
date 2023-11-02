@@ -43,14 +43,18 @@ namespace GloryJam.Inventories
 
         #region inspector
         #if ODIN_INSPECTOR
-        [Button("Use"),HideIf(nameof(inUse)),BoxGroup(grpDebug)]
+        [Button("Use"),BoxGroup(grpDebug),ShowIf(nameof(ShowButtonDebug))]
         private void InspectorUse(){
             Use();
         }
 
-        [Button("Unuse"),ShowIf(nameof(inUse)),BoxGroup(grpDebug)]
+        [Button("Unuse"),BoxGroup(grpDebug),ShowIf(nameof(ShowButtonDebug))]
         private void InspectorUnUse(){
             Unuse();
+        }
+
+        private bool ShowButtonDebug(){
+            return stack != null;
         }
         #endif
         #endregion
