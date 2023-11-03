@@ -20,8 +20,9 @@ namespace GloryJam.Inventories
         #endregion
 
         #region property
-        public int index => slot != null ? slot.GetStackIndex(this) : -1;
+        public int index => _slot != null ? _slot.GetStackIndex(this) : -1;
         public ItemSlot slot => _slot;
+        public Inventory inventory => slot?.inventory;
         #endregion
         
         #region private
@@ -32,7 +33,7 @@ namespace GloryJam.Inventories
         public void Init(ItemSlot slot)
         {
             //set slot
-            _slot = slot; 
+            SetSlot(slot);
 
             //init component
             if(component?.Count > 0)
@@ -46,7 +47,23 @@ namespace GloryJam.Inventories
                 }
             }
             
-            slot.inventory?.InvokeOnItemInit(this);
+            inventory?.InvokeOnItemInit(this);
+        }
+        public void Dispose(){
+            _slot.Dispose(this);
+
+            if(component?.Count > 0)
+            {   
+                for (int i = 0; i < component.Count; i++)
+                {
+                    component[i].Dispose();
+                }
+            }
+
+            inventory?.InvokeOnItemDispose(this);
+        }
+        public void SetSlot(ItemSlot slot){
+            _slot = slot; 
         }
         public void SaveState(){
             for (int i = 0; i < component.Count; i++)
@@ -61,19 +78,6 @@ namespace GloryJam.Inventories
                 if(component[i] == null) continue;
                 component[i].LoadState();
             }
-        }
-        public void Dispose(){
-            slot.RemoveStack(this);
-
-            if(component?.Count > 0)
-            {   
-                for (int i = 0; i < component.Count; i++)
-                {
-                    component[i].Dispose();
-                }
-            }
-
-            slot.inventory?.InvokeOnItemDispose(this);
         }
         #endregion
     }

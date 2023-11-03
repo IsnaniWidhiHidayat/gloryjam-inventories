@@ -8,13 +8,16 @@ using Sirenix.OdinInspector;
 namespace GloryJam.Inventories
 {
     #if ODIN_INSPECTOR
-    [Serializable,HideReferenceObjectPicker]
+    [Serializable,HideReferenceObjectPicker,HideDuplicateReferenceBox]
     [Toggle("Enabled")]
     #endif
+    [DisallowMultipleItemComponent]
     public class ItemDismantleComponent : ItemComponent<ItemDismantleHandler,ItemDismantleComponent>
     {
         #region property
         public override string ComponentName => "Dismantle";
+
+        public override int ComponentPropertyOrder => 1;
         #endregion
 
         #region methods
@@ -35,12 +38,12 @@ namespace GloryJam.Inventories
     public static class ItemDismantleComponentExtend
     {
         public static bool GetComponentDismantle(this ItemStack stack,out ItemDismantleComponent result){
-            result = stack?.GetComponent<ItemDismantleComponent>();
-            return result != null;
+            result = default;
+            return stack != null ? stack.TryGetComponent(out result) : default;
         }
         public static bool GetComponentDismantle(this Item item,out ItemDismantleComponent result){
-            result = item?.GetComponent<ItemDismantleComponent>();
-            return result != null;
+            result = default;
+            return item != null ? item.TryGetComponent(out result) : default;
         }
 
         public static bool ContainComponentDismantle(this ItemStack stack){

@@ -8,9 +8,10 @@ using Sirenix.OdinInspector;
 namespace GloryJam.Inventories
 {
     #if ODIN_INSPECTOR
-    [Serializable,HideReferenceObjectPicker]
+    [Serializable,HideReferenceObjectPicker,HideDuplicateReferenceBox]
     [Toggle("Enabled",CollapseOthersOnExpand = false)]
     #endif
+    [DisallowMultipleItemComponent]
     public class ItemDetailComponent : ItemComponent<ItemDetailHandler,ItemDetailComponent>
     {
         #region inner class
@@ -42,11 +43,10 @@ namespace GloryJam.Inventories
         }
         #endregion
 
-        #region fields
-        public override string ComponentName => "Details";
-        #endregion
-
         #region property
+        public override string ComponentName => "Details";
+        public override int ComponentPropertyOrder => 0;
+
         #if ODIN_INSPECTOR
         [HideReferenceObjectPicker,ShowInInspector,TableList()]
         #endif
@@ -110,12 +110,12 @@ namespace GloryJam.Inventories
     public static class ItemDetailComponentExtend
     {
         public static bool TryGetComponentDetail(this ItemStack stack,out ItemDetailComponent result){
-            result = stack?.GetComponent<ItemDetailComponent>();
-            return result != null;
+            result = default;
+            return stack != null ? stack.TryGetComponent(out result) : default;
         }
         public static bool TryGetComponentDetail(this Item item,out ItemDetailComponent result){
-            result = item?.GetComponent<ItemDetailComponent>();
-            return result != null;
+            result = default;
+            return item != null ? item.TryGetComponent(out result) : default;
         }
     
         public static bool ContainComponentDetail(this ItemStack stack){

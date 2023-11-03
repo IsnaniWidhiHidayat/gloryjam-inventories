@@ -10,8 +10,20 @@ namespace GloryJam.Inventories
     [Serializable]
     public abstract class ItemComponent : IInstance<ItemComponent>
     {
+        #region const
+        protected const string grpConfig = "Config";
+        protected const string grpRequired = "Required";
+        protected const string grpRuntime = "Runtime";
+        protected const string grpDebug = "Debug";
+        #endregion
+
         #region fields
         public bool Enabled;
+        
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpConfig)]
+        #endif
+        public string id;
         #endregion
 
         #region property
@@ -19,6 +31,9 @@ namespace GloryJam.Inventories
         public Item item => _item;
         public ItemSlot slot => _stack?.slot;
         public Inventory inventory => slot?.inventory;
+
+        public abstract string ComponentName{get;}
+        public abstract int ComponentPropertyOrder{get;}
         #endregion
 
         #region protected
@@ -26,14 +41,18 @@ namespace GloryJam.Inventories
         protected Item _item;
         #endregion
 
-        #region property
-        public abstract string ComponentName{get;}
+        #region inspector
+        #if ODIN_INSPECTOR
+        public string InspectorGetComponentName(){
+            return string.IsNullOrEmpty(id) ? ComponentName : $"{ComponentName} [{id}]";
+        }
+        #endif
         #endregion
 
         #region methods
         public virtual void Init(ItemStack stack){
             SetItemStack(stack);
-            SetItem(stack.slot.item);
+            SetItem(stack?.slot?.item);
         }
         public virtual void SetItem(Item item){
             this._item = item;
@@ -198,17 +217,56 @@ namespace GloryJam.Inventories
             return result != null;
         }
         
+        public static bool TryGetComponents<T>(this Item item,out T[] result)where T : ItemComponent
+        {
+            result = item?.GetComponents<T>();
+            return result != null;
+        }
+        public static bool TryGetComponents<T>(this ItemStack stack,out T[] result)where T : ItemComponent
+        {
+            result = stack?.GetComponents<T>();
+            return result != null;
+        }
+
         public static T GetComponent<T>(this Item item) where T : ItemComponent
         {
-            var result = item.component.Find(x => x is T && x.Enabled) as T;
+            var result = item.component.Find(x => x as T != null && x.Enabled) as T;
             result?.SetItem(item);
             return result;
         }
         public static T GetComponent<T>(this ItemStack stack) where T : ItemComponent
         {
-            var result = stack.component.Find(x => x is T && x.Enabled) as T;
+            var result = stack.component.Find(x => x as T != null && x.Enabled) as T;
             return result;
         }
+
+        public static T[] GetComponents<T>(this Item item) where T : ItemComponent
+        {
+            var result = default(List<T>);
+            for (int i = 0; i < item.component.Count; i++)
+            {
+                var component = item.component[i] as T;
+                if(component == null || !component.Enabled) continue;
+                if(result == null) result = new List<T>();
+                result.Add(component);
+            }
+
+            return result == null ? default : result.ToArray();
+        }
+        public static T[] GetComponents<T>(this ItemStack stack) where T : ItemComponent
+        {
+            var result = default(List<T>);
+            for (int i = 0; i < stack.component.Count; i++)
+            {
+                var component = stack.component[i] as T;
+                if(component == null || !component.Enabled) continue;
+                if(result == null) result = new List<T>();
+                result.Add(component);
+            }
+
+            return result == null ? default : result.ToArray();
+        }
+
 
         public static bool ContainComponent<T>(this Item item) where T : ItemComponent
         {

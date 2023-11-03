@@ -8,16 +8,11 @@ using Sirenix.OdinInspector;
 namespace GloryJam.Inventories
 {   
     #if ODIN_INSPECTOR
-    [Serializable,HideReferenceObjectPicker]
+    [Serializable,HideReferenceObjectPicker,HideDuplicateReferenceBox]
     [Toggle("Enabled")]
     #endif
     public class ItemUseableComponent : ItemComponent<ItemUsageHandler,ItemUseableComponent>
     {
-        #region const
-        const string grpRuntime = "Runtime";
-        const string grpDebug = "Debug";
-        #endregion
-
         #region property
         #if ODIN_INSPECTOR
         [ShowInInspector,BoxGroup(grpRuntime)]
@@ -39,6 +34,7 @@ namespace GloryJam.Inventories
         }
 
         public override string ComponentName => "Usage";
+        public override int ComponentPropertyOrder => 2;
         #endregion
 
         #region inspector
@@ -115,12 +111,21 @@ namespace GloryJam.Inventories
     public static class ItemUseableComponentExtend
     {
         public static bool TryGetComponentUsable(this ItemStack stack,out ItemUseableComponent result){
-            result = stack?.GetComponent<ItemUseableComponent>();
-            return result != null;
+            result = default;
+            return stack != null ? stack.TryGetComponent(out result) : default;
         }
         public static bool TryGetComponentUsable(this Item item ,out ItemUseableComponent result){
-            result = item?.GetComponent<ItemUseableComponent>();
-            return result != null;
+            result = default;
+            return item != null ? item.TryGetComponent(out result) : default;
+        }
+
+        public static bool TryGetComponentsUsable(this ItemStack stack,out ItemUseableComponent[] result){
+            result = default;
+            return stack != null ? stack.TryGetComponents(out result) : default;
+        }
+        public static bool TryGetComponentsUsable(this Item item ,out ItemUseableComponent[] result){
+            result = default;
+            return item != null ? item.TryGetComponents(out result) : default;
         }
     
         public static bool ContainComponentUseable(this ItemStack stack){
@@ -131,21 +136,40 @@ namespace GloryJam.Inventories
         }
     
         public static bool InUse(this ItemStack stack){
-            if(stack.TryGetComponentUsable(out var component)){
-                return component.inUse;
+            if(stack.TryGetComponentsUsable(out var components)){
+                var result = false;
+                for (int i = 0; i < components.Length; i++)
+                {
+                    if(components[i] == null) continue;
+                    result |= components[i].inUse;
+                    if(result) break;
+                }
+                return result;
             }
 
             return default;
         }
         public static bool Use(this ItemStack stack){
-            if(stack.TryGetComponentUsable(out var component)){
-                return component.Use();
+            if(stack.TryGetComponentsUsable(out var components)){
+                var result = false;
+                for (int i = 0; i < components.Length; i++)
+                {
+                    if(components[i] == null) continue;
+                    result |= components[i].Use();
+                }
+                return result;
             }
             return default;
         }
         public static bool Unuse(this ItemStack stack){
-            if(stack.TryGetComponentUsable(out var component)){
-                return component.Unuse();
+            if(stack.TryGetComponentsUsable(out var components)){
+                var result = false;
+                for (int i = 0; i < components.Length; i++)
+                {
+                    if(components[i] == null) continue;
+                    result |= components[i].Unuse();
+                }
+                return result;
             }
             return default;
         }
@@ -158,7 +182,7 @@ namespace GloryJam.Inventories
             return default;
         }
         public static bool Use(this ItemSlot slot,int count){
-            if(!slot.ItemAvailable(count)){
+            if(!slot.Available(count)){
                 Debug.LogError($"Item {slot.item.name} not available with count : {count}");
                 return false;
             }
@@ -167,12 +191,12 @@ namespace GloryJam.Inventories
             var startIndex = slot.count - 1;
             var result = true;
             for (var i = startIndex; i >= startIndex - (count - 1); i--){
-                result &= slot[i].Use();
+                result |= slot[i].Use();
             }
             return result;
         } 
         public static bool Unuse(this ItemSlot slot,int count){
-            if(!slot.ItemAvailable(count)){
+            if(!slot.Available(count)){
                 Debug.LogError($"Item {slot.item.name} not available with count : {count}");
                 return false;
             }
@@ -181,10 +205,9 @@ namespace GloryJam.Inventories
             var startIndex = slot.count - 1;
             var result = true;
             for (var i = startIndex; i >= startIndex - (count - 1); i--){
-                result &= slot[i].Unuse();
+                result |= slot[i].Unuse();
             }
             return result;
         }
-    
     }
 }

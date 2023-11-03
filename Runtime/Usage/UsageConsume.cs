@@ -16,7 +16,8 @@ namespace GloryJam.Inventories
         #region methods
         public override bool Use()
         {
-            return _inUse = slot.inventory.DisposeSlot(slot,1);
+            stack.Dispose();
+            return true;
         }
         public override bool Unuse()
         {

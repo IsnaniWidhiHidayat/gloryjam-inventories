@@ -88,10 +88,9 @@ namespace GloryJam.Inventories
 
         #region property
         public string id => _id;
-        public int maxSlot => _maxSlot;
-        public int length => items != null? items.Length : 0;
+        public int count => slots != null? slots.Length : 0;
         public bool inited => _inited;
-        protected ItemSlot[] items {
+        protected ItemSlot[] slots {
             get{
                 if(data != null){
                     return data.value.slots;
@@ -106,9 +105,9 @@ namespace GloryJam.Inventories
         
         public ItemSlot this[int index]
         {
-            get { return  items[index]; }
-            private set{
-                items[index] = value;
+            get { return  slots[index]; }
+            set{
+                slots[index] = value;
                 value?.SetInventory(this);
             }
         }
@@ -156,21 +155,22 @@ namespace GloryJam.Inventories
         private void OnDisable() {
             RemoveInventory(this);
         }
+        
         private void Start() {
             Initialize();
         }
         private void Initialize()
         {
-            if(items == null) items = new ItemSlot[maxSlot];
+            if(slots == null) slots = new ItemSlot[_maxSlot];
 
             //add default items
-            if(items.Length != maxSlot) Array.Resize(ref data.value.slots,maxSlot);
+            if(slots.Length != _maxSlot) Array.Resize(ref data.value.slots,_maxSlot);
             
             //set inventory
-            for (int i = 0; i < items.Length; i++)
+            for (int i = 0; i < slots.Length; i++)
             {
-                if(items[i] == null) continue;
-                items[i]?.SetInventory(this);
+                if(slots[i] == null) continue;
+                slots[i]?.SetInventory(this);
             }
 
             //load state
@@ -216,118 +216,7 @@ namespace GloryJam.Inventories
 
             _inited = true;
         }
-        public bool AddSlot(ItemSlot slot,bool combine){
-            if(slot.inventory == this || GetIndexOfSlot(slot) >= 0 ){
-                Debug.LogError("Can't add itemslot to this inventory cause owned by same inventory");
-                return false;
-            }
         
-            var r = true;
-            var reqSlot = GetRequiredSlot(slot.item,slot.count,combine,out int lst);
-            
-            if(reqSlot <= GetEmptySlot(out int[] emptySlotIndex)){
-                var slots = GetSlots((x) => x != null && x.item == slot.item && (x.count <= slot.item.maxStack));
-                if(slots?.Length > 0){
-                    for (int i = 0; i < slots.Length ; i++)
-                    {
-                        if(slot.count <= 0)
-                            continue;
-    
-                        var avail = slots[i].item.maxStack - slots[i].count;
-                        if(avail <= 0)
-                            continue;
-
-                        if(avail >= slot.count){
-                            var stacks = slot.PeekAll();
-                            slot.RemoveAll();
-                            slot.Dispose();
-                            slots[i].Add(stacks);
-                        }else if(avail < slot.count){
-                            var stacks = slot.Peek(avail);
-                            slot.Remove(avail);
-                            slots[i].Add(stacks);
-                        }
-    
-                        if(slot.count <= 0)
-                            break;
-                    }
-                }
-
-                //check remain left
-                if(slot.count > 0){
-                    slot.inventory?.RemoveSlot(slot);
-                    this[emptySlotIndex[0]] = slot;
-                }
-            }else{
-                r &= false;
-                Debug.LogError($"Required {reqSlot} slot to add item");
-            }
-            return r;
-        }
-        public bool AddSlot(ItemSlot[] slots,bool combine){
-            if(slots?.Length <= 0)
-                return false;
-
-            var result = true;
-            if(combine){
-                var itemToAdd = default(Dictionary<Item,int>);
-                
-                //Create Dic Item with count
-                for (int i = 0; i < slots.Length ; i++){
-                    if(slots[i].inventory == this || GetIndexOfSlot(slots[i]) >= 0 ){
-                        Debug.LogError("Can't add itemslot to this inventory cause owned by same inventory");
-                        result &= false;
-                    }
-
-                    if(!result)
-                        break;
-
-                    var key     = slots[i].item;
-                    var value   = slots[i].count;
-                    
-                    if(itemToAdd == null){
-                        itemToAdd = new Dictionary<Item, int>();
-                    }
-
-                    if(!itemToAdd.ContainsKey(key)){
-                        itemToAdd[key] = 0;
-                    }
-                    
-                    itemToAdd[key] += value;
-                }
-                
-                //Check if can add
-                if(result){
-                    result &= CanAddItem(itemToAdd,combine);
-                }
-
-                //Add & combine to exist item
-                if(result){
-                    for (int i = 0; i < slots.Length ; i++){
-                        result &= AddSlot(slots[i],combine);
-                    }
-                }
-
-                itemToAdd?.Clear();
-                itemToAdd = null;
-            }else{
-                var emptySlotIndex  = default(int[]);
-                var emptySlot       = GetEmptySlot(out emptySlotIndex);
-                if(emptySlot >= slots.Length) {
-                    for (int i = 0; i < slots.Length; i++)
-                    {
-                        slots[i].inventory?.DisposeSlot(slots[i]);
-                        this[emptySlotIndex[i]] = slots[i];
-                    }
-                    result = true;
-                }else{
-                    result = false;
-                    Debug.LogError($"Required {emptySlot} slot to add items");
-                }
-            }
-
-            return result;
-        }
         public bool AddItem(Item item,int count,bool combine)
         {
             if(count <= 0) return false;
@@ -336,7 +225,7 @@ namespace GloryJam.Inventories
             //Check existing item
             var remain  = count;
             if(combine) {
-                var items = Array.FindAll(this.items,x => x != null && x.item == item && x.count < x.item.maxStack);
+                var items = Array.FindAll(this.slots,x => x != null && x.item == item && x.count < x.item.maxStack);
                 if(items?.Length > 0){
                     for (var i = 0; i < items.Length ;i++)
                     {
@@ -359,12 +248,12 @@ namespace GloryJam.Inventories
             }
 
             if(remain > 0){
-                for (int i = 0; i < this.items.Length; i++)
+                for (int i = 0; i < this.slots.Length; i++)
                 {
-                    if(this.items[i] != null) continue;
+                    if(this.slots[i] != null) continue;
 
                     var addCount = remain - item.maxStack > 0 ? item.maxStack : remain;
-                    this.items[i] = new ItemSlot(item,addCount,this);
+                    this.slots[i] = new ItemSlot(item,addCount,this);
                     remain -= addCount;
 
                     if(remain <= 0) break;
@@ -373,44 +262,6 @@ namespace GloryJam.Inventories
 
             return remain == 0;
         }
-        public bool AddItem(Dictionary<Item,int> items,bool combine){
-            var reqSlot = 0;
-            var remain  = 0;
-           
-            foreach (var v in items){
-                reqSlot += GetRequiredSlot(v.Key,v.Value,combine,out remain);
-            }
-
-            if(reqSlot <=  GetEmptySlot()){
-                var result = true;
-                foreach (var v in items){
-                    result &= AddItem(v.Key,v.Value,combine);
-                }
-                return result;
-            }else{
-                Debug.LogError($"Required {reqSlot} slot to add item");
-
-                return false;
-            }
-        }
-        public bool DisposeItem(params Item[] items){
-            if(items?.Length > 0){
-                for (int i = 0; i < items.Length; i++)
-                {
-                    var slots = GetSlots(items[i]);
-                    if(slots?.Length > 0) {
-                        for (int j = 0; j < slots.Length; j++)
-                        {
-                            slots[j]?.Dispose();
-                        }
-                    }
-                }
-
-                return true;
-            }
-
-            return false;
-        }       
         public bool DisposeItem(Item item,int count)
         {
             if(count <= 0)
@@ -428,7 +279,8 @@ namespace GloryJam.Inventories
                         continue;
 
                     if(remain >= slots[i].count){
-                        DisposeSlot(slots[i]);
+                        remain -= slots[i].count;
+                        slots[i].Dispose();
                     }else if(remain < slots[i].count){
                         slots[i].Dispose(remain);
                         remain = 0;
@@ -440,57 +292,25 @@ namespace GloryJam.Inventories
 
             return false;
         }     
-        public bool DisposeSlot(params ItemSlot[] slots){
-            if(slots?.Length > 0) {
-                for (int i = 0; i < slots.Length; i++)
-                {
-                    var index = GetIndexOfSlot(slots[i]);
-                    if(index >= 0){
-                        items[index] = null;
-                        slots[i].Dispose();
-                        slots[i].SetInventory(null);
-                    }
-                }
+        
+        public int GetEmptySlot(){
+            var counter = 0;
+            for (int i = 0; i < slots.Length ; i++)
+            {
+                if(slots[i] != null)
+                    continue;
 
-                return true;
+                counter++;
             }
-
-            return false;
-        }
-        public bool DisposeSlot(ItemSlot slot,int count){
-            count = Mathf.Clamp(count,0,slot.item.maxStack);
-            if(count <= 0)
-                return false;
-
-            if(count >= slot.count){
-                return DisposeSlot(slot);
-            }else{
-                slot.Dispose(count);
-                return true;
-            }
-        }     
-        public bool RemoveSlot(params ItemSlot[] slots){
-            if(slots?.Length > 0) {
-                for (int i = 0; i < slots.Length; i++)
-                {
-                    var index = GetIndexOfSlot(slots[i]);
-                    if(index >= 0){
-                        items[index] = null;
-                    }
-                }
-
-                return true;
-            }
-
-            return false;
+            return counter;
         }
         public int GetEmptySlot(out int[] index){
-            index = default(int[]);
+            index = default;
             
             var tmp = default(List<int>);
-            for (int i = 0; i < items.Length ; i++)
+            for (int i = 0; i < slots.Length ; i++)
             {
-                if(items[i] != null)
+                if(slots[i] != null)
                     continue;
 
                 if(tmp == null){
@@ -505,19 +325,9 @@ namespace GloryJam.Inventories
             tmp = null;
             return index != null ? index.Length : 0;
         }
-        public int GetEmptySlot(){
-            var counter = 0;
-            for (int i = 0; i < items.Length ; i++)
-            {
-                if(items[i] != null)
-                    continue;
-
-                counter++;
-            }
-            return counter;
-        }
+        
         public int GetIndexOfSlot(ItemSlot item){
-            return Array.IndexOf(this.items,item);
+            return Array.IndexOf(this.slots,item);
         }
         public int GetItemCount(Item item){
             var itemSlot = GetSlots(item);
@@ -542,7 +352,7 @@ namespace GloryJam.Inventories
 
             if(combine){
                 //Check existing item
-                var items  = Array.FindAll(this.items,x => x != null && x.item == item && x.count < x.item.maxStack);
+                var items  = Array.FindAll(this.slots,x => x != null && x.item == item && x.count < x.item.maxStack);
                 if(item != null && items.Length > 0){
                     for (var i = 0; i < items.Length ;i++)
                     {
@@ -570,48 +380,43 @@ namespace GloryJam.Inventories
             
             return result;
         }
+        
         public ItemSlot GetSlot(Item item){
             return GetSlot((x)=> x!= null && x.item == item);
         }
         public ItemSlot GetSlot(Predicate<ItemSlot> predicate){
-            return Array.Find(items,predicate);
+            return Array.Find(slots,predicate);
         }
+        
         public ItemSlot[] GetSlots(Item item){
             if(item == null)
                 return default(ItemSlot[]);
 
-            return Array.FindAll(items,(x) => x != null && x.item == item);
+            return Array.FindAll(slots,(x) => x != null && x.item == item);
         }
         public ItemSlot[] GetSlots(Predicate<ItemSlot> predicate){
-            return Array.FindAll(items,predicate);
+            return Array.FindAll(slots,predicate);
         }
-        // public ItemSlot GetSlotWithUsable<T>() where T: class,IItemUseable
-        // {
-        //     return GetSlot(x => x != null && x.ContainUseableType<T>());
-        // }
-        // public ItemSlot[] GetSlotsWithUsable<T>() where T: class,IItemUseable
-        // {
-        //     return GetSlots(x => x != null && x.ContainUseableType<T>());
-        // }
-        public bool ContainEmptySlot(out int index){
-            index = -1;
 
-            for (int i = 0; i < items.Length; i++)
+        public bool ContainEmptySlot(){
+            for (int i = 0; i < slots.Length; i++)
             {
-                if(items[i] == null){
-                    index = i;
+                if(slots[i] == null)
                     return true;
-                }
-                    
             }
 
             return false;
         }
-        public bool ContainEmptySlot(){
-            for (int i = 0; i < items.Length; i++)
+        public bool ContainEmptySlot(out int index){
+            index = -1;
+
+            for (int i = 0; i < slots.Length; i++)
             {
-                if(items[i] == null)
+                if(slots[i] == null){
+                    index = i;
                     return true;
+                }
+                    
             }
 
             return false;
@@ -637,74 +442,9 @@ namespace GloryJam.Inventories
 
             return result;
         }
-        public bool SplitSlot(ItemSlot slot,int splitSize){
-            if(splitSize <= 0)
-                return false;
-            
-            if(slot.count <= splitSize){
-                Debug.LogError("Split failed, item count is less than desire");
-                return false;
-            }
-            
-            if(GetIndexOfSlot(slot) < 0){
-                Debug.LogError("Split failed, item is not part of inventory");
-                return false;
-            }
-            
-            var splitQuantities = new List<int>();
-            var quantity = slot.count;
-            
-            while (quantity >= splitSize){
-                splitQuantities.Add(splitSize);
-                quantity -= splitSize;
-            }
-            
-            if (quantity > 0){
-                splitQuantities.Add(quantity);
-            }
-
-            var reqSlot = splitQuantities.Count - 1;
-
-            if(reqSlot <= GetEmptySlot(out var emptySlotIndex)){
-                for (int i = 1; i < splitQuantities.Count; i++)
-                {
-                    var stacks = slot.Peek(splitQuantities[i]);
-                    slot.Remove(splitQuantities[i]);
-                    items[emptySlotIndex[i-1]] = new ItemSlot(slot.item,stacks);
-                }
-                return true;
-            }else{
-                Debug.LogError($"Required {reqSlot} slot to split item");
-                return false;
-            }
-            
-        }
-        public bool SplitSlotBy(ItemSlot slot,int count){
-            if(count <= 0)
-                return false;
-            
-            if(slot.count <= count){
-                Debug.LogError("Split failed, item count is less than desire");
-                return false;
-            }
-            
-            if(GetIndexOfSlot(slot) < 0){
-                Debug.LogError("Split failed, item is not part of inventory");
-                return false;
-            }
-
-            if(GetEmptySlot(out var emptySlotIndex) > 0){
-                var stacks = slot.Peek(count);
-                slot.Remove(count);
-                items[emptySlotIndex[0]] = new ItemSlot(slot.item,stacks);
-                return true;
-            }else{
-                Debug.LogError($"Required 1 slot to split item");
-                return false;
-            }
-        }
+        
         public void Sort(){
-            Array.Sort(this.items,(x,y)=>{
+            Array.Sort(this.slots,(x,y)=>{
                 var result = 0;
                 if(x.item == y.item){
                     result = y.count.CompareTo(x.count);
@@ -715,19 +455,19 @@ namespace GloryJam.Inventories
             });
         }
         public void SaveState(){
-            if(items == null) return;
+            if(slots == null) return;
 
-            for (int i = 0; i < items.Length; i++)
+            for (int i = 0; i < slots.Length; i++)
             {
-                items[i]?.SaveState();
+                slots[i]?.SaveState();
             }
         }
         public void LoadState(){
-            if(items == null) return;
+            if(slots == null) return;
 
-            for (int i = 0; i < items.Length; i++)
+            for (int i = 0; i < slots.Length; i++)
             {
-                items[i]?.LoadState();
+                slots[i]?.LoadState();
             }
         }
 
@@ -773,10 +513,10 @@ namespace GloryJam.Inventories
             onItemDispose   = null;
 
             //set all slot inventory to null
-            if(items?.Length > 0){
-                for (int i = 0; i < items.Length; i++)
+            if(slots?.Length > 0){
+                for (int i = 0; i < slots.Length; i++)
                 {
-                    items[i]?.SetInventory(null);
+                    slots[i]?.SetInventory(null);
                 }
             }
         }

@@ -10,7 +10,7 @@ namespace GloryJam.Inventories
         protected Item item => component?.item;
         protected ItemStack stack => component?.stack;
         protected ItemSlot slot => stack?.slot;
-        protected Inventory inventory => stack?.slot.inventory;
+        protected Inventory inventory => slot?.inventory;
         #endregion
 
         #region protected

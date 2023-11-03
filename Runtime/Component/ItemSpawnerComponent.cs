@@ -8,13 +8,16 @@ using Sirenix.OdinInspector;
 namespace GloryJam.Inventories
 {
     #if ODIN_INSPECTOR
-    [Serializable,HideReferenceObjectPicker]
+    [Serializable,HideReferenceObjectPicker,HideDuplicateReferenceBox]
     [Toggle("Enabled")]
     #endif
+    [DisallowMultipleItemComponent]
     public class ItemSpawnerComponent : ItemComponent<ItemSpawnerHandler,ItemSpawnerComponent>
     {
         #region property
         public override string ComponentName => "Spawner";
+
+        public override int ComponentPropertyOrder => 99;
         #endregion
 
         #region methods
@@ -44,12 +47,12 @@ namespace GloryJam.Inventories
     public static class ItemSpawnerComponentExtend
     {
         public static bool TryGetComponentSpawner(this ItemStack stack,out ItemSpawnerComponent result){
-            result = stack?.GetComponent<ItemSpawnerComponent>();
-            return result != null;
+            result = default;
+            return stack != null ? stack.TryGetComponent(out result) : default;
         }
         public static bool TryGetComponentSpawner(this Item item,out ItemSpawnerComponent result){
-            result = item?.GetComponent<ItemSpawnerComponent>();
-            return result != null;
+            result = default;
+            return item != null ? item.TryGetComponent(out result) : default;
         }
 
         public static bool ContainComponentSpawner(this ItemStack stack){

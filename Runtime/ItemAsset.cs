@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using GloryJam.DataAsset;
 using UnityEngine;
+using Sirenix.Utilities;
+
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -53,7 +55,7 @@ namespace GloryJam.Inventories
 
         [SerializeField]
         #if ODIN_INSPECTOR
-        [ValidateInput(nameof(ValidateComponent)),OnValueChanged(nameof(OnComponentValueChange)),ListDrawerSettings(Expanded = true,ShowItemCount = false,DraggableItems = false,ListElementLabelName = "ComponentName")]
+        [ValidateInput(nameof(ValidateComponent)),OnValueChanged(nameof(OnComponentValueChange)),ListDrawerSettings(Expanded = true,ShowItemCount = false,DraggableItems = false,ListElementLabelName = "InspectorGetComponentName")]
         #endif
         public List<ItemComponent> component;
         #endregion
@@ -65,6 +67,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region inspector
+        #if ODIN_INSPECTOR
         private bool ValidateComponent(List<ItemComponent> group)
         {
             if(!Application.isPlaying){
@@ -80,16 +83,21 @@ namespace GloryJam.Inventories
         {
             if(component == null || component.Count == 0) return;
 
-            var last = component[component.Count - 1];
-            if(last == null) return;
-            
-            for (int i = 0; i < component.Count; i++)
-            {
-                if(i < component.Count - 1){
-                    if(component[i] == null) continue;
-                    if(component[i].GetType() == last.GetType()){
-                        component.Remove(last);
-                        break;
+            if(component.Count > 1) {
+                var last = component[component.Count - 1];
+                if(last == null) return;
+
+                var lastType = last.GetType();
+                var allowMultiple = lastType.GetAttribute<DisallowMultipleItemComponent>() == null;
+                
+                if(!allowMultiple) {
+                    for (int i = 0; i < component.Count - 1; i++)
+                    {
+                        if(component[i] == null) continue;
+                        if(component[i].GetType() == lastType){
+                            component.Remove(last);
+                            break;
+                        }
                     }
                 }
             }
@@ -97,11 +105,12 @@ namespace GloryJam.Inventories
             //sort by component name
             component.Sort((x,y) =>{
                 if(x == null || y == null) return -1;
-                return x.ComponentName.CompareTo(y.ComponentName);
+                return x.ComponentPropertyOrder.CompareTo(y.ComponentPropertyOrder);
             });
 
             ValidateComponent(component);
         }
+        #endif
         #endregion
 
         #region property
