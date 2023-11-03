@@ -69,6 +69,8 @@ namespace GloryJam.Inventories
             inventory?.InvokeOnItemInit(this);
         }
         public void Dispose(){
+            var inventory = this.inventory;
+            
             _slot.Dispose(this);
 
             if(component?.Count > 0)
