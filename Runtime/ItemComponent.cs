@@ -69,7 +69,9 @@ namespace GloryJam.Inventories
     {
         public override ItemComponent CreateInstance()
         {
-            return new T();
+            return new T(){
+                id = id
+            };
         }
     }
 
