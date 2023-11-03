@@ -68,7 +68,8 @@ namespace GloryJam.Inventories
                 for (int i = 0; i < items.Length; i++)
                 {
                     _stack.Add(items[i]);
-                    items[i].Init(this);
+                    items[i].SetSlot(this);
+                    items[i].Init();
                 }
             }
         }
@@ -85,7 +86,7 @@ namespace GloryJam.Inventories
             {
                 for (int i = 0; i < _stack.Count; i++)
                 {
-                    _stack[i].Init(this);
+                    _stack[i].Init();
                 }
             }
         }  

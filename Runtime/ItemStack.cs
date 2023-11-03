@@ -30,11 +30,8 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public void Init(ItemSlot slot)
+        public void Init()//(ItemSlot slot)
         {
-            //set slot
-            SetSlot(slot);
-
             //init component
             if(component?.Count > 0)
             {   
