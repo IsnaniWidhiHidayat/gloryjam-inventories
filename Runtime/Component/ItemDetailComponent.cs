@@ -12,7 +12,7 @@ namespace GloryJam.Inventories
     [Toggle("Enabled",CollapseOthersOnExpand = false)]
     #endif
     [DisallowMultipleItemComponent]
-    public class ItemDetailComponent : ItemComponent<ItemDetailHandler,ItemDetailComponent>
+    public class ItemDetailComponent : ItemComponent<ItemDetailHandler>
     {
         #region inner class
         [Serializable]

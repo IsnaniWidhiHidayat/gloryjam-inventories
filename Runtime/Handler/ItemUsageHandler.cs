@@ -6,12 +6,6 @@ namespace GloryJam.Inventories
     [Serializable]
     public abstract class ItemUsageHandler : ItemComponentHandler
     {
-        #region const
-        protected const string grpConfig = "Config";
-        protected const string grpRuntime = "Runtime";
-        protected const string grpRequired = "Required";
-        #endregion
-
         #region property 
         #if ODIN_INSPECTOR
         [ShowInInspector,HideInEditorMode,BoxGroup(grpRuntime)]
@@ -22,29 +16,23 @@ namespace GloryJam.Inventories
         #region methods  
         public abstract bool Use();
         public abstract bool Unuse();
-        
-        public override void SaveState()
-        {
-            var state = this.state as ItemUsageState;
-            if(state == null) return;
+        #endregion
+    }
 
-            state.inUse = inUse;
-        }
-        public override void LoadState()
-        {
-            var state = this.state as ItemUsageState;
-            if(state == null) return;
-            
-            if(!inUse && state.inUse){
-                Use();
-            }else if(inUse && !state.inUse){
-                Unuse();
-            }
-        }
-        
-        protected override ItemComponentHandlerState CreateState()
-        {
-            return new ItemUsageState();
+    [Serializable]
+    public abstract class ItemUsageHandler<T> : ItemUsageHandler
+    where T : ItemComponentHandlerState, new()
+    {
+        #region fields
+        [ShowIf(nameof(state)),BoxGroup("State"),HideLabel,PropertyOrder(-1)]
+        public T state;
+        #endregion
+
+        #region methods
+        public override ItemComponentHandler CreateInstance(){
+            var r = base.CreateInstance() as ItemUsageHandler<T>;
+            r.state = new T();
+            return r; 
         }
         #endregion
     }

@@ -12,11 +12,10 @@ namespace GloryJam.Inventories
     [Toggle("Enabled")]
     #endif
     [DisallowMultipleItemComponent]
-    public class ItemSpawnerComponent : ItemComponent<ItemSpawnerHandler,ItemSpawnerComponent>
+    public class ItemSpawnerComponent : ItemComponent<ItemSpawnerHandler>
     {
         #region property
         public override string ComponentName => "Spawner";
-
         public override int ComponentPropertyOrder => 99;
         #endregion
 

@@ -11,7 +11,7 @@ namespace GloryJam.Inventories
     [Serializable,HideReferenceObjectPicker,HideDuplicateReferenceBox]
     [Toggle("Enabled")]
     #endif
-    public class ItemUseableComponent : ItemComponent<ItemUsageHandler,ItemUseableComponent>
+    public class ItemUseableComponent : ItemComponent<ItemUsageHandler,ItemUseableState>
     {
         #region property
         #if ODIN_INSPECTOR
@@ -80,14 +80,20 @@ namespace GloryJam.Inventories
             return result;
         }
 
+        public override void SaveState()
+        {
+            base.SaveState();
+
+            state.inUse = inUse;
+        }
         public override void LoadState()
         {
-            var _inUse = inUse;
-            
             base.LoadState();
 
-            if(!_inUse && inUse){
-                inventory?.InvokeOnItemUse(_stack);
+            if(!inUse && state.inUse){
+                Use();
+            }else if(inUse && !state.inUse){
+                Unuse();
             }
         }
         #endregion

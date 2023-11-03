@@ -1,11 +1,15 @@
 
-using Sirenix.OdinInspector;
-
-
 namespace GloryJam.Inventories
 {
     public abstract class ItemComponentHandler : IInstance<ItemComponentHandler>
     {
+        #region const
+        protected const string grpConfig = "Config";
+        protected const string grpRuntime = "Runtime";
+        protected const string grpRequired = "Required";
+        protected const string grpDebug = "Debug";
+        #endregion
+
         #region property
         public Item item => component?.item;
         public ItemSlot slot => component?.slot;
@@ -15,9 +19,6 @@ namespace GloryJam.Inventories
 
         #region protected
         protected ItemComponent component;
-
-        [ShowInInspector,ShowIf(nameof(state)),BoxGroup("State"),HideLabel]
-        protected ItemComponentHandlerState state;
         #endregion
 
         #region methods
@@ -25,21 +26,19 @@ namespace GloryJam.Inventories
             SetComponent(component);
             OnInit();
         }
-        public void SetComponent(ItemComponent component){
-            this.component = component;
-        }
-        public virtual void SaveState(){}
-        public virtual void LoadState(){}
         public virtual void Dispose(){
             OnDispose();
         }
-        public virtual ItemComponentHandler CreateInstance(){
-            var r = (ItemComponentHandler)MemberwiseClone();
-            r.state = CreateState();
-            return r; 
+        
+        public void SetComponent(ItemComponent component){
+            this.component = component;
         }
-        protected virtual ItemComponentHandlerState CreateState(){
-            return default;
+        
+        public void SaveState(){}
+        public void LoadState(){}
+        
+        public virtual ItemComponentHandler CreateInstance(){
+            return (ItemComponentHandler)MemberwiseClone();
         }
         #endregion
 

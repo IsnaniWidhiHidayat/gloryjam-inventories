@@ -66,9 +66,8 @@ namespace GloryJam.Inventories
     }
 
     [Serializable]
-    public abstract class ItemComponent<T,C> : ItemComponent 
+    public abstract class ItemComponent<T> : ItemComponent 
     where T : ItemComponentHandler
-    where C : ItemComponent<T,C> , new()
     {
         #region fields
         #if ODIN_INSPECTOR
@@ -182,7 +181,7 @@ namespace GloryJam.Inventories
         }
         public override ItemComponent CreateInstance()
         {
-            var clone = new C();
+            var clone = base.CreateInstance() as ItemComponent<T>;
                 clone.Enabled = Enabled;
             
             if(handlers?.Count > 0){
@@ -195,6 +194,26 @@ namespace GloryJam.Inventories
             }
 
             return clone;
+        }
+        #endregion
+    }
+
+    [Serializable]
+    public abstract class ItemComponent<T,S> : ItemComponent<T>
+    where T : ItemComponentHandler
+    where S : ItemComponentState,new()
+    {
+        #region fields
+        [ShowIf(nameof(state)),BoxGroup("State"),HideLabel,PropertyOrder(-1)]
+        public S state;
+        #endregion
+
+        #region methods
+        public override ItemComponent CreateInstance()
+        {
+            var r =  base.CreateInstance() as ItemComponent<T,S>;
+                r.state = new S();
+            return r;
         }
         #endregion
     }

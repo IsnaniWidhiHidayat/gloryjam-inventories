@@ -3,7 +3,7 @@ using System;
 namespace GloryJam.Inventories
 {
     [Serializable]
-    public class ItemUsageState : ItemComponentHandlerState
+    public class ItemUseableState : ItemComponentState
     {
         #region fields
         public bool inUse;

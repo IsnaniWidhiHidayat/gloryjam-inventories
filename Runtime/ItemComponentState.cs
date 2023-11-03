@@ -1,6 +1,6 @@
 namespace GloryJam.Inventories
 {
-    public abstract class ItemComponentHandlerState
+    public abstract class ItemComponentState
     {
         
     }
