@@ -67,7 +67,7 @@ namespace GloryJam.Inventories
             var result = !inUse;
             if(result) inventory?.InvokeOnItemUnuse(_stack);
 
-            _stack.slot.inventory.SaveState();
+            inventory?.SaveState();
 
             return result;
         }

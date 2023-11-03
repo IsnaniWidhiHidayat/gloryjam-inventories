@@ -24,27 +24,27 @@ namespace GloryJam.Inventories
 
         #region methods
         public abstract object GetValueObject();
-        public T GetUsageHandler<T>() where T : ItemUsageHandler
-        {
-            var usableComponent = default(ItemUseableComponent);
+        // public T GetUsageHandler<T>() where T : ItemUsageHandler
+        // {
+        //     var usableComponent = default(ItemUseableComponent);
 
-            //Get usage component from stack
-            if(stack != null){
-                stack.TryGetComponentUsable(out usableComponent);
-            }else if(item != null){
-                item.TryGetComponentUsable(out usableComponent);
-            }
+        //     //Get usage component from stack
+        //     if(stack != null){
+        //         stack.TryGetComponentUsable(out usableComponent);
+        //     }else if(item != null){
+        //         item.TryGetComponentUsable(out usableComponent);
+        //     }
 
-            var usage = usableComponent?.GetHandler<T>();
-            if(usage == null){
-                if(item != null){
-                    Debug.LogError($"Item : {item.id} did't contain usage type of {nameof(T)}");
-                }
-                return default;
-            }
+        //     var usage = usableComponent?.GetHandler<T>();
+        //     if(usage == null){
+        //         if(item != null){
+        //             Debug.LogError($"Item : {item.id} did't contain usage type of {nameof(T)}");
+        //         }
+        //         return default;
+        //     }
 
-            return usage;
-        }
+        //     return usage;
+        // }
         #endregion
     }
     

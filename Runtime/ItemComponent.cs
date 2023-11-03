@@ -27,18 +27,17 @@ namespace GloryJam.Inventories
         #endregion
 
         #region property
-        public ItemStack stack => _stack;
-        public Item item => _item;
+        public Item item => _stack?.item;
         public ItemSlot slot => _stack?.slot;
+        public ItemStack stack => _stack;
         public Inventory inventory => slot?.inventory;
-
+        
         public abstract string ComponentName{get;}
         public abstract int ComponentPropertyOrder{get;}
         #endregion
 
         #region protected
         protected ItemStack _stack;
-        protected Item _item;
         #endregion
 
         #region inspector
@@ -51,14 +50,7 @@ namespace GloryJam.Inventories
 
         #region methods
         public virtual void Init(ItemStack stack){
-            SetItemStack(stack);
-            SetItem(stack?.slot?.item);
-        }
-        public virtual void SetItem(Item item){
-            this._item = item;
-        }
-        public void SetItemStack(ItemStack stack){
-            this._stack = stack;
+            _stack = stack;
         }
         public abstract void SaveState();
         public abstract void LoadState();
@@ -67,8 +59,6 @@ namespace GloryJam.Inventories
             return (ItemComponent)MemberwiseClone();
         }
         #endregion
-    
-        // public virtual void Resolve(){}
     }
 
     [Serializable]
@@ -106,18 +96,6 @@ namespace GloryJam.Inventories
                 {
                     if(handlers[i] == null) continue;
                     handlers[i].Init(this);
-                }
-            }
-        }
-        public override void SetItem(Item item)
-        {
-            base.SetItem(item);
-            
-            if(handlers?.Count > 0) {
-                for (int i = 0; i < handlers.Count; i++)
-                {
-                    if(handlers[i] == null) continue;
-                    handlers[i].SetComponent(this);
                 }
             }
         }
@@ -233,7 +211,7 @@ namespace GloryJam.Inventories
         public static T GetComponent<T>(this Item item) where T : ItemComponent
         {
             var result = item.component.Find(x => x as T != null && x.Enabled) as T;
-            result?.SetItem(item);
+            //result?.SetItem(item);
             return result;
         }
         public static T GetComponent<T>(this ItemStack stack) where T : ItemComponent

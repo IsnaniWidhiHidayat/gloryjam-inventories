@@ -25,12 +25,14 @@ namespace GloryJam.Inventories
 
         #region property
         public int index => _slot != null ? _slot.GetStackIndex(this) : -1;
+        public Item item => _item;
         public ItemSlot slot => _slot;
         public Inventory inventory => slot?.inventory;
         #endregion
         
         #region private
         private ItemSlot _slot;
+        private Item _item;
         #endregion
 
         #region inspector
@@ -52,7 +54,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public void Init()//(ItemSlot slot)
+        public void Init()
         {
             //init component
             if(component?.Count > 0)
@@ -68,23 +70,11 @@ namespace GloryJam.Inventories
             
             inventory?.InvokeOnItemInit(this);
         }
-        public void Dispose(){
-            var inventory = this.inventory;
-            
-            _slot.Dispose(this);
-
-            if(component?.Count > 0)
-            {   
-                for (int i = 0; i < component.Count; i++)
-                {
-                    component[i].Dispose();
-                }
-            }
-
-            inventory?.InvokeOnItemDispose(this);
-        }
         public void SetSlot(ItemSlot slot){
             _slot = slot; 
+        }
+        public void SetItem(Item item){
+            _item = item;
         }
         public void SaveState(){
             for (int i = 0; i < component.Count; i++)
@@ -99,6 +89,21 @@ namespace GloryJam.Inventories
                 if(component[i] == null) continue;
                 component[i].LoadState();
             }
+        }
+        public void Dispose(){
+            var inventory = this.inventory;
+            
+            _slot.Dispose(this);
+
+            if(component?.Count > 0)
+            {   
+                for (int i = 0; i < component.Count; i++)
+                {
+                    component[i].Dispose();
+                }
+            }
+
+            inventory?.InvokeOnItemDispose(this);
         }
         #endregion
     }

@@ -8,9 +8,9 @@ namespace GloryJam.Inventories
     {
         #region property
         protected Item item => component?.item;
+        protected ItemSlot slot => component?.slot;
         protected ItemStack stack => component?.stack;
-        protected ItemSlot slot => stack?.slot;
-        protected Inventory inventory => slot?.inventory;
+        protected Inventory inventory => component?.inventory;
         #endregion
 
         #region protected
@@ -22,11 +22,8 @@ namespace GloryJam.Inventories
 
         #region methods
         public virtual void Init(ItemComponent component){
-            SetComponent(component);
-            OnInit();
-        }
-        public void SetComponent(ItemComponent component){
             this.component = component;
+            OnInit();
         }
         public virtual void SaveState(){}
         public virtual void LoadState(){}

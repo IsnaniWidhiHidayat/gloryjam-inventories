@@ -55,7 +55,8 @@ namespace GloryJam.Inventories
 
         [SerializeField]
         #if ODIN_INSPECTOR
-        [ValidateInput(nameof(ValidateComponent)),OnValueChanged(nameof(OnComponentValueChange)),ListDrawerSettings(Expanded = true,ShowItemCount = false,DraggableItems = false,ListElementLabelName = "InspectorGetComponentName")]
+        //[ValidateInput(nameof(ValidateComponent))]
+        [OnValueChanged(nameof(OnComponentValueChange)),ListDrawerSettings(Expanded = true,ShowItemCount = false,DraggableItems = false,ListElementLabelName = "InspectorGetComponentName")]
         #endif
         public List<ItemComponent> component;
         #endregion
@@ -68,17 +69,17 @@ namespace GloryJam.Inventories
 
         #region inspector
         #if ODIN_INSPECTOR
-        private bool ValidateComponent(List<ItemComponent> group)
-        {
-            if(!Application.isPlaying){
-                for (int i = 0; i < component.Count; i++)
-                {
-                    if(component[i] == null) continue;
-                    component[i].SetItem(this);
-                }
-            }
-            return true;
-        }
+        // private bool ValidateComponent(List<ItemComponent> group)
+        // {
+        //     if(!Application.isPlaying){
+        //         for (int i = 0; i < component.Count; i++)
+        //         {
+        //             if(component[i] == null) continue;
+        //             component[i].SetItem(this);
+        //         }
+        //     }
+        //     return true;
+        // }
         private void OnComponentValueChange()
         {
             if(component == null || component.Count == 0) return;
@@ -108,7 +109,7 @@ namespace GloryJam.Inventories
                 return x.ComponentPropertyOrder.CompareTo(y.ComponentPropertyOrder);
             });
 
-            ValidateComponent(component);
+            //ValidateComponent(component);
         }
         #endif
         #endregion
@@ -141,9 +142,11 @@ namespace GloryJam.Inventories
         #region IInstance
         public ItemStack CreateInstance(){
             var value = new ItemStack(){
-                component = component.CreateInstance()
+                component = component.CreateInstance(),
             };
-           
+
+            value.SetItem(this);
+
             return value;
         }
         #endregion
