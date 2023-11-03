@@ -40,32 +40,40 @@ namespace GloryJam.Inventories
 
         #region methods
         public virtual bool Use(){
-            if(inUse) return default;
+            var prevInUse = inUse;
+            var result = false;
 
             for (int i = 0; i < handlers.Count; i++)
             {
-                if(handlers[i] == null) continue;
-                handlers[i].Use();
+                if(handlers[i] == null)
+                    continue;
+
+                result |= handlers[i].Use();
             }
 
-            var result = inUse;
-            if(result) inventory?.InvokeOnItemUse(_stack);
+            if(!prevInUse && inUse) {
+                inventory?.InvokeOnItemUse(_stack);
+            }
 
             inventory?.SaveState();
 
             return result;
         }
         public virtual bool Unuse(){
-            if(!inUse) return default;
+            var prevInUse = inUse;
+            var result = false;
 
             for (int i = 0; i < handlers.Count; i++)
             {
-                if(handlers[i] == null) continue;
-                handlers[i].Unuse();
+                if(handlers[i] == null)
+                    continue;
+
+                result |= handlers[i].Unuse();
             }
             
-            var result = !inUse;
-            if(result) inventory?.InvokeOnItemUnuse(_stack);
+            if(prevInUse && !inUse){
+                inventory?.InvokeOnItemUnuse(_stack);
+            }
 
             inventory?.SaveState();
 
