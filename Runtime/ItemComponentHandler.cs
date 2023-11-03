@@ -7,10 +7,10 @@ namespace GloryJam.Inventories
     public abstract class ItemComponentHandler : IInstance<ItemComponentHandler>
     {
         #region property
-        protected Item item => component?.item;
-        protected ItemSlot slot => component?.slot;
-        protected ItemStack stack => component?.stack;
-        protected Inventory inventory => component?.inventory;
+        public Item item => component?.item;
+        public ItemSlot slot => component?.slot;
+        public ItemStack stack => component?.stack;
+        public Inventory inventory => component?.inventory;
         #endregion
 
         #region protected
@@ -22,8 +22,11 @@ namespace GloryJam.Inventories
 
         #region methods
         public virtual void Init(ItemComponent component){
-            this.component = component;
+            SetComponent(component);
             OnInit();
+        }
+        public void SetComponent(ItemComponent component){
+            this.component = component;
         }
         public virtual void SaveState(){}
         public virtual void LoadState(){}

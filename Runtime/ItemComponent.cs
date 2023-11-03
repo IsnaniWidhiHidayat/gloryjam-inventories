@@ -53,7 +53,7 @@ namespace GloryJam.Inventories
         public virtual void Init(ItemStack stack){
             _stack = stack;
         }
-        public void SetItem(Item item){
+        public virtual void SetItem(Item item){
             _item = item;
         }
         public abstract void SaveState();
@@ -100,6 +100,18 @@ namespace GloryJam.Inventories
                 {
                     if(handlers[i] == null) continue;
                     handlers[i].Init(this);
+                }
+            }
+        }
+        public override void SetItem(Item item)
+        {
+            base.SetItem(item);
+
+            if(handlers?.Count > 0) {
+                for (int i = 0; i < handlers.Count; i++)
+                {
+                    if(handlers[i] == null || handlers[i].item != null) continue;
+                    handlers[i].SetComponent(this);
                 }
             }
         }

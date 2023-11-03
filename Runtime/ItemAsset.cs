@@ -109,7 +109,7 @@ namespace GloryJam.Inventories
                 return x.ComponentPropertyOrder.CompareTo(y.ComponentPropertyOrder);
             });
 
-            //ValidateComponent(component);
+            ValidateComponent(component);
         }
         #endif
         #endregion
