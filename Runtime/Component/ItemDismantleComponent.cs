@@ -12,7 +12,7 @@ namespace GloryJam.Inventories
     [Toggle("Enabled")]
     #endif
     [DisallowMultipleItemComponent]
-    public class ItemDismantleComponent : ItemComponent<ItemDismantleHandler>
+    public class ItemDismantleComponent : ItemComponent<ItemDismantleComponent,ItemDismantleHandler>
     {
         #region property
         public override string ComponentName => "Dismantle";

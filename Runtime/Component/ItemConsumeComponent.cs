@@ -12,7 +12,7 @@ namespace GloryJam.Inventories
     [Toggle("Enabled")]
     #endif
     [DisallowMultipleItemComponent]
-    public class ItemConsumeComponent : ItemComponent
+    public class ItemConsumeComponent : ItemComponent<ItemConsumeComponent>
     {
         #region property
         public override string ComponentName => "Consume";

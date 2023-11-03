@@ -59,25 +59,34 @@ namespace GloryJam.Inventories
         public abstract void SaveState();
         public abstract void LoadState();
         public abstract void Dispose();
-        public virtual ItemComponent CreateInstance(){
-            return (ItemComponent)MemberwiseClone();
-        }
+        public abstract ItemComponent CreateInstance();
         #endregion
     }
 
     [Serializable]
-    public abstract class ItemComponent<T> : ItemComponent 
-    where T : ItemComponentHandler
+    public abstract class ItemComponent<T> : ItemComponent
+    where T : ItemComponent<T>,new()
+    {
+        public override ItemComponent CreateInstance()
+        {
+            return new T();
+        }
+    }
+
+    [Serializable]
+    public abstract class ItemComponent<T,H> : ItemComponent<T> 
+    where T : ItemComponent<T,H>,new()
+    where H : ItemComponentHandler
     {
         #region fields
         #if ODIN_INSPECTOR
         [ListDrawerSettings(DraggableItems = false)]
         #endif
-        public List<T> handlers = new List<T>();
+        public List<H> handlers = new List<H>();
         #endregion
 
         #region property
-        public T this[int index]
+        public H this[int index]
         {
             get { return handlers[index]; }
         }
@@ -85,7 +94,7 @@ namespace GloryJam.Inventories
 
         #region constructor
         public ItemComponent(){
-            handlers = new List<T>();
+            handlers = new List<H>();
         }
         #endregion
 
@@ -142,26 +151,26 @@ namespace GloryJam.Inventories
                 }
             }
         }
-        public bool ContainHandler<T1>() where T1 : T
+        public bool ContainHandler<T1>() where T1 : H
         {
             return handlers.Exists(x => x != null && x is T1);
         }
-        public T1 GetHandler<T1>() where T1 : T
+        public T1 GetHandler<T1>() where T1 : H
         {
             if(TryGetHandler<T1>(out var result)) return result;
             return default;
         }
-        public T1[] GetHandlers<T1>() where T1 : T
+        public T1[] GetHandlers<T1>() where T1 : H
         {
             if(TryGetHandlers<T1>(out var result)) return result;
             return default;
         }
-        public bool TryGetHandler<T1>(out T1 result) where T1 : T
+        public bool TryGetHandler<T1>(out T1 result) where T1 : H
         {
             result = handlers.Find(x => x != null && x is T1) as T1;
             return result != null;
         }
-        public bool TryGetHandlers<T1>(out T1[] result) where T1 : T
+        public bool TryGetHandlers<T1>(out T1[] result) where T1 : H
         {
             result = default;
 
@@ -181,15 +190,15 @@ namespace GloryJam.Inventories
         }
         public override ItemComponent CreateInstance()
         {
-            var clone = base.CreateInstance() as ItemComponent<T>;
+            var clone = base.CreateInstance() as T;
                 clone.Enabled = Enabled;
             
             if(handlers?.Count > 0){
-                if(clone.handlers == null) clone.handlers = new List<T>();
+                if(clone.handlers == null) clone.handlers = new List<H>();
 
                 for (int i = 0; i < handlers.Count; i++){
                     if(handlers[i] == null) continue;
-                    clone.handlers.Add(handlers[i].CreateInstance() as T);
+                    clone.handlers.Add(handlers[i].CreateInstance() as H);
                 }
             }
 
@@ -199,8 +208,9 @@ namespace GloryJam.Inventories
     }
 
     [Serializable]
-    public abstract class ItemComponent<T,S> : ItemComponent<T>
-    where T : ItemComponentHandler
+    public abstract class ItemComponent<T,H,S> : ItemComponent<T,H>
+    where T : ItemComponent<T,H,S>,new()
+    where H : ItemComponentHandler
     where S : ItemComponentState,new()
     {
         #region fields
@@ -214,7 +224,7 @@ namespace GloryJam.Inventories
         #region methods
         public override ItemComponent CreateInstance()
         {
-            var r =  base.CreateInstance() as ItemComponent<T,S>;
+            var r =  base.CreateInstance() as T;
                 r.state = new S();
             return r;
         }

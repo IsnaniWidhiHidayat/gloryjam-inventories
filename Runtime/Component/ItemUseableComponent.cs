@@ -11,7 +11,7 @@ namespace GloryJam.Inventories
     [Serializable,HideReferenceObjectPicker,HideDuplicateReferenceBox]
     [Toggle("Enabled")]
     #endif
-    public class ItemUseableComponent : ItemComponent<ItemUsageHandler,ItemUseableState>
+    public class ItemUseableComponent : ItemComponent<ItemUseableComponent,ItemUsageHandler,ItemUseableState>
     {
         #region property
         #if ODIN_INSPECTOR
