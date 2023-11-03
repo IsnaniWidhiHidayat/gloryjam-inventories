@@ -204,7 +204,10 @@ namespace GloryJam.Inventories
     where S : ItemComponentState,new()
     {
         #region fields
+        #if ODIN_INSPECTOR
         [ShowIf(nameof(state)),BoxGroup("State"),HideLabel,PropertyOrder(-1)]
+        [HideReferenceObjectPicker,HideDuplicateReferenceBox]
+        #endif
         public S state;
         #endregion
 

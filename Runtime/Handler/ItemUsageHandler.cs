@@ -1,5 +1,8 @@
 using System;
+
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+#endif
 
 namespace GloryJam.Inventories
 {
@@ -24,7 +27,10 @@ namespace GloryJam.Inventories
     where T : ItemComponentHandlerState, new()
     {
         #region fields
+        #if ODIN_INSPECTOR
         [ShowIf(nameof(state)),BoxGroup("State"),HideLabel,PropertyOrder(-1)]
+        [HideReferenceObjectPicker,HideDuplicateReferenceBox]
+        #endif
         public T state;
         #endregion
 
