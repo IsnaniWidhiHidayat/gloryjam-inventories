@@ -93,18 +93,6 @@ namespace GloryJam.Inventories
             return result;
         }
         #endregion
-
-        // public override void Resolve()
-        // {
-        //     handlers = new List<ItemDetailHandler>();
-
-        //     if(handlers?.Count > 0) {
-        //         for (int i = 0; i < handlers.Count; i++)
-        //         {
-        //             handlers.Add(handlers[i]);
-        //         }
-        //     }
-        // }
     }
 
     public static class ItemDetailComponentExtend

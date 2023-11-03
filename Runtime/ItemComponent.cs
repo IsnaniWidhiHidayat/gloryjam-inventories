@@ -27,7 +27,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region property
-        public Item item => _stack?.item;
+        public Item item => _stack != null ? _stack.item : _item;
         public ItemSlot slot => _stack?.slot;
         public ItemStack stack => _stack;
         public Inventory inventory => slot?.inventory;
@@ -38,6 +38,7 @@ namespace GloryJam.Inventories
 
         #region protected
         protected ItemStack _stack;
+        private Item _item;
         #endregion
 
         #region inspector
@@ -51,6 +52,9 @@ namespace GloryJam.Inventories
         #region methods
         public virtual void Init(ItemStack stack){
             _stack = stack;
+        }
+        public void SetItem(Item item){
+            _item = item;
         }
         public abstract void SaveState();
         public abstract void LoadState();
@@ -211,7 +215,9 @@ namespace GloryJam.Inventories
         public static T GetComponent<T>(this Item item) where T : ItemComponent
         {
             var result = item.component.Find(x => x as T != null && x.Enabled) as T;
-            //result?.SetItem(item);
+            if(result != null && result.item == null){
+                result?.SetItem(item);
+            }
             return result;
         }
         public static T GetComponent<T>(this ItemStack stack) where T : ItemComponent
