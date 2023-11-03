@@ -11,6 +11,10 @@ namespace GloryJam.Inventories
     [Serializable]
     public class ItemStack
     {
+        #region const
+        const string grpDebug = "Debug";
+        #endregion
+
         #region fields
         [SerializeField]
         #if ODIN_INSPECTOR
@@ -27,6 +31,24 @@ namespace GloryJam.Inventories
         
         #region private
         private ItemSlot _slot;
+        #endregion
+
+        #region inspector
+        #if ODIN_INSPECTOR
+        [Button("Use"),FoldoutGroup(grpDebug),ShowIf(nameof(ShowButtonDebug))]
+        private void InspectorUse(){
+            this.Use();
+        }
+
+        [Button("Unuse"),FoldoutGroup(grpDebug),ShowIf(nameof(ShowButtonDebug))]
+        private void InspectorUnUse(){
+            this.Unuse();
+        }
+
+        private bool ShowButtonDebug(){
+            return this.ContainComponent<ItemUseableComponent>();
+        }
+        #endif
         #endregion
 
         #region methods

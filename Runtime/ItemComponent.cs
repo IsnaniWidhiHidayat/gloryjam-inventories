@@ -63,7 +63,9 @@ namespace GloryJam.Inventories
         public abstract void SaveState();
         public abstract void LoadState();
         public abstract void Dispose();
-        public abstract ItemComponent CreateInstance();
+        public virtual ItemComponent CreateInstance(){
+            return (ItemComponent)MemberwiseClone();
+        }
         #endregion
     
         // public virtual void Resolve(){}

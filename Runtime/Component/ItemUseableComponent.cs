@@ -27,6 +27,7 @@ namespace GloryJam.Inventories
                         continue;
 
                     result |= handlers[i].inUse;
+                    if(result) break;
                 }
 
                 return result;
@@ -37,58 +38,34 @@ namespace GloryJam.Inventories
         public override int ComponentPropertyOrder => 2;
         #endregion
 
-        #region inspector
-        #if ODIN_INSPECTOR
-        [Button("Use"),BoxGroup(grpDebug),ShowIf(nameof(ShowButtonDebug))]
-        private void InspectorUse(){
-            Use();
-        }
-
-        [Button("Unuse"),BoxGroup(grpDebug),ShowIf(nameof(ShowButtonDebug))]
-        private void InspectorUnUse(){
-            Unuse();
-        }
-
-        private bool ShowButtonDebug(){
-            return stack != null;
-        }
-        #endif
-        #endregion
-
         #region methods
         public virtual bool Use(){
-            var result = true;
+            if(inUse) return default;
 
             for (int i = 0; i < handlers.Count; i++)
             {
-                if(handlers[i] == null)
-                    continue;
-
-                result &= handlers[i].Use();
+                if(handlers[i] == null) continue;
+                handlers[i].Use();
             }
 
-            if(inUse) {
-                inventory?.InvokeOnItemUse(_stack);
-            }
+            var result = inUse;
+            if(result) inventory?.InvokeOnItemUse(_stack);
 
             inventory?.SaveState();
 
             return result;
         }
         public virtual bool Unuse(){
-            var result = true;
+            if(!inUse) return default;
 
             for (int i = 0; i < handlers.Count; i++)
             {
-                if(handlers[i] == null)
-                    continue;
-
-                result &= handlers[i].Unuse();
+                if(handlers[i] == null) continue;
+                handlers[i].Unuse();
             }
             
-            if(!inUse) {
-                _stack.slot.inventory?.InvokeOnItemUnuse(_stack);
-            }
+            var result = !inUse;
+            if(result) inventory?.InvokeOnItemUnuse(_stack);
 
             _stack.slot.inventory.SaveState();
 
@@ -150,16 +127,21 @@ namespace GloryJam.Inventories
             return default;
         }
         public static bool Use(this ItemStack stack){
+            var result = false;
+            
             if(stack.TryGetComponentsUsable(out var components)){
-                var result = false;
                 for (int i = 0; i < components.Length; i++)
                 {
                     if(components[i] == null) continue;
                     result |= components[i].Use();
                 }
-                return result;
             }
-            return default;
+
+            if(stack.TryGetComponentConsume(out var consume)){
+                consume.Consume();
+            }
+
+            return result;
         }
         public static bool Unuse(this ItemStack stack){
             if(stack.TryGetComponentsUsable(out var components)){

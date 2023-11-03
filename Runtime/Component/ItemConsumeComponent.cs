@@ -20,34 +20,33 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
+        #if ODIN_INSPECTOR
+        [Button]
+        #endif
         public void Consume(){
             stack.Dispose();
         }
         public override void LoadState(){}
         public override void SaveState(){}
         public override void Dispose(){}
-        public override ItemComponent CreateInstance()
-        {
-            return this;
-        }
         #endregion
     }
 
     public static class ItemConsumeComponentExtend
     {
-        public static bool TryGetComponentSpawner(this ItemStack stack,out ItemConsumeComponent result){
+        public static bool TryGetComponentConsume(this ItemStack stack,out ItemConsumeComponent result){
             result = default;
             return stack != null ? stack.TryGetComponent(out result) : default;
         }
-        public static bool TryGetComponentSpawner(this Item item,out ItemConsumeComponent result){
+        public static bool TryGetComponentConsume(this Item item,out ItemConsumeComponent result){
             result = default;
             return item != null ? item.TryGetComponent(out result) : default;
         }
 
-        public static bool ContainComponentSpawner(this ItemStack stack){
+        public static bool ContainComponentConsume(this ItemStack stack){
             return stack.ContainComponent<ItemConsumeComponent>();
         }
-        public static bool ContainComponentSpawner(this Item item){
+        public static bool ContainComponentConsume(this Item item){
             return item.ContainComponent<ItemConsumeComponent>();
         }
     
