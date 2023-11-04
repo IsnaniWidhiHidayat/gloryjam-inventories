@@ -107,6 +107,7 @@ namespace GloryJam.Inventories
         {
             get { return  slots[index]; }
             set{
+                if(slots[index] != null) value?.SetInventory(null);
                 slots[index] = value;
                 value?.SetInventory(this);
             }
