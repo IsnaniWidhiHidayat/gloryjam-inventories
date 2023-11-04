@@ -11,7 +11,7 @@ namespace GloryJam.Inventories
     {
         #region property 
         #if ODIN_INSPECTOR
-        [ShowInInspector,HideInEditorMode,BoxGroup(grpRuntime)]
+        [ShowInInspector,ShowIf(nameof(InspectorShowRuntime)),BoxGroup(grpRuntime)]
         #endif
         public abstract bool inUse {get;}
         #endregion

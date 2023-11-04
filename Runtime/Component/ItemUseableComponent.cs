@@ -29,7 +29,7 @@ namespace GloryJam.Inventories
 
         #region property
         #if ODIN_INSPECTOR
-        [ShowInInspector,BoxGroup(grpRuntime)]
+        [ShowInInspector,ShowIf(nameof(InspectorShowRuntime)),BoxGroup(grpRuntime)]
         #endif
         public bool inUse{
             get{

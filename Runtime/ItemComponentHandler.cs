@@ -1,5 +1,6 @@
 using System;
 using GloryJam.DataAsset;
+using UnityEngine;
 
 namespace GloryJam.Inventories
 {
@@ -22,6 +23,14 @@ namespace GloryJam.Inventories
 
         #region protected
         protected ItemComponent component;
+        #endregion
+
+        #region inspector
+        #if ODIN_INSPECTOR
+        public bool InspectorShowRuntime(){
+            return Application.isPlaying;
+        }
+        #endif
         #endregion
 
         #region methods

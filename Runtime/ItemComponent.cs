@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GloryJam.DataAsset;
+using UnityEngine;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -46,6 +47,9 @@ namespace GloryJam.Inventories
         #if ODIN_INSPECTOR
         public string InspectorGetComponentName(){
             return string.IsNullOrEmpty(id) ? ComponentName : $"{ComponentName} [{id}]";
+        }
+        public bool InspectorShowRuntime(){
+            return Application.isPlaying;
         }
         #endif
         #endregion
