@@ -57,7 +57,7 @@ namespace GloryJam.Inventories
             }
 
             //Get IItem Useable
-            if(stack.TryGetComponents<IItemUseable>(out var useables)){
+            if(result && stack.TryGetComponents<IItemUseable>(out var useables)){
                 for (int i = 0; i < useables.Length; i++)
                 {
                     if(useables[i] == null) continue;
@@ -85,7 +85,7 @@ namespace GloryJam.Inventories
             }
 
             //Get IItem Useable
-            if(stack.TryGetComponents<IItemUseable>(out var useables)){
+            if(result && stack.TryGetComponents<IItemUseable>(out var useables)){
                 for (int i = 0; i < useables.Length; i++)
                 {
                     if(useables[i] == null) continue;
