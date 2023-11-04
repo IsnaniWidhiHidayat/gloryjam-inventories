@@ -1,6 +1,8 @@
+using System;
 
 namespace GloryJam.Inventories
 {
+    [Serializable]
     public abstract class ItemComponentHandler : IInstance<ItemComponentHandler>
     {
         #region const
