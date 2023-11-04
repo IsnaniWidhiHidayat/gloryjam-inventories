@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GloryJam.DataAsset;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;

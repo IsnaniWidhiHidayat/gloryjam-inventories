@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace GloryJam.Inventories
@@ -55,6 +56,15 @@ namespace GloryJam.Inventories
                 }
             }
 
+            //Get IItem Useable
+            if(stack.TryGetComponents<IItemUseable>(out var useables)){
+                for (int i = 0; i < useables.Length; i++)
+                {
+                    if(useables[i] == null) continue;
+                    useables[i].OnUse();
+                }
+            }
+
             //consume item
             if(stack.TryGetComponentConsume(out var consume)){
                 consume.Consume();
@@ -63,17 +73,27 @@ namespace GloryJam.Inventories
             return result;
         }
         public static bool Unuse(this ItemStack stack){
+            var result = false;
+
             //unuse item
             if(stack.TryGetComponentsUsable(out var components)){
-                var result = false;
                 for (int i = 0; i < components.Length; i++)
                 {
                     if(components[i] == null) continue;
                     result |= components[i].Unuse();
                 }
-                return result;
             }
-            return default;
+
+            //Get IItem Useable
+            if(stack.TryGetComponents<IItemUseable>(out var useables)){
+                for (int i = 0; i < useables.Length; i++)
+                {
+                    if(useables[i] == null) continue;
+                    useables[i].OnUnuse();
+                }
+            }
+
+            return result;
         }
     
         public static bool InUse(this ItemSlot slot) {

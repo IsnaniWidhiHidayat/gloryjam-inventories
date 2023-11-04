@@ -125,6 +125,13 @@ namespace GloryJam.Inventories
                 Unuse();
             }
         }
+
+        public override ItemComponent CreateInstance()
+        {
+            var clone = base.CreateInstance() as ItemUseableComponent;
+                clone.trigger = trigger;
+            return clone;
+        }
         #endregion
     }
 }

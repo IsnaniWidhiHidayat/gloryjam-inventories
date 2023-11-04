@@ -1,4 +1,5 @@
 using System;
+using GloryJam.DataAsset;
 
 namespace GloryJam.Inventories
 {
