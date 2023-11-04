@@ -16,6 +16,17 @@ namespace GloryJam.Inventories
             return result != null;
         }
         
+        public static bool TryGetComponent<T>(this Item item,string id,out T result)where T : class
+        {
+            result = item?.GetComponent<T>(id);
+            return result != null;
+        }
+        public static bool TryGetComponent<T>(this ItemStack stack,string id,out T result)where T : class
+        {
+            result = stack?.GetComponent<T>(id);
+            return result != null;
+        }
+
         public static bool TryGetComponents<T>(this Item item,out T[] result)where T : class
         {
             result = item?.GetComponents<T>();
@@ -29,6 +40,8 @@ namespace GloryJam.Inventories
 
         public static T GetComponent<T>(this Item item) where T : class
         {
+            if(item == null) return default;
+
             var result = item.component.Find(x => x as T != null && x.Enabled) as T;
             var component = result as ItemComponent;
             
@@ -40,10 +53,30 @@ namespace GloryJam.Inventories
         }
         public static T GetComponent<T>(this ItemStack stack) where T : class
         {
-            var result = stack.component.Find(x => x as T != null && x.Enabled) as T;
-            return result;
+            if(stack == null) return default;
+            return stack.component.Find(x => x as T != null && x.Enabled) as T;
         }
 
+        public static T GetComponent<T>(this Item item,string id) where T : class
+        {
+            if(item == null) return default;
+            return item.component.Find(x => x as T != null && x.id == id && x.Enabled) as T;
+        }
+        public static T GetComponent<T>(this ItemStack stack,string id) where T : class
+        {
+            if(stack == null) return default;
+            return stack.component.Find(x => x as T != null && x.id == id && x.Enabled) as T;
+        }
+        
+        public static ItemComponent GetComponent(this Item item,string id){
+            if(item == null) return default;
+            return item.component.Find(x => x != null && x.id == id && x.Enabled);
+        }
+        public static ItemComponent GetComponent(this ItemStack stack,string id){
+            if(stack == null) return default;
+            return stack.component.Find(x => x != null && x.id == id && x.Enabled);
+        }
+        
         public static T[] GetComponents<T>(this Item item) where T : class
         {
             var result = default(List<T>);
