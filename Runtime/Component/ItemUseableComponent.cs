@@ -13,6 +13,21 @@ namespace GloryJam.Inventories
     #endif
     public class ItemUseableComponent : ItemComponent<ItemUseableComponent,ItemUsageHandler,ItemUseableState>
     {
+        #region inner class
+        [Serializable]
+        public enum TriggerType{
+            Manual,
+            Instant,
+        }
+        #endregion
+
+        #region fields
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpConfig)]
+        #endif
+        public TriggerType trigger;
+        #endregion
+
         #region property
         #if ODIN_INSPECTOR
         [ShowInInspector,BoxGroup(grpRuntime)]
@@ -39,6 +54,21 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
+        public override void Init(ItemStack stack)
+        {
+            base.Init(stack);
+
+            if(trigger == TriggerType.Instant){
+                Use();
+            }
+        }
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            Unuse();
+        }
+
         public virtual bool Use(){
             var prevInUse = inUse;
             var result = false;
