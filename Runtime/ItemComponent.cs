@@ -110,6 +110,18 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
+        public override void SetStack(ItemStack stack)
+        {
+            base.SetStack(stack);
+
+            if(handlers?.Count > 0) {
+                for (int i = 0; i < handlers.Count; i++)
+                {
+                    if(handlers[i] == null) continue;
+                    handlers[i].SetComponent(this);
+                }
+            }
+        }
         public override void SetItem(Item item)
         {
             base.SetItem(item);
@@ -198,14 +210,6 @@ namespace GloryJam.Inventories
         #region callback
         public override void OnInit()
         {
-            if(handlers?.Count > 0) {
-                for (int i = 0; i < handlers.Count; i++)
-                {
-                    if(handlers[i] == null) continue;
-                    handlers[i].SetComponent(this);
-                }
-            }
-
             if(handlers?.Count > 0) {
                 for (int i = 0; i < handlers.Count; i++)
                 {

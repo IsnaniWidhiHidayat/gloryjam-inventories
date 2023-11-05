@@ -56,15 +56,6 @@ namespace GloryJam.Inventories
         #region methods
         public void Init()
         {
-            //init component
-            if(component?.Count > 0)
-            {   
-                for (int i = 0; i < component.Count; i++)
-                {
-                    component[i].SetStack(this);
-                }
-            }
-
             if(component?.Count > 0)
             {   
                 for (int i = 0; i < component.Count; i++)
@@ -77,6 +68,15 @@ namespace GloryJam.Inventories
         }
         public void SetSlot(ItemSlot slot){
             _slot = slot; 
+
+            //init component
+            if(component?.Count > 0)
+            {   
+                for (int i = 0; i < component.Count; i++)
+                {
+                    component[i].SetStack(this);
+                }
+            }
         }
         public void SetItem(Item item){
             _item = item;
