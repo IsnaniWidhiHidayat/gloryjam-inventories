@@ -63,6 +63,14 @@ namespace GloryJam.Inventories
                     component[i].OnInit();
                 }
             }
+
+            if(component?.Count > 0)
+            {   
+                for (int i = 0; i < component.Count; i++)
+                {
+                    component[i].OnPostInit();
+                }
+            }
             
             inventory?.InvokeOnItemInit(this);
         }

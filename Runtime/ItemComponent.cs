@@ -68,6 +68,7 @@ namespace GloryJam.Inventories
 
         #region callback
         public abstract void OnInit();
+        public abstract void OnPostInit();
         public abstract void OnDispose();
         #endregion
     }
@@ -215,6 +216,16 @@ namespace GloryJam.Inventories
                 {
                     if(handlers[i] == null) continue;
                     handlers[i].OnInit();
+                }
+            }
+        }
+        public override void OnPostInit()
+        {
+            if(handlers?.Count > 0) {
+                for (int i = 0; i < handlers.Count; i++)
+                {
+                    if(handlers[i] == null) continue;
+                    handlers[i].OnPostInit();
                 }
             }
         }

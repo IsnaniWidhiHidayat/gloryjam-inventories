@@ -22,6 +22,7 @@ namespace GloryJam.GT.Gameplay.Inventories
 
         #region callback
         public override void OnInit(){}
+        public override void OnPostInit(){}
         public override void OnDispose(){}
         #endregion
     }

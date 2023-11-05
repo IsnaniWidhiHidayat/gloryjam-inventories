@@ -53,21 +53,6 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public override void OnInit()
-        {
-            base.OnInit();
-
-            if(trigger == TriggerType.Instant){
-                Use();
-            }
-        }
-        public override void OnDispose()
-        {
-            if(inUse) Unuse();
-
-            base.OnDispose();
-        }
-
         public virtual bool Use(){
             var prevInUse = inUse;
             var result = false;
@@ -131,6 +116,20 @@ namespace GloryJam.Inventories
             var clone = base.CreateInstance() as ItemUseableComponent;
                 clone.trigger = trigger;
             return clone;
+        }
+        #endregion
+
+        #region callback
+        public override void OnPostInit(){
+            if(trigger == TriggerType.Instant){
+                Use();
+            }
+        }
+        public override void OnDispose()
+        {
+            if(inUse) Unuse();
+
+            base.OnDispose();
         }
         #endregion
     }
