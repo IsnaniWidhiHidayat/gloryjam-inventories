@@ -65,7 +65,7 @@ namespace GloryJam.Inventories
         {
             base.OnDispose();
 
-            Unuse();
+            if(inUse) Unuse();
         }
 
         public virtual bool Use(){
