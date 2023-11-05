@@ -47,8 +47,8 @@ namespace GloryJam.Inventories
         #endregion
 
         #region callback
-        public virtual void OnInit(){}
-        public virtual void OnDispose(){}
+        public abstract void OnInit();
+        public abstract void OnDispose();
         #endregion
     }
 }

@@ -9,6 +9,7 @@ namespace GloryJam.GT.Gameplay.Inventories
     {
         #region fields
         public GameObject Object;
+
         #endregion
 
         #region methods
@@ -17,6 +18,11 @@ namespace GloryJam.GT.Gameplay.Inventories
             if(Object == null) return null;
             return GameObject.Instantiate(Object,Vector3.zero,Quaternion.identity).gameObject;
         }
+        #endregion
+
+        #region callback
+        public override void OnInit(){}
+        public override void OnDispose(){}
         #endregion
     }
 }

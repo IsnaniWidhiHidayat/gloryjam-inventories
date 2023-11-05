@@ -41,5 +41,10 @@ namespace GloryJam.Inventories
             return type;
         }
         #endregion
+
+        #region callback
+        public override void OnInit(){}
+        public override void OnDispose(){}
+        #endregion
     }
 }
