@@ -529,11 +529,13 @@ namespace GloryJam.Inventories
         {
            switch(Event.type){
                 case InventoryEvent.Type.Init:{
+                    if(Event.stack?.inventory != this) return;
                     onItemInit?.Invoke(Event.stack);
                     break;
                 }
 
                 case InventoryEvent.Type.Dispose:{
+                    if(Event.stack?.inventory != this) return;
                     onItemDispose?.Invoke(Event.stack);
                     break;
                 }
@@ -543,11 +545,13 @@ namespace GloryJam.Inventories
         {
             switch(Event.type){
                 case ItemUseableEvent.Type.Use:{
+                    if(Event.stack?.inventory != this) return;
                     onItemUse?.Invoke(Event.stack);
                     break;
                 }
 
                 case ItemUseableEvent.Type.Unuse:{
+                    if(Event.stack?.inventory != this) return;
                     onItemUnuse?.Invoke(Event.stack);
                     break;
                 }
