@@ -15,7 +15,7 @@ namespace GloryJam.Inventories
     public class ItemConsumeComponent : ItemComponent<ItemConsumeComponent>
     {
         #region static
-        private static ItemConsumeEvent Event;
+        private static ItemConsumeEvent Event = new ItemConsumeEvent();
         #endregion
 
         #region property

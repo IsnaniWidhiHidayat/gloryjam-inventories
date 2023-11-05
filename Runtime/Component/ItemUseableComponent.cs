@@ -14,7 +14,7 @@ namespace GloryJam.Inventories
     public class ItemUseableComponent : ItemComponent<ItemUseableComponent,ItemUsageHandler,ItemUseableState>
     {
         #region static
-        private static ItemUseableEvent Event;
+        private static ItemUseableEvent Event = new ItemUseableEvent();
         #endregion
 
         #region inner class
@@ -55,6 +55,20 @@ namespace GloryJam.Inventories
 
         public override string ComponentName => "Usage";
         public override int ComponentPropertyOrder => 2;
+        #endregion
+
+        #region inspector
+        #if ODIN_INSPECTOR
+        [Button("Use"),BoxGroup(grpDebug),ButtonGroup(grpDebug + "/Buttons"),ShowIf(nameof(InspectorShowRuntime))]
+        private void InspectorUse(){
+            Use();
+        }
+
+        [Button("Unuse"),ButtonGroup(grpDebug + "/Buttons"),ShowIf(nameof(InspectorShowRuntime))]
+        private void InspectorUnUse(){
+            Unuse();
+        }
+        #endif
         #endregion
 
         #region methods

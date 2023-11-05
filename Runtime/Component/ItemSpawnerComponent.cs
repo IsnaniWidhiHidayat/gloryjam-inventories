@@ -15,7 +15,7 @@ namespace GloryJam.Inventories
     public class ItemSpawnerComponent : ItemComponent<ItemSpawnerComponent,ItemSpawnerHandler>
     {
         #region static
-        private static ItemSpawnerEvent Event;
+        private static ItemSpawnerEvent Event = new ItemSpawnerEvent();
         #endregion
 
         #region property

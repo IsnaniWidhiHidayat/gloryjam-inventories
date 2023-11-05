@@ -12,7 +12,7 @@ namespace GloryJam.Inventories
     public class ItemStack
     {
         #region static
-        private static InventoryEvent Event;
+        private static InventoryEvent Event = new InventoryEvent();
         #endregion
 
         #region const
@@ -41,18 +41,12 @@ namespace GloryJam.Inventories
 
         #region inspector
         #if ODIN_INSPECTOR
-        [Button("Use"),FoldoutGroup(grpDebug),ShowIf(nameof(ShowButtonDebug))]
-        private void InspectorUse(){
-            this.Use();
+        [Button("Dispose"),BoxGroup(grpDebug),ButtonGroup(grpDebug + "/Buttons"),ShowIf(nameof(InspectorShowRuntime))]
+        private void InspectorDispose(){
+            Dispose();
         }
-
-        [Button("Unuse"),FoldoutGroup(grpDebug),ShowIf(nameof(ShowButtonDebug))]
-        private void InspectorUnUse(){
-            this.Unuse();
-        }
-
-        private bool ShowButtonDebug(){
-            return this.ContainComponent<ItemUseableComponent>();
+        public bool InspectorShowRuntime(){
+            return Application.isPlaying;
         }
         #endif
         #endregion
