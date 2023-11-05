@@ -63,9 +63,9 @@ namespace GloryJam.Inventories
         }
         public override void OnDispose()
         {
-            base.OnDispose();
-
             if(inUse) Unuse();
+
+            base.OnDispose();
         }
 
         public virtual bool Use(){
