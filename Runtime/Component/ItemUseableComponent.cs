@@ -53,17 +53,17 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public override void Init(ItemStack stack)
+        public override void OnInit()
         {
-            base.Init(stack);
+            base.OnInit();
 
             if(trigger == TriggerType.Instant){
                 Use();
             }
         }
-        public override void Dispose()
+        public override void OnDispose()
         {
-            base.Dispose();
+            base.OnDispose();
 
             Unuse();
         }

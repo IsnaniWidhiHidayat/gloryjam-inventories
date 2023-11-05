@@ -24,8 +24,8 @@ namespace GloryJam.Inventories
             return true;
         }
         
-        protected override void OnInit(){}
-        protected override void OnDispose(){}
+        public override void OnInit(){}
+        public override void OnDispose(){}
         #endregion
     }
 }

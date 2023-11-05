@@ -55,7 +55,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public virtual void Init(ItemStack stack){
+        public virtual void SetStack(ItemStack stack){
             _stack = stack;
         }
         public virtual void SetItem(Item item){
@@ -63,8 +63,12 @@ namespace GloryJam.Inventories
         }
         public abstract void SaveState();
         public abstract void LoadState();
-        public abstract void Dispose();
         public abstract ItemComponent CreateInstance();
+        #endregion
+
+        #region callback
+        public abstract void OnInit();
+        public abstract void OnDispose();
         #endregion
     }
 
@@ -106,18 +110,6 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public override void Init(ItemStack stack)
-        {
-            base.Init(stack);
-
-            if(handlers?.Count > 0) {
-                for (int i = 0; i < handlers.Count; i++)
-                {
-                    if(handlers[i] == null) continue;
-                    handlers[i].Init(this);
-                }
-            }
-        }
         public override void SetItem(Item item)
         {
             base.SetItem(item);
@@ -145,16 +137,6 @@ namespace GloryJam.Inventories
                 {
                     if(handlers[i] == null) continue;
                     handlers[i].LoadState();
-                }
-            }
-        }
-        public override void Dispose()
-        {
-            if(handlers?.Count > 0) {
-                for (int i = 0; i < handlers.Count; i++)
-                {
-                    if(handlers[i] == null) continue;
-                    handlers[i].Dispose();
                 }
             }
         }
@@ -210,6 +192,37 @@ namespace GloryJam.Inventories
             }
 
             return clone;
+        }
+        #endregion
+
+        #region callback
+        public override void OnInit()
+        {
+            if(handlers?.Count > 0) {
+                for (int i = 0; i < handlers.Count; i++)
+                {
+                    if(handlers[i] == null) continue;
+                    handlers[i].SetComponent(this);
+                }
+            }
+
+            if(handlers?.Count > 0) {
+                for (int i = 0; i < handlers.Count; i++)
+                {
+                    if(handlers[i] == null) continue;
+                    handlers[i].OnInit();
+                }
+            }
+        }
+        public override void OnDispose()
+        {
+            if(handlers?.Count > 0) {
+                for (int i = 0; i < handlers.Count; i++)
+                {
+                    if(handlers[i] == null) continue;
+                    handlers[i].OnDispose();
+                }
+            }
         }
         #endregion
     }

@@ -34,14 +34,6 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public virtual void Init(ItemComponent component){
-            SetComponent(component);
-            OnInit();
-        }
-        public virtual void Dispose(){
-            OnDispose();
-        }
-        
         public void SetComponent(ItemComponent component){
             this.component = component;
         }
@@ -55,8 +47,8 @@ namespace GloryJam.Inventories
         #endregion
 
         #region callback
-        protected virtual void OnInit(){}
-        protected virtual void OnDispose(){}
+        public virtual void OnInit(){}
+        public virtual void OnDispose(){}
         #endregion
     }
 }

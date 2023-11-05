@@ -59,12 +59,17 @@ namespace GloryJam.Inventories
             //init component
             if(component?.Count > 0)
             {   
-                //remove null
-                component.RemoveAll(x => x == null);
-
                 for (int i = 0; i < component.Count; i++)
                 {
-                    component[i].Init(this);
+                    component[i].SetStack(this);
+                }
+            }
+
+            if(component?.Count > 0)
+            {   
+                for (int i = 0; i < component.Count; i++)
+                {
+                    component[i].OnInit();
                 }
             }
             
@@ -99,7 +104,7 @@ namespace GloryJam.Inventories
             {   
                 for (int i = 0; i < component.Count; i++)
                 {
-                    component[i].Dispose();
+                    component[i].OnDispose();
                 }
             }
 

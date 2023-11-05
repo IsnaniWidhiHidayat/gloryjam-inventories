@@ -28,7 +28,8 @@ namespace GloryJam.Inventories
         }
         public override void LoadState(){}
         public override void SaveState(){}
-        public override void Dispose(){}
+        public override void OnInit(){}
+        public override void OnDispose(){}
         #endregion
     }
 }
