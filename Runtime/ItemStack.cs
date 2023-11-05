@@ -11,6 +11,10 @@ namespace GloryJam.Inventories
     [Serializable]
     public class ItemStack
     {
+        #region static
+        private static InventoryEvent Event;
+        #endregion
+
         #region const
         const string grpDebug = "Debug";
         #endregion
@@ -72,7 +76,10 @@ namespace GloryJam.Inventories
                 }
             }
             
-            inventory?.InvokeOnItemInit(this);
+            //Trigger event
+            Event.type  = InventoryEvent.Type.Init;
+            Event.stack = this;
+            InventoryEvent.Trigger(Event);
         }
         public void SetSlot(ItemSlot slot){
             _slot = slot; 
@@ -116,7 +123,10 @@ namespace GloryJam.Inventories
                 }
             }
 
-            inventory?.InvokeOnItemDispose(this);
+            //Trigger event
+            Event.type  = InventoryEvent.Type.Dispose;
+            Event.stack = this;
+            InventoryEvent.Trigger(Event);
         }
         #endregion
     }

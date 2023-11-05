@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using GloryJam.DataAsset;
-using UnityEngine.AI;
+using GloryJam.Event;
 
 
 #if ODIN_INSPECTOR
@@ -19,7 +19,7 @@ namespace GloryJam.Inventories
 #else
     MonoBehaviour
 #endif
-    
+    , EventListener<InventoryEvent>,EventListener<ItemUseableEvent>
     {
         #region const
         const string grpConfig = "Config";
@@ -152,9 +152,13 @@ namespace GloryJam.Inventories
         #region methods
         private void OnEnable() {
             AddInventory(this);
+            this.RegisterEvent<InventoryEvent>();
+            this.RegisterEvent<ItemUseableEvent>();
         }
         private void OnDisable() {
             RemoveInventory(this);
+            this.UnregisterEvent<InventoryEvent>();
+            this.UnregisterEvent<ItemUseableEvent>();
         }
         
         private void Start() {
@@ -472,38 +476,38 @@ namespace GloryJam.Inventories
             }
         }
 
-        public void InvokeOnItemInit(ItemStack stack){
-            onItemInit?.Invoke(stack);
-            InventoryEvent.Trigger(new InventoryEvent(){
-                id = _id,
-                type = InventoryEvent.Type.Init,
-                stack = stack,
-            });
-        }
-        public void InvokeOnItemUse(ItemStack stack){
-            onItemUse?.Invoke(stack);
-            InventoryEvent.Trigger(new InventoryEvent(){
-                id = _id,
-                type = InventoryEvent.Type.Use,
-                stack = stack,
-            });
-        }
-        public void InvokeOnItemUnuse(ItemStack stack){
-            onItemUnuse?.Invoke(stack);
-            InventoryEvent.Trigger(new InventoryEvent(){
-                id = _id,
-                type = InventoryEvent.Type.Unuse,
-                stack = stack,
-            });
-        }
-        public void InvokeOnItemDispose(ItemStack stack){
-            onItemDispose?.Invoke(stack);
-            InventoryEvent.Trigger(new InventoryEvent(){
-                id = _id,
-                type = InventoryEvent.Type.Dispose,
-                stack = stack,
-            });
-        }
+        // public void InvokeOnItemInit(ItemStack stack){
+        //     onItemInit?.Invoke(stack);
+        //     InventoryEvent.Trigger(new InventoryEvent(){
+        //         id = _id,
+        //         type = InventoryEvent.Type.Init,
+        //         stack = stack,
+        //     });
+        // }
+        // public void InvokeOnItemUse(ItemStack stack){
+        //     onItemUse?.Invoke(stack);
+        //     InventoryEvent.Trigger(new InventoryEvent(){
+        //         id = _id,
+        //         type = InventoryEvent.Type.Use,
+        //         stack = stack,
+        //     });
+        // }
+        // public void InvokeOnItemUnuse(ItemStack stack){
+        //     onItemUnuse?.Invoke(stack);
+        //     InventoryEvent.Trigger(new InventoryEvent(){
+        //         id = _id,
+        //         type = InventoryEvent.Type.Unuse,
+        //         stack = stack,
+        //     });
+        // }
+        // public void InvokeOnItemDispose(ItemStack stack){
+        //     onItemDispose?.Invoke(stack);
+        //     InventoryEvent.Trigger(new InventoryEvent(){
+        //         id = _id,
+        //         type = InventoryEvent.Type.Dispose,
+        //         stack = stack,
+        //     });
+        // }
         #endregion
         
         #region callback
@@ -518,6 +522,34 @@ namespace GloryJam.Inventories
                 for (int i = 0; i < slots.Length; i++)
                 {
                     slots[i]?.SetInventory(null);
+                }
+            }
+        }
+        public void OnEvent(InventoryEvent Event)
+        {
+           switch(Event.type){
+                case InventoryEvent.Type.Init:{
+                    onItemInit?.Invoke(Event.stack);
+                    break;
+                }
+
+                case InventoryEvent.Type.Dispose:{
+                    onItemDispose?.Invoke(Event.stack);
+                    break;
+                }
+           }
+        }
+        public void OnEvent(ItemUseableEvent Event)
+        {
+            switch(Event.type){
+                case ItemUseableEvent.Type.Use:{
+                    onItemUse?.Invoke(Event.stack);
+                    break;
+                }
+
+                case ItemUseableEvent.Type.Unuse:{
+                    onItemUnuse?.Invoke(Event.stack);
+                    break;
                 }
             }
         }

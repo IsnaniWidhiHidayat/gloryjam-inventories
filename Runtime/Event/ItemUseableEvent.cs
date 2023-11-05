@@ -3,14 +3,14 @@ using GloryJam.Event;
 
 namespace GloryJam.Inventories
 {
-    public class InventoryEvent : Event<InventoryEvent>
+    public class ItemUseableEvent : Event<ItemUseableEvent>
     {
         #region inner class
         [Serializable]
         public enum Type
         {
-            Init,
-            Dispose
+            Use,
+            Unuse
         }
         #endregion
 

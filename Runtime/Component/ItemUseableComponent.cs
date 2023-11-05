@@ -13,6 +13,10 @@ namespace GloryJam.Inventories
     #endif
     public class ItemUseableComponent : ItemComponent<ItemUseableComponent,ItemUsageHandler,ItemUseableState>
     {
+        #region static
+        private static ItemUseableEvent Event;
+        #endregion
+
         #region inner class
         [Serializable]
         public enum TriggerType{
@@ -67,11 +71,13 @@ namespace GloryJam.Inventories
             }
 
             if(!prevInUse && inUse) {
-                inventory?.InvokeOnItemUse(_stack);
+                //Trigger event
+                Event.type  = ItemUseableEvent.Type.Use;
+                Event.stack = stack;
+                ItemUseableEvent.Trigger(Event);
             }
 
             inventory?.SaveState();
-
             return result;
         }
         public virtual bool Unuse(){
@@ -87,11 +93,13 @@ namespace GloryJam.Inventories
             }
             
             if(prevInUse && !inUse){
-                inventory?.InvokeOnItemUnuse(_stack);
+                //Trigger event
+                Event.type  = ItemUseableEvent.Type.Unuse;
+                Event.stack = stack;
+                ItemUseableEvent.Trigger(Event);
             }
 
             inventory?.SaveState();
-
             return result;
         }
 

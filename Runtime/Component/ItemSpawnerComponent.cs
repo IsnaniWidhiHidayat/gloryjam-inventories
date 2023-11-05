@@ -14,6 +14,10 @@ namespace GloryJam.Inventories
     [DisallowMultipleItemComponent]
     public class ItemSpawnerComponent : ItemComponent<ItemSpawnerComponent,ItemSpawnerHandler>
     {
+        #region static
+        private static ItemSpawnerEvent Event;
+        #endregion
+
         #region property
         public override string ComponentName => "Spawner";
         public override int ComponentPropertyOrder => 99;
@@ -28,6 +32,10 @@ namespace GloryJam.Inventories
                 return handlers[i].Spawn();
             }
 
+            //Trigger event
+            Event.stack = stack;
+            ItemSpawnerEvent.Trigger(Event);
+
             return null;
         }
         public GameObject Spawn<T1>() where T1 : ItemSpawnerHandler
@@ -37,6 +45,10 @@ namespace GloryJam.Inventories
                 if(handlers[i] == null) continue;
                 if(handlers[i] is T1) return handlers[i].Spawn();
             }
+
+            //Trigger event
+            Event.stack = stack;
+            ItemSpawnerEvent.Trigger(Event);
 
             return null;
         }

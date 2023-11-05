@@ -14,6 +14,10 @@ namespace GloryJam.Inventories
     [DisallowMultipleItemComponent]
     public class ItemConsumeComponent : ItemComponent<ItemConsumeComponent>
     {
+        #region static
+        private static ItemConsumeEvent Event;
+        #endregion
+
         #region property
         public override string ComponentName => "Consume";
         public override int ComponentPropertyOrder => 100;
@@ -25,6 +29,10 @@ namespace GloryJam.Inventories
         #endif
         public void Consume(){
             stack.Dispose();
+
+            //Trigger event
+            Event.stack = stack;
+            ItemConsumeEvent.Trigger(Event);
         }
         public override void LoadState(){}
         public override void SaveState(){}
