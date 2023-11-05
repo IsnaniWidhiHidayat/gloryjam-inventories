@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -121,7 +122,7 @@ namespace GloryJam.Inventories
 
         #region callback
         public override void OnPostInit(){
-            if(trigger == TriggerType.Instant){
+            if(trigger == TriggerType.Instant && Application.isPlaying){
                 Use();
             }
         }
