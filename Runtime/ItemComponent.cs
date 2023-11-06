@@ -49,7 +49,7 @@ namespace GloryJam.Inventories
             return string.IsNullOrEmpty(id) ? ComponentName : $"{ComponentName} [{id}]";
         }
         public bool InspectorShowRuntime(){
-            return Application.isPlaying;
+            return Application.isPlaying && stack != null;
         }
         #endif
         #endregion
