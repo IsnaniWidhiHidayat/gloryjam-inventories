@@ -9,7 +9,7 @@ namespace GloryJam.Inventories
 {
     #if ODIN_INSPECTOR
     [Serializable,HideReferenceObjectPicker,HideDuplicateReferenceBox]
-    [Toggle("Enabled")]
+    [Toggle("Enabled",CollapseOthersOnExpand = false)]
     #endif
     [DisallowMultipleItemComponent]
     public class ItemConsumeComponent : ItemComponent<ItemConsumeComponent>
@@ -23,10 +23,16 @@ namespace GloryJam.Inventories
         public override int ComponentPropertyOrder => 100;
         #endregion
 
-        #region methods
+        #region inspector
         #if ODIN_INSPECTOR
-        [Button]
+        [Button("Consume"),BoxGroup(grpDebug),ButtonGroup(grpDebug + "/Buttons"),ShowIf(nameof(InspectorShowRuntime))]
+        private void InspectorConsume(){
+            Consume();
+        }
         #endif
+        #endregion
+
+        #region methods
         public void Consume(){
             stack.Dispose();
 

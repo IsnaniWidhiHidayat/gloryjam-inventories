@@ -25,7 +25,7 @@ namespace GloryJam.Inventories
         #region fields
         [SerializeField]
         #if ODIN_INSPECTOR
-        [BoxGroup(grpMain),HorizontalGroup(grpMain + "/h1"),VerticalGroup(grpMain + "/h1/v1")]
+        [BoxGroup(grpMain),HorizontalGroup(grpMain + "/h1"),VerticalGroup(grpMain + "/h1/v1"),Required]
         #endif
         protected string _id,_name;
 
@@ -49,14 +49,15 @@ namespace GloryJam.Inventories
 
         [SerializeField]
         #if ODIN_INSPECTOR
-        [BoxGroup(grpMain)]
+        [ListDrawerSettings(Expanded = true)]
+        [ValidateInput(nameof(InspectorValidateTags),"Please remove empty tag")]
         #endif
         protected string[] _tags = new string[0];
 
         [SerializeField]
         #if ODIN_INSPECTOR
-        [ValidateInput(nameof(ValidateComponent))]
-        [OnValueChanged(nameof(OnComponentValueChange)),ListDrawerSettings(Expanded = true,ShowItemCount = false,DraggableItems = false,ListElementLabelName = "InspectorGetComponentName")]
+        [ValidateInput(nameof(InspectorValidateComponent))]
+        [OnValueChanged(nameof(InspectorOnComponentValueChange)),ListDrawerSettings(Expanded = true,ShowItemCount = false,DraggableItems = false,ListElementLabelName = "InspectorGetComponentName")]
         #endif
         public List<ItemComponent> component;
         #endregion
@@ -69,7 +70,11 @@ namespace GloryJam.Inventories
 
         #region inspector
         #if ODIN_INSPECTOR
-        private bool ValidateComponent(List<ItemComponent> group)
+        private bool InspectorValidateTags(string[] tags)
+        {
+             return !Array.Exists(tags, x => string.IsNullOrEmpty(x));
+        }
+        private bool InspectorValidateComponent(List<ItemComponent> component)
         {
             if(!Application.isPlaying){
                 for (int i = 0; i < component.Count; i++)
@@ -80,7 +85,7 @@ namespace GloryJam.Inventories
             }
             return true;
         }
-        private void OnComponentValueChange()
+        private void InspectorOnComponentValueChange()
         {
             if(component == null || component.Count == 0) return;
 
@@ -97,6 +102,7 @@ namespace GloryJam.Inventories
                         if(component[i] == null) continue;
                         if(component[i].GetType() == lastType){
                             component.Remove(last);
+                            Debug.LogError($"Cannot have multiply component {lastType} cause mark {nameof(DisallowMultipleItemComponent)}");
                             break;
                         }
                     }
@@ -109,7 +115,7 @@ namespace GloryJam.Inventories
                 return x.ComponentPropertyOrder.CompareTo(y.ComponentPropertyOrder);
             });
 
-            ValidateComponent(component);
+            InspectorValidateComponent(component);
         }
         #endif
         #endregion
@@ -142,7 +148,7 @@ namespace GloryJam.Inventories
         #region IInstance
         public ItemStack CreateInstance(){
             var value = new ItemStack(){
-                component = component.CreateInstance(),
+                component = component.CreateInstance((x) => x.Enabled),
             };
 
             value.SetItem(this);

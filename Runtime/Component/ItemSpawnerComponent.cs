@@ -9,7 +9,7 @@ namespace GloryJam.Inventories
 {
     #if ODIN_INSPECTOR
     [Serializable,HideReferenceObjectPicker,HideDuplicateReferenceBox]
-    [Toggle("Enabled")]
+    [Toggle("Enabled",CollapseOthersOnExpand = false)]
     #endif
     [DisallowMultipleItemComponent]
     public class ItemSpawnerComponent : ItemComponent<ItemSpawnerComponent,ItemSpawnerHandler>

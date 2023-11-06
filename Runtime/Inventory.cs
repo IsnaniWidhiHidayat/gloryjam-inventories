@@ -130,19 +130,22 @@ namespace GloryJam.Inventories
         private bool InspectorShowLoadState(){
             return data.useReference;
         }
+        private bool InspectorShowOnRuntime(){
+            return Application.isPlaying;
+        }
 
-        [SerializeField,BoxGroup(grpDebug),LabelText("Item")]
+        [SerializeField,BoxGroup(grpDebug),LabelText("Item"),ShowIf(nameof(InspectorShowOnRuntime))]
         private ItemAsset _debugItem;
 
-        [SerializeField,BoxGroup(grpDebug),LabelText("Count")]
+        [SerializeField,BoxGroup(grpDebug),LabelText("Count"),ShowIf(nameof(InspectorShowOnRuntime))]
         private int _debugCount;
 
-        [Button("Add Item"),BoxGroup(grpDebug)]
+        [Button("Add Item"),BoxGroup(grpDebug),ShowIf(nameof(InspectorShowOnRuntime))]
         private void DebugAddItem(){
             AddItem(_debugItem.value,_debugCount,true);
         }
 
-        [Button("Dispose Item"),BoxGroup(grpDebug)]
+        [Button("Dispose Item"),BoxGroup(grpDebug),ShowIf(nameof(InspectorShowOnRuntime))]
         private void DebugDisposeItem(){
             DisposeItem(_debugItem.value,_debugCount);
         }

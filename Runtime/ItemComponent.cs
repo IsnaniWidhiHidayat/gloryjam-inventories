@@ -80,7 +80,8 @@ namespace GloryJam.Inventories
         public override ItemComponent CreateInstance()
         {
             return new T(){
-                id = id
+                id = id,
+                Enabled = Enabled
             };
         }
     }
@@ -93,6 +94,7 @@ namespace GloryJam.Inventories
         #region fields
         #if ODIN_INSPECTOR
         [ListDrawerSettings(DraggableItems = false)]
+        [ValidateInput(nameof(InspectorValidateHandlers),"Please remove empty handler")]
         #endif
         public List<H> handlers = new List<H>();
         #endregion
@@ -101,6 +103,13 @@ namespace GloryJam.Inventories
         public H this[int index]
         {
             get { return handlers[index]; }
+        }
+        #endregion
+
+        #region inspector
+        private bool InspectorValidateHandlers(List<H> handlers)
+        {
+            return !handlers.Exists(x => x == null);
         }
         #endregion
 
@@ -193,7 +202,6 @@ namespace GloryJam.Inventories
         public override ItemComponent CreateInstance()
         {
             var clone = base.CreateInstance() as T;
-                clone.Enabled = Enabled;
             
             if(handlers?.Count > 0){
                 if(clone.handlers == null) clone.handlers = new List<H>();
