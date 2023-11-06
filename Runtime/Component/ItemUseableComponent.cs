@@ -70,7 +70,7 @@ namespace GloryJam.Inventories
         }
         private static bool InspectorValidateTriggers(ItemUseableTrigger[] triggers)
         {
-            return !Array.Exists(triggers, x => x == null);
+            return triggers == null ? true : !Array.Exists(triggers, x => x == null);
         }
         #endif
         #endregion

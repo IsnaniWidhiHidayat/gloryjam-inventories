@@ -109,7 +109,7 @@ namespace GloryJam.Inventories
         #region inspector
         private bool InspectorValidateHandlers(List<H> handlers)
         {
-            return !handlers.Exists(x => x == null);
+            return handlers == null ? true : !handlers.Exists(x => x == null);
         }
         #endregion
 

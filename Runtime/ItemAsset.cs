@@ -72,7 +72,7 @@ namespace GloryJam.Inventories
         #if ODIN_INSPECTOR
         private bool InspectorValidateTags(string[] tags)
         {
-             return !Array.Exists(tags, x => string.IsNullOrEmpty(x));
+             return tags == null ? true : !Array.Exists(tags, x => string.IsNullOrEmpty(x));
         }
         private bool InspectorValidateComponent(List<ItemComponent> component)
         {
