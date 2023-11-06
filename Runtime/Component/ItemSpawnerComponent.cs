@@ -34,7 +34,7 @@ namespace GloryJam.Inventories
 
             //Trigger event
             Event.stack = stack;
-            ItemSpawnerEvent.Trigger(Event);
+            ItemSpawnerEvent.Trigger(inventory,Event);
 
             return null;
         }
@@ -48,7 +48,7 @@ namespace GloryJam.Inventories
 
             //Trigger event
             Event.stack = stack;
-            ItemSpawnerEvent.Trigger(Event);
+            ItemSpawnerEvent.Trigger(inventory,Event);
 
             return null;
         }

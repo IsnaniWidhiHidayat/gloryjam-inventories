@@ -528,33 +528,33 @@ namespace GloryJam.Inventories
                 }
             }
         }
-        public void OnEvent(InventoryEvent Event)
+        public void OnEvent(object sender, InventoryEvent Event)
         {
            switch(Event.type){
                 case InventoryEvent.Type.Init:{
-                    if(Event.stack?.inventory != this) return;
+                    if(sender != (object)this) return;
                     onItemInit?.Invoke(Event.stack);
                     break;
                 }
 
                 case InventoryEvent.Type.Dispose:{
-                    if(Event.stack?.inventory != this) return;
+                    if(sender != (object)this) return;
                     onItemDispose?.Invoke(Event.stack);
                     break;
                 }
            }
         }
-        public void OnEvent(ItemUseableEvent Event)
+        public void OnEvent(object sender,ItemUseableEvent Event)
         {
             switch(Event.type){
                 case ItemUseableEvent.Type.Use:{
-                    if(Event.stack?.inventory != this) return;
+                    if(sender != (object)this) return;
                     onItemUse?.Invoke(Event.stack);
                     break;
                 }
 
                 case ItemUseableEvent.Type.Unuse:{
-                    if(Event.stack?.inventory != this) return;
+                    if(sender != (object)this) return;
                     onItemUnuse?.Invoke(Event.stack);
                     break;
                 }

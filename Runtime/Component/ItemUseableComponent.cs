@@ -106,7 +106,7 @@ namespace GloryJam.Inventories
             if(!prevInUse && inUse) {
                 Event.type  = ItemUseableEvent.Type.Use;
                 Event.stack = stack;
-                ItemUseableEvent.Trigger(Event);
+                ItemUseableEvent.Trigger(inventory,Event);
             }
 
             var useableComponents = stack.GetComponents<ItemUseableComponent>();
@@ -147,7 +147,7 @@ namespace GloryJam.Inventories
             if(prevInUse && !inUse){
                 Event.type  = ItemUseableEvent.Type.Unuse;
                 Event.stack = stack;
-                ItemUseableEvent.Trigger(Event);
+                ItemUseableEvent.Trigger(inventory,Event);
             }
 
             var useableComponents = stack.GetComponents<ItemUseableComponent>();

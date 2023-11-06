@@ -73,7 +73,7 @@ namespace GloryJam.Inventories
             //Trigger event
             Event.type  = InventoryEvent.Type.Init;
             Event.stack = this;
-            InventoryEvent.Trigger(Event);
+            InventoryEvent.Trigger(inventory,Event);
         }
         public void SetSlot(ItemSlot slot){
             _slot = slot; 
@@ -120,7 +120,7 @@ namespace GloryJam.Inventories
             //Trigger event
             Event.type  = InventoryEvent.Type.Dispose;
             Event.stack = this;
-            InventoryEvent.Trigger(Event);
+            InventoryEvent.Trigger(inventory,Event);
         }
         #endregion
     }
