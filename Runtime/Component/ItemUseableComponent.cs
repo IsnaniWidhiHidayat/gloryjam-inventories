@@ -210,6 +210,8 @@ namespace GloryJam.Inventories
                 {
                     if(triggers[i] == null) continue;
                     triggers[i].OnInit();
+                    triggers[i].onTrigger -= OnTrigger;
+                    triggers[i].onTrigger += OnTrigger;
                 }
             }
         }
@@ -229,9 +231,14 @@ namespace GloryJam.Inventories
                 for (int i = 0; i < triggers.Length; i++)
                 {
                     if(triggers[i] == null) continue;
+                    triggers[i].onTrigger -= OnTrigger;
                     triggers[i].OnDispose();
                 }
             }
+        }
+        private void OnTrigger()
+        {
+            Use();
         }
         #endregion
     }
