@@ -56,20 +56,6 @@ namespace GloryJam.Inventories
                 }
             }
 
-            //Get IItem Useable
-            if(result && stack.TryGetComponents<IItemUseable>(out var useables)){
-                for (int i = 0; i < useables.Length; i++)
-                {
-                    if(useables[i] == null) continue;
-                    useables[i].OnUse();
-                }
-            }
-
-            //consume item
-            if(stack.TryGetComponentConsume(out var consume)){
-                consume.Consume();
-            }
-
             return result;
         }
         public static bool Unuse(this ItemStack stack){
@@ -83,16 +69,7 @@ namespace GloryJam.Inventories
                     result |= components[i].Unuse();
                 }
             }
-
-            //Get IItem Useable
-            if(result && stack.TryGetComponents<IItemUseable>(out var useables)){
-                for (int i = 0; i < useables.Length; i++)
-                {
-                    if(useables[i] == null) continue;
-                    useables[i].OnUnuse();
-                }
-            }
-
+            
             return result;
         }
     

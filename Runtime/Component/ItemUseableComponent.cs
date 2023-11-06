@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using GloryJam.DataAsset;
+
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -17,23 +19,21 @@ namespace GloryJam.Inventories
         private static ItemUseableEvent Event = new ItemUseableEvent();
         #endregion
 
-        #region inner class
-        [Serializable]
-        public enum TriggerType{
-            Manual,
-            Instant,
-        }
-        #endregion
-
         #region fields
         #if ODIN_INSPECTOR
         [BoxGroup(grpConfig)]
         #endif
-        public TriggerType trigger;
+        public ItemUseableTrigger.Type trigger;
+
+        #if ODIN_INSPECTOR
+        [ShowIf(nameof(trigger),ItemUseableTrigger.Type.Custom)]
+        [ValidateInput(nameof(InspectorValidateTriggers),"Please remove empty trigger")]
+        #endif
+        public ItemUseableTrigger[] triggers = new ItemUseableTrigger[0];
         #endregion
 
         #region property
-        #if ODIN_INSPECTOR
+#if ODIN_INSPECTOR
         [ShowInInspector,ShowIf(nameof(InspectorShowRuntime)),BoxGroup(grpRuntime)]
         #endif
         public bool inUse{
@@ -68,10 +68,28 @@ namespace GloryJam.Inventories
         private void InspectorUnUse(){
             Unuse();
         }
+        private static bool InspectorValidateTriggers(ItemUseableTrigger[] triggers)
+        {
+            return !Array.Exists(triggers, x => x == null);
+        }
         #endif
         #endregion
 
         #region methods
+        public override void SetStack(ItemStack stack)
+        {
+            base.SetStack(stack);
+
+            //set trigger
+            if(trigger == ItemUseableTrigger.Type.Custom && triggers?.Length > 0){
+                for (int i = 0; i < triggers.Length; i++)
+                {
+                    if(triggers[i] == null) continue;
+                    triggers[i].SetComponent(this);
+                }
+            }
+        }
+
         public virtual bool Use(){
             var prevInUse = inUse;
             var result = false;
@@ -84,11 +102,30 @@ namespace GloryJam.Inventories
                 result |= handlers[i].Use();
             }
 
+            //Trigger use
             if(!prevInUse && inUse) {
-                //Trigger event
                 Event.type  = ItemUseableEvent.Type.Use;
                 Event.stack = stack;
                 ItemUseableEvent.Trigger(Event);
+            }
+
+            var useableComponents = stack.GetComponents<ItemUseableComponent>();
+            var isRearmost = Array.IndexOf(useableComponents,this) == useableComponents.Length - 1;
+
+            if(isRearmost) {
+                //Get IItem Useable and invoke Use
+                if(result && stack.TryGetComponents<IItemUseable>(out var useables)){
+                    for (int i = 0; i < useables.Length; i++)
+                    {
+                        if(useables[i] == null) continue;
+                        useables[i].OnUse();
+                    }
+                }
+    
+                //consume item
+                if(stack.TryGetComponentConsume(out var consume)){
+                    consume.Consume();
+                }
             }
 
             inventory?.SaveState();
@@ -106,11 +143,25 @@ namespace GloryJam.Inventories
                 result |= handlers[i].Unuse();
             }
             
+            //Trigger unuse
             if(prevInUse && !inUse){
-                //Trigger event
                 Event.type  = ItemUseableEvent.Type.Unuse;
                 Event.stack = stack;
                 ItemUseableEvent.Trigger(Event);
+            }
+
+            var useableComponents = stack.GetComponents<ItemUseableComponent>();
+            var isRearmost = Array.IndexOf(useableComponents,this) == useableComponents.Length - 1;
+
+            if(isRearmost) {
+                //Get IItem Useable and invoke Unuse
+                if(result && stack.TryGetComponents<IItemUseable>(out var useables)){
+                    for (int i = 0; i < useables.Length; i++)
+                    {
+                        if(useables[i] == null) continue;
+                        useables[i].OnUnuse();
+                    }
+                }
             }
 
             inventory?.SaveState();
@@ -138,13 +189,32 @@ namespace GloryJam.Inventories
         {
             var clone = base.CreateInstance() as ItemUseableComponent;
                 clone.trigger = trigger;
+
+            //create triggers instance
+            if(trigger == ItemUseableTrigger.Type.Custom){
+                clone.triggers = triggers.CreateInstance();
+            }
+
             return clone;
         }
         #endregion
 
         #region callback
+        public override void OnInit()
+        {
+            base.OnInit();
+
+            //invoke triggers init
+            if(trigger == ItemUseableTrigger.Type.Custom && triggers?.Length > 0){
+                for (int i = 0; i < triggers.Length; i++)
+                {
+                    if(triggers[i] == null) continue;
+                    triggers[i].OnInit();
+                }
+            }
+        }
         public override void OnPostInit(){
-            if(trigger == TriggerType.Instant && Application.isPlaying){
+            if(trigger == ItemUseableTrigger.Type.Instant && Application.isPlaying){
                 Use();
             }
         }
@@ -153,6 +223,15 @@ namespace GloryJam.Inventories
             if(inUse) Unuse();
 
             base.OnDispose();
+
+            //invoke triggers dispose
+            if(trigger == ItemUseableTrigger.Type.Custom && triggers?.Length > 0){
+                for (int i = 0; i < triggers.Length; i++)
+                {
+                    if(triggers[i] == null) continue;
+                    triggers[i].OnDispose();
+                }
+            }
         }
         #endregion
     }
