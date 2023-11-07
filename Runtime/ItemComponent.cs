@@ -10,6 +10,10 @@ using Sirenix.OdinInspector;
 namespace GloryJam.Inventories
 {
     [Serializable]
+    #if ODIN_INSPECTOR
+    [HideReferenceObjectPicker,HideDuplicateReferenceBox]
+    [Toggle("Enabled",CollapseOthersOnExpand = false)]
+    #endif
     public abstract class ItemComponent : IInstance<ItemComponent>
     {
         #region const

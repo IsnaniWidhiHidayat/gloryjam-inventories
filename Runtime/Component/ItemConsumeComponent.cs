@@ -7,10 +7,7 @@ using Sirenix.OdinInspector;
 
 namespace GloryJam.Inventories
 {
-    #if ODIN_INSPECTOR
-    [Serializable,HideReferenceObjectPicker,HideDuplicateReferenceBox]
-    [Toggle("Enabled",CollapseOthersOnExpand = false)]
-    #endif
+    [Serializable]
     [DisallowMultipleItemComponent]
     public class ItemConsumeComponent : ItemComponent<ItemConsumeComponent>
     {

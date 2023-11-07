@@ -9,10 +9,7 @@ using Sirenix.OdinInspector;
 
 namespace GloryJam.Inventories
 {   
-    #if ODIN_INSPECTOR
-    [Serializable,HideReferenceObjectPicker,HideDuplicateReferenceBox]
-    [Toggle("Enabled",CollapseOthersOnExpand = false)]
-    #endif
+    [Serializable]
     public class ItemUseableComponent : ItemComponent<ItemUseableComponent,ItemUsageHandler,ItemUseableState>
     {
         #region static
@@ -28,6 +25,8 @@ namespace GloryJam.Inventories
         #if ODIN_INSPECTOR
         [ShowIf(nameof(trigger),ItemUseableTrigger.Type.Custom)]
         [ValidateInput(nameof(InspectorValidateTriggers),"Please remove empty trigger")]
+        [ListDrawerSettings(Expanded = true,DraggableItems = false,ListElementLabelName = "triggerName")]
+        [HideReferenceObjectPicker,HideDuplicateReferenceBox]
         #endif
         public ItemUseableTrigger[] triggers = new ItemUseableTrigger[0];
         #endregion
@@ -192,7 +191,7 @@ namespace GloryJam.Inventories
 
             //create triggers instance
             if(trigger == ItemUseableTrigger.Type.Custom){
-                clone.triggers = triggers.CreateInstance();
+                clone.triggers = triggers.CreateInstance(x => x.Enabled);
             }
 
             return clone;
@@ -208,7 +207,7 @@ namespace GloryJam.Inventories
             if(trigger == ItemUseableTrigger.Type.Custom && triggers?.Length > 0){
                 for (int i = 0; i < triggers.Length; i++)
                 {
-                    if(triggers[i] == null) continue;
+                    if(triggers[i] == null || !triggers[i].Enabled) continue;
                     triggers[i].OnInit();
                     triggers[i].onTrigger -= OnTrigger;
                     triggers[i].onTrigger += OnTrigger;
@@ -230,7 +229,7 @@ namespace GloryJam.Inventories
             if(trigger == ItemUseableTrigger.Type.Custom && triggers?.Length > 0){
                 for (int i = 0; i < triggers.Length; i++)
                 {
-                    if(triggers[i] == null) continue;
+                    if(triggers[i] == null || !triggers[i].Enabled) continue;
                     triggers[i].onTrigger -= OnTrigger;
                     triggers[i].OnDispose();
                 }
