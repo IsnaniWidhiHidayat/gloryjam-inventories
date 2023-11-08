@@ -58,6 +58,7 @@ namespace GloryJam.Inventories
         #if ODIN_INSPECTOR
         [ValidateInput(nameof(InspectorValidateComponent))]
         [OnValueChanged(nameof(InspectorOnComponentValueChange)),ListDrawerSettings(Expanded = true,ShowItemCount = false,DraggableItems = false,ListElementLabelName = "InspectorGetComponentName")]
+        [HideInPlayMode]
         #endif
         public List<ItemComponent> component;
         #endregion

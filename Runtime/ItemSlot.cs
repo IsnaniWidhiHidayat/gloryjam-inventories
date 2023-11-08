@@ -13,7 +13,7 @@ namespace GloryJam.Inventories
     {
         #region fields
         #if ODIN_INSPECTOR
-        [ShowInInspector,FoldoutGroup("Item"),HideLabel,HideDuplicateReferenceBox]
+        [ShowInInspector,HideLabel,HideDuplicateReferenceBox,HideReferenceObjectPicker]
         #endif
         protected Item _item;
         #endregion
@@ -28,24 +28,26 @@ namespace GloryJam.Inventories
         {
             get { return _stack[index]; }
         }
+        public string name => _item != null ? $"{_item.name} : {count}" : string.Empty;
         #endregion
 
         #region private
         protected Inventory _inventory;
 
         #if ODIN_INSPECTOR
-        [ShowInInspector,ListDrawerSettings(IsReadOnly = true,Expanded = true),FoldoutGroup("$StackGrpName")]
+        [ShowInInspector,ListDrawerSettings(IsReadOnly = true,Expanded = true,ShowIndexLabels = true)]
+        [HideDuplicateReferenceBox,HideReferenceObjectPicker]
         #endif
         protected List<ItemStack> _stack;
         #endregion
 
-        #region inspector
-        private string StackGrpName{
-            get{
-                return $"Stack : {count}";
-            }
-        }
-        #endregion
+        // #region inspector
+        // private string StackGrpName{
+        //     get{
+        //         return $"Stack : {count}";
+        //     }
+        // }
+        // #endregion
 
         #region constructor
         public ItemSlot(Item item,int count,Inventory inventory){
