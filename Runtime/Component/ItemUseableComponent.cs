@@ -25,8 +25,9 @@ namespace GloryJam.Inventories
         #if ODIN_INSPECTOR
         [ShowIf(nameof(trigger),ItemUseableTrigger.Type.Custom)]
         [ValidateInput(nameof(InspectorValidateTriggers),"Please remove empty trigger")]
-        [ListDrawerSettings(Expanded = true,DraggableItems = false,ListElementLabelName = "triggerName")]
+        [ListDrawerSettings(Expanded = true,DraggableItems = false,ListElementLabelName = "name")]
         [HideReferenceObjectPicker,HideDuplicateReferenceBox]
+        [Space(1)]
         #endif
         public ItemUseableTrigger[] triggers = new ItemUseableTrigger[0];
         #endregion
@@ -52,13 +53,13 @@ namespace GloryJam.Inventories
             }
         }
 
-        public override string ComponentName => "Usage";
-        public override int ComponentPropertyOrder => 2;
+        public override string name => "Usage";
+        public override int propertyOrder => 2;
         #endregion
 
         #region inspector
         #if ODIN_INSPECTOR
-        [Button("Use"),BoxGroup(grpDebug),ButtonGroup(grpDebug + "/Buttons"),ShowIf(nameof(InspectorShowRuntime))]
+        [Button("Use"),PropertyOrder(100),BoxGroup(grpDebug),ButtonGroup(grpDebug + "/Buttons"),ShowIf(nameof(InspectorShowRuntime))]
         private void InspectorUse(){
             Use();
         }
@@ -191,7 +192,7 @@ namespace GloryJam.Inventories
 
             //create triggers instance
             if(trigger == ItemUseableTrigger.Type.Custom){
-                clone.triggers = triggers.CreateInstance(x => x.Enabled);
+                clone.triggers = triggers.CreateInstance();
             }
 
             return clone;
@@ -207,7 +208,7 @@ namespace GloryJam.Inventories
             if(trigger == ItemUseableTrigger.Type.Custom && triggers?.Length > 0){
                 for (int i = 0; i < triggers.Length; i++)
                 {
-                    if(triggers[i] == null || !triggers[i].Enabled) continue;
+                    if(triggers[i] == null) continue;
                     triggers[i].OnInit();
                     triggers[i].onTrigger -= OnTrigger;
                     triggers[i].onTrigger += OnTrigger;
@@ -215,7 +216,7 @@ namespace GloryJam.Inventories
             }
         }
         public override void OnPostInit(){
-            if(trigger == ItemUseableTrigger.Type.Instant && Application.isPlaying){
+            if(trigger == ItemUseableTrigger.Type.Instant && inventory != null && Application.isPlaying){
                 Use();
             }
         }
@@ -229,7 +230,7 @@ namespace GloryJam.Inventories
             if(trigger == ItemUseableTrigger.Type.Custom && triggers?.Length > 0){
                 for (int i = 0; i < triggers.Length; i++)
                 {
-                    if(triggers[i] == null || !triggers[i].Enabled) continue;
+                    if(triggers[i] == null) continue;
                     triggers[i].onTrigger -= OnTrigger;
                     triggers[i].OnDispose();
                 }

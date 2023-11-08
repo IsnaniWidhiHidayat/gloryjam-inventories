@@ -16,13 +16,13 @@ namespace GloryJam.Inventories
         #endregion
 
         #region property
-        public override string ComponentName => "Consume";
-        public override int ComponentPropertyOrder => 100;
+        public override string name => "Consume";
+        public override int propertyOrder => 100;
         #endregion
 
         #region inspector
         #if ODIN_INSPECTOR
-        [Button("Consume"),BoxGroup(grpDebug),ButtonGroup(grpDebug + "/Buttons"),ShowIf(nameof(InspectorShowRuntime))]
+        [Button("Consume"),PropertyOrder(100),BoxGroup(grpDebug),ButtonGroup(grpDebug + "/Buttons"),ShowIf(nameof(InspectorShowRuntime))]
         private void InspectorConsume(){
             Consume();
         }

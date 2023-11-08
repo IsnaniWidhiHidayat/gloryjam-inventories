@@ -28,6 +28,10 @@ namespace GloryJam.Inventories
         public int min,max; // min a7 max value
         #endregion
 
+        #region property
+        public override string name => "Dismatle";
+        #endregion
+
         #region methods
         public bool Dismantle(ref Dictionary<Item, int> result)
         {

@@ -14,12 +14,12 @@ namespace GloryJam.Inventories
         protected const string grpKey = "Key";
         #endregion
 
-        #region property
-        #if ODIN_INSPECTOR
-        [BoxGroup(grpKey),ShowInInspector]
-        #endif
-        public abstract string name{get;}
-        #endregion
+        // #region property
+        // #if ODIN_INSPECTOR
+        // [BoxGroup(grpKey),ShowInInspector]
+        // #endif
+        // public abstract string name{get;}
+        // #endregion
 
         #region methods
         public abstract object GetValueObject();
@@ -35,7 +35,7 @@ namespace GloryJam.Inventories
 
         #region property
         #if ODIN_INSPECTOR
-        [ShowInInspector,BoxGroup(grpValue),HideLabel,HideReferenceObjectPicker]
+        [ShowInInspector,BoxGroup(grpValue),HideLabel,HideReferenceObjectPicker,HideDuplicateReferenceBox]
         #endif
         public T value => GetValue();
         #endregion

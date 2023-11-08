@@ -16,8 +16,8 @@ namespace GloryJam.Inventories
         #endregion
 
         #region property
-        public override string ComponentName => "Spawner";
-        public override int ComponentPropertyOrder => 99;
+        public override string name => "Spawner";
+        public override int propertyOrder => 99;
         #endregion
 
         #region methods

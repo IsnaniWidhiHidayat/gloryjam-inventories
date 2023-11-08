@@ -9,7 +9,10 @@ namespace GloryJam.GT.Gameplay.Inventories
     {
         #region fields
         public GameObject Object;
+        #endregion
 
+        #region property
+        public override string name => "Spawner Object";
         #endregion
 
         #region methods

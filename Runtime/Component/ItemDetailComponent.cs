@@ -41,24 +41,8 @@ namespace GloryJam.Inventories
         #endregion
 
         #region property
-        public override string ComponentName => "Details";
-        public override int ComponentPropertyOrder => 0;
-
-        #if ODIN_INSPECTOR
-        [HideReferenceObjectPicker,ShowInInspector,TableList()]
-        #endif
-        private List<Handler> summary{
-            get{
-                var result = new List<Handler>();
-                if(handlers?.Count > 0) {
-                    for (int i = 0; i < handlers.Count; i++)
-                    {
-                        result.Add(new Handler(handlers[i]));
-                    }
-                }
-                return result;
-            }
-        }
+        public override string name => "Details";
+        public override int propertyOrder => 0;
         #endregion
 
         #region constructor

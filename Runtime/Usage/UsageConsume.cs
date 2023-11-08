@@ -7,6 +7,7 @@ namespace GloryJam.Inventories
     {
         #region property
         public override bool inUse => _inUse;
+        public override string name => "Consume";
         #endregion
 
         #region private

@@ -112,7 +112,7 @@ namespace GloryJam.Inventories
             //sort by component name
             component.Sort((x,y) =>{
                 if(x == null || y == null) return -1;
-                return x.ComponentPropertyOrder.CompareTo(y.ComponentPropertyOrder);
+                return x.propertyOrder.CompareTo(y.propertyOrder);
             });
 
             InspectorValidateComponent(component);

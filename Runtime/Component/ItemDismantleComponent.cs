@@ -12,8 +12,8 @@ namespace GloryJam.Inventories
     public class ItemDismantleComponent : ItemComponent<ItemDismantleComponent,ItemDismantleHandler>
     {
         #region property
-        public override string ComponentName => "Dismantle";
-        public override int ComponentPropertyOrder => 1;
+        public override string name => "Dismantle";
+        public override int propertyOrder => 1;
         #endregion
 
         #region methods

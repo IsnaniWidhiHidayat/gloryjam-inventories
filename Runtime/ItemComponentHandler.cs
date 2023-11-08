@@ -19,6 +19,7 @@ namespace GloryJam.Inventories
         public ItemSlot slot => component?.slot;
         public ItemStack stack => component?.stack;
         public Inventory inventory => component?.inventory;
+        public abstract string name{get;}
         #endregion
 
         #region protected
