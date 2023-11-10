@@ -107,10 +107,29 @@ namespace GloryJam.Inventories
         {
             get { return  slots[index]; }
             set{
-                //if(slots[index] != null) value?.SetInventory(null);
+                
+                //check same object
+                if(slots[index] == value) return;
+
+                //Switch slot
+                if(value != null){
+                    if(value.inventory != null) {
+                        var idx = value.index;
+                        var inv = value.inventory;
+                        inv.slots[idx] = slots[index];
+                        inv.slots[idx]?.SetInventory(inv);
+                        inv.slots[idx]?.Init();
+                    }
+                }else{
+                    slots[index]?.SetInventory(null);
+                    slots[index]?.Init();
+                }
+                
+                //set current slot
                 slots[index] = value;
-                value?.SetInventory(this);
-            }
+                slots[index]?.SetInventory(this);
+                slots[index]?.Init();
+            }   
         }
         #endregion 
 
@@ -179,6 +198,7 @@ namespace GloryJam.Inventories
             {
                 if(slots[i] == null) continue;
                 slots[i]?.SetInventory(this);
+                slots[i]?.Init();
             }
 
             //load state
@@ -525,6 +545,7 @@ namespace GloryJam.Inventories
                 for (int i = 0; i < slots.Length; i++)
                 {
                     slots[i]?.SetInventory(null);
+                    slots[i]?.Init();
                 }
             }
         }

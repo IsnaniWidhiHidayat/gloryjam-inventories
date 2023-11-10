@@ -41,24 +41,25 @@ namespace GloryJam.Inventories
         protected List<ItemStack> _stack;
         #endregion
 
-        // #region inspector
-        // private string StackGrpName{
-        //     get{
-        //         return $"Stack : {count}";
-        //     }
-        // }
-        // #endregion
-
         #region constructor
         public ItemSlot(Item item,int count,Inventory inventory){
             _stack = new List<ItemStack>();
+            _item = item;
             SetInventory(inventory);
-            SetItem(item);
             Add(count);
         }
         #endregion
 
         #region methods
+        public void Init(){
+            if(_stack?.Count > 0) 
+            {
+                for (int i = 0; i < _stack.Count; i++)
+                {
+                    _stack[i]?.Init();
+                }
+            }
+        }
         public void Add(int count = 1){
             count = Mathf.Clamp(count,1,_item.maxStack);
             for (int i = 0; i < count; i++){
@@ -76,19 +77,14 @@ namespace GloryJam.Inventories
             }
         }
         
-        private void SetItem(Item item){
-            _item = item;
-        }
         public void SetInventory(Inventory inventory){
-            if(_inventory == inventory) return;
-
             _inventory = inventory;
 
             if(_stack?.Count > 0) 
             {
                 for (int i = 0; i < _stack.Count; i++)
                 {
-                    _stack[i].Init();
+                    _stack[i].SetSlot(this);
                 }
             }
         }  
@@ -250,7 +246,7 @@ namespace GloryJam.Inventories
                     _inventory[index] = null;
                 }
 
-                SetItem(null);
+                _item = item;
                 SetInventory(null);
             }
         }
