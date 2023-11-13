@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ff146a41971ad74aa036ea8f54c1053, type: 3}
-  m_Name: New Item Asset 1
+  m_Name: Item_2
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -26,10 +26,10 @@ MonoBehaviour:
       Data: 0|GloryJam.Inventories.Item, GloryJam.Inventories
     - Name: _id
       Entry: 1
-      Data: item_1
+      Data: item_2
     - Name: _name
       Entry: 1
-      Data: item_3
+      Data: item)2
     - Name: _description
       Entry: 6
       Data: 
@@ -57,15 +57,15 @@ MonoBehaviour:
         GloryJam.Inventories]], mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 7
       Data: 3|GloryJam.Inventories.ItemDetailComponent, GloryJam.Inventories
     - Name: Enabled
       Entry: 5
-      Data: false
+      Data: true
     - Name: id
-      Entry: 6
+      Entry: 1
       Data: 
     - Name: handlers
       Entry: 7
@@ -90,7 +90,7 @@ MonoBehaviour:
       Entry: 5
       Data: true
     - Name: id
-      Entry: 6
+      Entry: 1
       Data: 
     - Name: handlers
       Entry: 7
@@ -108,41 +108,26 @@ MonoBehaviour:
     - Name: state
       Entry: 6
       Data: 
+    - Name: maxUse
+      Entry: 3
+      Data: 0
+    - Name: cooldown
+      Entry: 4
+      Data: 0
     - Name: trigger
       Entry: 3
-      Data: 2
+      Data: 0
     - Name: triggers
       Entry: 7
       Data: 7|GloryJam.Inventories.ItemUseableTrigger[], GloryJam.Inventories
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 8|GloryJam.Inventories.ItemTriggerTimeCounter, Assembly-CSharp
-    - Name: every
-      Entry: 3
-      Data: 10
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 9|GloryJam.Inventories.ItemConsumeComponent, GloryJam.Inventories
-    - Name: Enabled
-      Entry: 5
-      Data: true
-    - Name: id
-      Entry: 6
       Data: 
     - Name: 
       Entry: 8
@@ -157,8 +142,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
   value:
-    _id: item_1
-    _name: item_3
+    _id: item_2
+    _name: item)2
     _description: 
     _icon: {fileID: 0}
     _maxStack: 5

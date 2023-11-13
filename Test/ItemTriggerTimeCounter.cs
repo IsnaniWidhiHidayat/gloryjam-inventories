@@ -4,17 +4,17 @@ using UnityEngine;
 namespace GloryJam.Inventories
 {
     [Serializable]
-    public class ItemTriggerTimeCounter : ItemUseableTrigger
+    public class ItemTriggerTimeCounter : ItemTriggerHandler
     {
         public int every = 10;
 
         private TimeCounter timeCounter;
 
-        
+        public override string name => "Counter";
 
-        public override ItemUseableTrigger CreateInstance()
+        public override ItemComponentHandler CreateInstance()
         {
-            var clone = new ItemTriggerTimeCounter();
+            var clone = base.CreateInstance() as ItemTriggerTimeCounter  ;
                 clone.every = every;
             return clone;
         }
@@ -41,6 +41,11 @@ namespace GloryJam.Inventories
             if(value % every != 0) return;
             InvokeOnTrigger();
             Debug.Log("Ontrigger invoked");
+        }
+
+        public override void OnPostInit()
+        {
+           
         }
     }
 }

@@ -34,15 +34,8 @@ namespace GloryJam.Inventories
         public event Action onTrigger;
         #endregion
 
-        #region private
-        protected ItemComponent component;
-        #endregion
-
         #region inspector
         #if ODIN_INSPECTOR
-        public bool InspectorShowRuntime(){
-            return Application.isPlaying && component != null && component.stack != null;
-        }
         private bool InspectorValidateTriggers(ItemTriggerHandler[] triggers)
         {
             return triggers == null ? true : !Array.Exists(triggers, x => x == null);
@@ -52,25 +45,13 @@ namespace GloryJam.Inventories
 
         #region methods
         public void SetComponent(ItemComponent component){
-            this.component = component;
-        }
-        public void InvokeOnTrigger(){
-            onTrigger?.Invoke();
-        }
-        public ItemTrigger CreateInstance(){
-            var clone = new ItemTrigger();
-                clone.type = type;
-                
             if(triggers?.Length > 0){
-                if(clone.triggers == null) clone.triggers = new ItemTriggerHandler[triggers.Length];
-
-                for (int i = 0; i < triggers.Length; i++){
+                for (int i = 0; i < triggers.Length; i++)
+                {
                     if(triggers[i] == null) continue;
-                    clone.triggers[i] = triggers[i].CreateInstance() as ItemTriggerHandler;
+                    triggers[i].SetComponent(component);
                 }
             }
-
-            return clone;
         }
         public void StartListenTrigger(){
             if(type == Type.Custom && triggers?.Length > 0){
@@ -92,6 +73,24 @@ namespace GloryJam.Inventories
                     triggers[i].OnDispose();
                 }
             }
+        }
+        public void InvokeOnTrigger(){
+            onTrigger?.Invoke();
+        }
+        public ItemTrigger CreateInstance(){
+            var clone = new ItemTrigger();
+                clone.type = type;
+                
+            if(triggers?.Length > 0){
+                if(clone.triggers == null) clone.triggers = new ItemTriggerHandler[triggers.Length];
+
+                for (int i = 0; i < triggers.Length; i++){
+                    if(triggers[i] == null) continue;
+                    clone.triggers[i] = triggers[i].CreateInstance() as ItemTriggerHandler;
+                }
+            }
+
+            return clone;
         }
         #endregion
 
