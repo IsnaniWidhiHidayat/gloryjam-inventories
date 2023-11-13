@@ -36,7 +36,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region private
-        protected ItemUseableComponent component;
+        protected ItemComponent component;
         #endregion
 
         #region inspector
@@ -48,7 +48,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public void SetComponent(ItemUseableComponent component){
+        public void SetComponent(ItemComponent component){
             this.component = component;
         }
         public void InvokeOnTrigger(){

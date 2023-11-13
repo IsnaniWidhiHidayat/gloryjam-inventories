@@ -35,7 +35,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public void SetComponent(ItemComponent component){
+        public virtual void SetComponent(ItemComponent component){
             this.component = component;
         }
         
