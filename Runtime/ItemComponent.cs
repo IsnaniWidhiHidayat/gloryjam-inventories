@@ -27,7 +27,7 @@ namespace GloryJam.Inventories
         public bool Enabled = true;
         
         #if ODIN_INSPECTOR
-        [BoxGroup(grpConfig)]
+        [BoxGroup(grpConfig),PropertyOrder(-1)]
         #endif
         public string id;
         #endregion

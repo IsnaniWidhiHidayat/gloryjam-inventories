@@ -30,18 +30,10 @@ namespace GloryJam.Inventories
         public float cooldown;
 
         #if ODIN_INSPECTOR
-        [BoxGroup(grpConfig)]
+        [BoxGroup("Trigger"),HideReferenceObjectPicker,HideDuplicateReferenceBox,HideLabel]
+        [PropertyOrder(-1)]
         #endif
-        public ItemUseableTrigger.Type trigger;
-
-        #if ODIN_INSPECTOR
-        [ShowIf(nameof(trigger),ItemUseableTrigger.Type.Custom)]
-        [ValidateInput(nameof(InspectorValidateTriggers),"Please remove empty trigger")]
-        [ListDrawerSettings(Expanded = true,DraggableItems = false,ListElementLabelName = "name")]
-        [HideReferenceObjectPicker,HideDuplicateReferenceBox]
-        [Space(1)]
-        #endif
-        public ItemUseableTrigger[] triggers = new ItemUseableTrigger[0];
+        public ItemTrigger trigger = new ItemTrigger();
         #endregion
 
         #region property
@@ -90,7 +82,7 @@ namespace GloryJam.Inventories
         private void InspectorUnUse(){
             Unuse();
         }
-        private bool InspectorValidateTriggers(ItemUseableTrigger[] triggers)
+        private bool InspectorValidateTriggers(ItemTriggerHandler[] triggers)
         {
             return triggers == null ? true : !Array.Exists(triggers, x => x == null);
         }
@@ -114,14 +106,8 @@ namespace GloryJam.Inventories
         {
             base.SetStack(stack);
 
-            //set trigger
-            if(trigger == ItemUseableTrigger.Type.Custom && triggers?.Length > 0){
-                for (int i = 0; i < triggers.Length; i++)
-                {
-                    if(triggers[i] == null) continue;
-                    triggers[i].SetComponent(this);
-                }
-            }
+            //set trigger component
+            trigger?.SetComponent(this);
         }
 
         public virtual bool Use(){
@@ -241,14 +227,9 @@ namespace GloryJam.Inventories
         public override ItemComponent CreateInstance()
         {
             var clone = base.CreateInstance() as ItemUseableComponent;
-                clone.trigger = trigger;
-                clone.maxUse = maxUse;
-                clone.cooldown = cooldown;
-
-            //create triggers instance
-            if(trigger == ItemUseableTrigger.Type.Custom){
-                clone.triggers = triggers.CreateInstance();
-            }
+                clone.maxUse    = maxUse;
+                clone.cooldown  = cooldown;
+                clone.trigger   = trigger?.CreateInstance();
 
             return clone;
         }
@@ -275,15 +256,11 @@ namespace GloryJam.Inventories
         {
             base.OnInit();
 
-            //invoke triggers init
-            if(trigger == ItemUseableTrigger.Type.Custom && triggers?.Length > 0){
-                for (int i = 0; i < triggers.Length; i++)
-                {
-                    if(triggers[i] == null) continue;
-                    triggers[i].OnInit();
-                    triggers[i].onTrigger -= OnTrigger;
-                    triggers[i].onTrigger += OnTrigger;
-                }
+            //listening trigger
+            if(trigger != null) {
+                trigger.onTrigger -= OnTrigger;
+                trigger.onTrigger += OnTrigger;
+                trigger.StartListenTrigger();
             }
 
             //check if component is rear most in this stack
@@ -297,8 +274,8 @@ namespace GloryJam.Inventories
             }
         }
         public override void OnPostInit(){
-            if(trigger == ItemUseableTrigger.Type.Instant && inventory != null && Application.isPlaying){
-                Use();
+            if(trigger != null && trigger.type == ItemTrigger.Type.Instant && inventory != null){
+                OnTrigger();
             }
         }
         public override void OnDispose()
@@ -307,14 +284,10 @@ namespace GloryJam.Inventories
 
             base.OnDispose();
 
-            //invoke triggers dispose
-            if(trigger == ItemUseableTrigger.Type.Custom && triggers?.Length > 0){
-                for (int i = 0; i < triggers.Length; i++)
-                {
-                    if(triggers[i] == null) continue;
-                    triggers[i].onTrigger -= OnTrigger;
-                    triggers[i].OnDispose();
-                }
+            //iunlisten trigger
+            if(trigger != null) {
+                trigger.onTrigger -= OnTrigger;
+                trigger.StopListenTrigger();
             }
         }
         private void OnTrigger()
