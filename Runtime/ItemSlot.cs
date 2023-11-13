@@ -66,7 +66,7 @@ namespace GloryJam.Inventories
                 Add(_item.CreateInstance());
             }
         }
-        private void Add(params ItemStack[] items){
+        public void Add(params ItemStack[] items){
             if(items?.Length > 0) {
                 for (int i = 0; i < items.Length; i++)
                 {

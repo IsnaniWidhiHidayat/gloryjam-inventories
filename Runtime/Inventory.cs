@@ -290,6 +290,38 @@ namespace GloryJam.Inventories
 
             return remain == 0;
         }
+        public bool AddItem(params ItemStack[] stacks){
+            if(stacks == null || stacks.Length == 0) return false;
+            
+            var result = false;
+
+            for (int s = 0; s < slots.Length; s++)
+            {
+                if(slots[s] == null) continue;
+
+                //max stack
+                if(slots[s].count >= slots[s].item.maxStack) continue;
+
+                for (int i = 0; i < stacks.Length; i++)
+                {
+                    if(stacks[i] == null) continue;
+
+                    //check not same item
+                    if(slots[s].item != stacks[i].item) continue;
+                    
+                    //check slot exist
+                    if(stacks[i].slot != null){
+                        stacks[i].Dispose();
+                    }
+
+                    //add syack to slot
+                    slots[s].Add(stacks[i]);
+                    result = true;
+                }
+            }
+
+            return result;
+        }
         public bool DisposeItem(Item item,int count)
         {
             if(count <= 0)
@@ -320,7 +352,7 @@ namespace GloryJam.Inventories
 
             return false;
         }     
-        
+
         public int GetEmptySlot(){
             var counter = 0;
             for (int i = 0; i < slots.Length ; i++)
@@ -499,38 +531,35 @@ namespace GloryJam.Inventories
             }
         }
 
-        // public void InvokeOnItemInit(ItemStack stack){
-        //     onItemInit?.Invoke(stack);
-        //     InventoryEvent.Trigger(new InventoryEvent(){
-        //         id = _id,
-        //         type = InventoryEvent.Type.Init,
-        //         stack = stack,
-        //     });
-        // }
-        // public void InvokeOnItemUse(ItemStack stack){
-        //     onItemUse?.Invoke(stack);
-        //     InventoryEvent.Trigger(new InventoryEvent(){
-        //         id = _id,
-        //         type = InventoryEvent.Type.Use,
-        //         stack = stack,
-        //     });
-        // }
-        // public void InvokeOnItemUnuse(ItemStack stack){
-        //     onItemUnuse?.Invoke(stack);
-        //     InventoryEvent.Trigger(new InventoryEvent(){
-        //         id = _id,
-        //         type = InventoryEvent.Type.Unuse,
-        //         stack = stack,
-        //     });
-        // }
-        // public void InvokeOnItemDispose(ItemStack stack){
-        //     onItemDispose?.Invoke(stack);
-        //     InventoryEvent.Trigger(new InventoryEvent(){
-        //         id = _id,
-        //         type = InventoryEvent.Type.Dispose,
-        //         stack = stack,
-        //     });
-        // }
+        public void Swap(int indexA,int indexB){
+            if(indexA >= count ||indexB >= count){
+                Debug.LogError("Index out of range");
+                return;
+            }
+
+            var tmp = slots[indexB];
+            slots[indexB] = slots[indexA];
+            slots[indexA] = tmp;
+        }
+        public void Swap(int fromIndex,Inventory toInventory,int toIndex){
+            if(toInventory == null) return;
+            if(toIndex >= toInventory.count) return;
+            
+            var tmp = toInventory.slots[toIndex];
+            toInventory.slots[toIndex] = slots[fromIndex];
+
+            if(this != toInventory) {
+                toInventory.slots[toIndex]?.SetInventory(toInventory);
+                toInventory.slots[toIndex]?.Init();
+            }
+
+            slots[fromIndex] = tmp;
+
+            if(this != toInventory) {
+                slots[fromIndex]?.SetInventory(this);
+                slots[fromIndex]?.Init();
+            }
+        }
         #endregion
         
         #region callback
