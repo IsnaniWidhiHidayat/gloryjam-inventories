@@ -96,9 +96,9 @@ namespace GloryJam.Inventories
         #endregion
 
         #region callback
-        public void OnTrigger()
+        private void OnTrigger()
         {
-            onTrigger?.Invoke();
+            InvokeOnTrigger();
         }
         #endregion
     }
