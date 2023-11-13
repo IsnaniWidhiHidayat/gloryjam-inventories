@@ -81,7 +81,7 @@ namespace GloryJam.Inventories
             var clone = new ItemTrigger();
                 clone.type = type;
                 
-            if(triggers?.Length > 0){
+            if(type == Type.Custom && triggers?.Length > 0){
                 if(clone.triggers == null) clone.triggers = new ItemTriggerHandler[triggers.Length];
 
                 for (int i = 0; i < triggers.Length; i++){
