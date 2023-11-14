@@ -42,10 +42,13 @@ namespace GloryJam.Inventories
         #endregion
 
         #region constructor
-        public ItemSlot(Item item,int count,Inventory inventory){
+        public ItemSlot(Item item,Inventory inventory){
             _stack = new List<ItemStack>();
             _item = item;
             SetInventory(inventory);
+        }
+        public ItemSlot(Item item,Inventory inventory,int count) : this(item,inventory)
+        {
             Add(count);
         }
         #endregion
@@ -61,7 +64,9 @@ namespace GloryJam.Inventories
             }
         }
         public void Add(int count = 1){
-            count = Mathf.Clamp(count,1,_item.maxStack);
+            count = Mathf.Clamp(count,0,_item.maxStack);
+            if(count <= 0) return;
+            
             for (int i = 0; i < count; i++){
                 Add(_item.CreateInstance());
             }
@@ -155,7 +160,7 @@ namespace GloryJam.Inventories
                     }
 
                     //create new slot fill with existing stack
-                    var newSlot = new ItemSlot(_item,0,_inventory);
+                    var newSlot = new ItemSlot(_item,_inventory);
                         newSlot.Add(stacks);
 
                     _inventory[emptySlotIndex[i-1]] = newSlot;
@@ -196,7 +201,7 @@ namespace GloryJam.Inventories
                 }
 
                 //create new slot fill with existing stack
-                var newSlot = new ItemSlot(_item,0,_inventory);
+                var newSlot = new ItemSlot(_item,_inventory);
                     newSlot.Add(stacks);
 
                 _inventory[emptySlotIndex[0]] = newSlot;

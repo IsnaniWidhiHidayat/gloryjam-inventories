@@ -26,7 +26,7 @@ namespace GloryJam.Inventories
             for (int i = 0; i < handlers.Count; i++)
             {
                 if(handlers[i] == null) continue;
-                return handlers[i].Spawn();
+                return handlers[i].Spawn(stack);
             }
 
             //Trigger event
@@ -40,7 +40,7 @@ namespace GloryJam.Inventories
             for (int i = 0; i < handlers.Count; i++)
             {
                 if(handlers[i] == null) continue;
-                if(handlers[i] is T1) return handlers[i].Spawn();
+                if(handlers[i] is T1) return handlers[i].Spawn(stack);
             }
 
             //Trigger event

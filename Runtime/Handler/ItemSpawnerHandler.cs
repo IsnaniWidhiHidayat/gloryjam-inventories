@@ -6,7 +6,9 @@ namespace GloryJam.Inventories
     [Serializable]
     public abstract class ItemSpawnerHandler : ItemComponentHandler
     {
+        #region fields
         public GameObject Object;
+        #endregion
 
         #region methods
         public virtual GameObject Spawn(ItemStack stack){
@@ -17,6 +19,7 @@ namespace GloryJam.Inventories
                 if(itemObject == null) itemObject = clone.AddComponent<ItemObject>();
                 itemObject.SetStack(stack);
             }
+            
             return clone;
         }
         #endregion

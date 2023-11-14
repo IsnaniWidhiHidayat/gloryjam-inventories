@@ -281,7 +281,7 @@ namespace GloryJam.Inventories
                     if(this.slots[i] != null) continue;
 
                     var addCount = remain - item.maxStack > 0 ? item.maxStack : remain;
-                    this.slots[i] = new ItemSlot(item,addCount,this);
+                    this.slots[i] = new ItemSlot(item,this,addCount);
                     remain -= addCount;
 
                     if(remain <= 0) break;
@@ -290,34 +290,39 @@ namespace GloryJam.Inventories
 
             return remain == 0;
         }
-        public bool AddItem(params ItemStack[] stacks){
-            if(stacks == null || stacks.Length == 0) return false;
+        public bool AddItem(ItemStack stack){
+            if(stack == null) return false;
             
             var result = false;
-
-            for (int s = 0; s < slots.Length; s++)
+            var emptySlot = -1;
+        
+            for (int i = 0; i < slots.Length; i++)
             {
-                if(slots[s] == null) continue;
+                //check slot null
+                if(slots[i] == null){
+                    emptySlot = i;
+                    continue;
+                }
 
                 //max stack
-                if(slots[s].count >= slots[s].item.maxStack) continue;
+                if(slots[i].count >= slots[i].item.maxStack) continue;
 
-                for (int i = 0; i < stacks.Length; i++)
-                {
-                    if(stacks[i] == null) continue;
-
-                    //check not same item
-                    if(slots[s].item != stacks[i].item) continue;
-                    
-                    //check slot exist
-                    if(stacks[i].slot != null){
-                        stacks[i].Dispose();
-                    }
-
-                    //add syack to slot
-                    slots[s].Add(stacks[i]);
-                    result = true;
+                //check not same item
+                if(slots[i].item != stack.item) continue;
+                
+                //check slot exist
+                if(stack.slot != null){
+                    stack.Dispose();
                 }
+
+                //add syack to slot
+                slots[i].Add(stack);
+                result = true;
+            }
+
+            if(!result && emptySlot >= 0){
+                slots[emptySlot] = new ItemSlot(stack.item,this);
+                slots[emptySlot].Add(stack);
             }
 
             return result;
