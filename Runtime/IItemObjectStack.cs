@@ -3,11 +3,11 @@ namespace GloryJam.Inventories
     public interface IItemObjectStack
     {
         #region property
-        ItemStack item{get;}
+        ItemStack stack{get;}
         #endregion
 
         #region methods
-        void SetItem(ItemStack item);
+        void SetStack(ItemStack item);
         #endregion
     }
 }
