@@ -90,7 +90,7 @@ namespace GloryJam.Inventories
         public string id => _id;
         public int count => slots != null? slots.Length : 0;
         public bool inited => _inited;
-        protected ItemSlot[] slots {
+        public ItemSlot[] slots {
             get{
                 if(data != null){
                     return data.value.slots;
@@ -103,34 +103,34 @@ namespace GloryJam.Inventories
             }
         }
         
-        public ItemSlot this[int index]
-        {
-            get { return  slots[index]; }
-            set{
+        // public ItemSlot this[int index]
+        // {
+        //     get { return  slots[index]; }
+        //     set{
                 
-                //check same object
-                if(slots[index] == value) return;
+        //         //check same object
+        //         if(slots[index] == value) return;
 
-                //Switch slot
-                if(value != null){
-                    if(value.inventory != null) {
-                        var idx = value.index;
-                        var inv = value.inventory;
-                        inv.slots[idx] = slots[index];
-                        inv.slots[idx]?.SetInventory(inv);
-                        inv.slots[idx]?.Init();
-                    }
-                }else{
-                    slots[index]?.SetInventory(null);
-                    slots[index]?.Init();
-                }
+        //         //Switch slot
+        //         if(value != null){
+        //             if(value.inventory != null) {
+        //                 var idx = value.index;
+        //                 var inv = value.inventory;
+        //                 inv.slots[idx] = slots[index];
+        //                 inv.slots[idx]?.SetInventory(inv);
+        //                 inv.slots[idx]?.Init();
+        //             }
+        //         }else{
+        //             slots[index]?.SetInventory(null);
+        //             slots[index]?.Init();
+        //         }
                 
-                //set current slot
-                slots[index] = value;
-                slots[index]?.SetInventory(this);
-                slots[index]?.Init();
-            }   
-        }
+        //         //set current slot
+        //         slots[index] = value;
+        //         slots[index]?.SetInventory(this);
+        //         slots[index]?.Init();
+        //     }   
+        // }
         #endregion 
 
         #region events

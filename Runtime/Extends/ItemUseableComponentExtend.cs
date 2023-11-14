@@ -76,7 +76,7 @@ namespace GloryJam.Inventories
         public static bool InUse(this ItemSlot slot) {
             for (int i = 0; i < slot.count; i++)
             {
-                if(slot[i].InUse()) return true;
+                if(slot.stack[i].InUse()) return true;
             }
             return default;
         }
@@ -90,7 +90,7 @@ namespace GloryJam.Inventories
             var startIndex = slot.count - 1;
             var result = true;
             for (var i = startIndex; i >= startIndex - (count - 1); i--){
-                result |= slot[i].Use();
+                result |= slot.stack[i].Use();
             }
             return result;
         } 
@@ -104,7 +104,7 @@ namespace GloryJam.Inventories
             var startIndex = slot.count - 1;
             var result = true;
             for (var i = startIndex; i >= startIndex - (count - 1); i--){
-                result |= slot[i].Unuse();
+                result |= slot.stack[i].Unuse();
             }
             return result;
         }

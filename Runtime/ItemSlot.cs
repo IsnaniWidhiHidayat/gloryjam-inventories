@@ -23,11 +23,12 @@ namespace GloryJam.Inventories
         public Inventory inventory => _inventory;
         public int index => inventory != null ? inventory.GetIndexOfSlot(this) : -1;
         public int count => _stack != null? _stack.Count : 0;
-
-        public ItemStack this[int index]
-        {
-            get { return _stack[index]; }
-        }
+        public List<ItemStack> stack => _stack;
+        
+        // public ItemStack this[int index]
+        // {
+        //     get { return _stack[index]; }
+        // }
         public string name => _item != null ? $"{_item.name} : {count}" : string.Empty;
         #endregion
 
@@ -163,7 +164,7 @@ namespace GloryJam.Inventories
                     var newSlot = new ItemSlot(_item,_inventory);
                         newSlot.Add(stacks);
 
-                    _inventory[emptySlotIndex[i-1]] = newSlot;
+                    _inventory.slots[emptySlotIndex[i-1]] = newSlot;
                 }
                 return true;
             }else{
@@ -204,7 +205,7 @@ namespace GloryJam.Inventories
                 var newSlot = new ItemSlot(_item,_inventory);
                     newSlot.Add(stacks);
 
-                _inventory[emptySlotIndex[0]] = newSlot;
+                _inventory.slots[emptySlotIndex[0]] = newSlot;
                 return true;
             }else{
                 Debug.LogError($"Required 1 slot to split item");
@@ -248,7 +249,7 @@ namespace GloryJam.Inventories
             //remove slot from invenory if empty
             if(count <= 0){
                 if(index >= 0){
-                    _inventory[index] = null;
+                    _inventory.slots[index] = null;
                 }
 
                 _item = item;
