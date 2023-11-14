@@ -1,5 +1,6 @@
 using System;
 using GloryJam.Event;
+using UnityEngine;
 
 namespace GloryJam.Inventories
 {
@@ -7,6 +8,7 @@ namespace GloryJam.Inventories
     {
         #region fields
         public ItemStack stack;
+        public GameObject Object;
         #endregion
     }
 }

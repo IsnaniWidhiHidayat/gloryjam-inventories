@@ -23,31 +23,69 @@ namespace GloryJam.Inventories
         #region methods
         public GameObject Spawn()
         {
+            var stack = this.stack;
+
+            //create instance of stack
+            if(stack == null && item != null){
+                stack = item.CreateInstance();
+            }
+
+            //spawn object
+            var clone = default(GameObject);
             for (int i = 0; i < handlers.Count; i++)
             {
                 if(handlers[i] == null) continue;
-                return handlers[i].Spawn(stack);
+                clone = handlers[i].Spawn(stack);
+                break;
             }
 
+            //set stack
+            var objStack = clone?.GetComponent<IItemObjectStack>();
+            if(objStack == null){
+                objStack = clone?.AddComponent<ItemObjectStack>();
+            }
+            objStack?.SetStack(stack);
+
             //Trigger event
-            Event.stack = stack;
+            Event.stack  = stack;
+            Event.Object = clone;
             ItemSpawnerEvent.Trigger(inventory,Event);
 
-            return null;
+            return clone;
         }
         public GameObject Spawn<T1>() where T1 : ItemSpawnerHandler
         {
+            var stack = this.stack;
+
+            //create instance of stack
+            if(stack == null && item != null){
+                stack = item.CreateInstance();
+            }
+
+            //spawn object
+            var clone = default(GameObject);
             for (int i = 0; i < handlers.Count; i++)
             {
                 if(handlers[i] == null) continue;
-                if(handlers[i] is T1) return handlers[i].Spawn(stack);
+                if(handlers[i] is T1){
+                    clone =  handlers[i].Spawn(stack);
+                    break;
+                }
             }
+
+            //set stack
+            var objStack = clone?.GetComponent<IItemObjectStack>();
+            if(objStack == null){
+                objStack = clone?.AddComponent<ItemObjectStack>();
+            }
+            objStack?.SetStack(stack);
 
             //Trigger event
             Event.stack = stack;
+            Event.Object = clone;
             ItemSpawnerEvent.Trigger(inventory,Event);
 
-            return null;
+            return clone;
         }
         #endregion
     }
