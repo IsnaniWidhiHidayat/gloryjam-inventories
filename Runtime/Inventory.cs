@@ -323,6 +323,7 @@ namespace GloryJam.Inventories
             if(!result && emptySlot >= 0){
                 slots[emptySlot] = new ItemSlot(stack.item,this);
                 slots[emptySlot].Add(stack);
+                result = true;
             }
 
             return result;
