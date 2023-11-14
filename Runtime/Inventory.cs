@@ -300,7 +300,9 @@ namespace GloryJam.Inventories
             {
                 //check slot null
                 if(slots[i] == null){
-                    emptySlot = i;
+                    if(emptySlot < 0){
+                        emptySlot = i;
+                    }
                     continue;
                 }
 
