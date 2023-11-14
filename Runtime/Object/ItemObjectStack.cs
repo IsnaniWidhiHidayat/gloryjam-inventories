@@ -18,14 +18,14 @@ namespace GloryJam.Inventories
         #endregion
 
         #region property
-        #if ODIN_INSPECTOR
-        [ShowInInspector,BoxGroup(grpStack),HideLabel]
-        #endif
         public ItemStack stack => _stack;
         #endregion
 
         #region private
-        private ItemStack _stack;
+        #if ODIN_INSPECTOR
+        [ShowInInspector,BoxGroup(grpStack),HideLabel]
+        #endif
+        protected ItemStack _stack;
         #endregion
 
         #region methods
