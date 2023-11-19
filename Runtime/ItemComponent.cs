@@ -65,8 +65,6 @@ namespace GloryJam.Inventories
         public virtual void SetItem(Item item){
             _item = item;
         }
-        public abstract void SaveState();
-        public abstract void LoadState();
         public abstract ItemComponent CreateInstance();
         #endregion
 
@@ -147,24 +145,6 @@ namespace GloryJam.Inventories
                 {
                     if(handlers[i] == null || handlers[i].item != null) continue;
                     handlers[i].SetComponent(this);
-                }
-            }
-        }
-        public override void SaveState(){
-            if(handlers?.Count > 0) {
-                for (int i = 0; i < handlers.Count; i++)
-                {
-                    if(handlers[i] == null) continue;
-                    handlers[i].SaveState();
-                }
-            }
-        }
-        public override void LoadState(){
-            if(handlers?.Count > 0) {
-                for (int i = 0; i < handlers.Count; i++)
-                {
-                    if(handlers[i] == null) continue;
-                    handlers[i].LoadState();
                 }
             }
         }
@@ -252,30 +232,6 @@ namespace GloryJam.Inventories
                     handlers[i].OnDispose();
                 }
             }
-        }
-        #endregion
-    }
-
-    [Serializable]
-    public abstract class ItemComponent<T,H,S> : ItemComponent<T,H>
-    where T : ItemComponent<T,H,S>,new()
-    where H : ItemComponentHandler
-    where S : ItemComponentState,new()
-    {
-        #region fields
-        #if ODIN_INSPECTOR
-        [ShowIf(nameof(state)),BoxGroup("State"),HideLabel,PropertyOrder(-1)]
-        [HideReferenceObjectPicker,HideDuplicateReferenceBox]
-        #endif
-        public S state;
-        #endregion
-
-        #region methods
-        public override ItemComponent CreateInstance()
-        {
-            var r =  base.CreateInstance() as T;
-                r.state = new S();
-            return r;
         }
         #endregion
     }

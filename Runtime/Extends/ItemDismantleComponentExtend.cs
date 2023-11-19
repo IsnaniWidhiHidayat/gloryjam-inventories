@@ -2,11 +2,11 @@ namespace GloryJam.Inventories
 {
     public static class ItemDismantleComponentExtend
     {
-        public static bool GetComponentDismantle(this ItemStack stack,out ItemDismantleComponent result){
+        public static bool TryGetComponentDismantle(this ItemStack stack,out ItemDismantleComponent result){
             result = default;
             return stack != null ? stack.TryGetComponent(out result) : default;
         }
-        public static bool GetComponentDismantle(this Item item,out ItemDismantleComponent result){
+        public static bool TryGetComponentDismantle(this Item item,out ItemDismantleComponent result){
             result = default;
             return item != null ? item.TryGetComponent(out result) : default;
         }

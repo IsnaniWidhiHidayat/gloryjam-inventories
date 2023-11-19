@@ -39,9 +39,6 @@ namespace GloryJam.Inventories
             this.component = component;
         }
         
-        public void SaveState(){}
-        public void LoadState(){}
-        
         public virtual ItemComponentHandler CreateInstance(){
             return (ItemComponentHandler)MemberwiseClone();
         }

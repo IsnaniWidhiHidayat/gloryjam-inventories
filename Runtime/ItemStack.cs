@@ -90,20 +90,6 @@ namespace GloryJam.Inventories
         public void SetItem(Item item){
             _item = item;
         }
-        public void SaveState(){
-            for (int i = 0; i < component.Count; i++)
-            {
-                if(component[i] == null) continue;
-                component[i].SaveState();
-            }
-        }
-        public void LoadState(){
-            for (int i = 0; i < component.Count; i++)
-            {
-                if(component[i] == null) continue;
-                component[i].LoadState();
-            }
-        }
         public void Dispose(){
             var inventory = this.inventory;
             

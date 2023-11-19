@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using GloryJam.DataAsset;
 using GloryJam.Event;
+using System.Linq;
+
 
 
 #if ODIN_INSPECTOR
@@ -202,8 +204,9 @@ namespace GloryJam.Inventories
             }
 
             //load state
-            if(data.useReference && _loadState) LoadState();
+            if(_loadState) this.LoadState();
 
+            //add initial item
             foreach (var item in initialItems)
             {
                 if(item == null)
@@ -455,7 +458,7 @@ namespace GloryJam.Inventories
         public ItemSlot GetSlot(Predicate<ItemSlot> predicate){
             return Array.Find(slots,predicate);
         }
-        
+    
         public ItemSlot[] GetSlots(Item item){
             if(item == null)
                 return default(ItemSlot[]);
@@ -522,22 +525,6 @@ namespace GloryJam.Inventories
                 return result;
             });
         }
-        public void SaveState(){
-            if(slots == null) return;
-
-            for (int i = 0; i < slots.Length; i++)
-            {
-                slots[i]?.SaveState();
-            }
-        }
-        public void LoadState(){
-            if(slots == null) return;
-
-            for (int i = 0; i < slots.Length; i++)
-            {
-                slots[i]?.LoadState();
-            }
-        }
 
         public void Swap(int indexA,int indexB){
             if(indexA >= count ||indexB >= count){
@@ -577,12 +564,10 @@ namespace GloryJam.Inventories
             onItemUnuse     = null;
             onItemDispose   = null;
 
-            //set all slot inventory to null
-            if(slots?.Length > 0){
+            if(!data.useReference){
                 for (int i = 0; i < slots.Length; i++)
                 {
-                    slots[i]?.SetInventory(null);
-                    slots[i]?.Init();
+                    slots[i]?.Dispose();
                 }
             }
         }

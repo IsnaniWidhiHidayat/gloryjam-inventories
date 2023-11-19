@@ -11,8 +11,8 @@ using Sirenix.OdinInspector;
 
 namespace GloryJam.Inventories
 {   
-    [Serializable]
-    public class ItemUseableComponent : ItemComponent<ItemUseableComponent,ItemUsageHandler,ItemUseableState>
+    [Serializable,DisallowMultipleItemComponent]
+    public class ItemUseableComponent : ItemComponent<ItemUseableComponent,ItemUsageHandler>
     {
         #region static
         private static ItemUseableEvent Event = new ItemUseableEvent();
@@ -205,23 +205,6 @@ namespace GloryJam.Inventories
 
             inventory?.SaveState();
             return result;
-        }
-
-        public override void SaveState()
-        {
-            base.SaveState();
-
-            state.inUse = inUse;
-        }
-        public override void LoadState()
-        {
-            base.LoadState();
-
-            if(!inUse && state.inUse){
-                Use();
-            }else if(inUse && !state.inUse){
-                Unuse();
-            }
         }
 
         public override ItemComponent CreateInstance()

@@ -232,7 +232,7 @@ namespace GloryJam.Inventories
             count = Mathf.Min(count, this.count);
             for (int i = 0; i < count; i++)
             {
-                var idx     = this.count - 1;
+                var idx = this.count - 1;
                 _stack[idx]?.Dispose();
             }
         }
@@ -272,19 +272,6 @@ namespace GloryJam.Inventories
             }
 
             return true;
-        }
-        
-        public void SaveState(){
-            for (int i = 0; i < _stack.Count; i++)
-            {
-                _stack[i]?.SaveState();
-            }
-        }
-        public void LoadState(){
-            for (int i = 0; i < _stack.Count; i++)
-            {
-                _stack[i]?.LoadState();
-            }
         }
         #endregion
     }

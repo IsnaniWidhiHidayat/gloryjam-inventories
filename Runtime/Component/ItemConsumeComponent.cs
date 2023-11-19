@@ -37,8 +37,6 @@ namespace GloryJam.Inventories
             Event.stack = stack;
             ItemConsumeEvent.Trigger(inventory,Event);
         }
-        public override void LoadState(){}
-        public override void SaveState(){}
         #endregion
 
         #region callback

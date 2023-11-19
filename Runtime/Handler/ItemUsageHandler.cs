@@ -21,25 +21,4 @@ namespace GloryJam.Inventories
         public abstract bool Unuse();
         #endregion
     }
-
-    [Serializable]
-    public abstract class ItemUsageHandler<T> : ItemUsageHandler
-    where T : ItemComponentHandlerState, new()
-    {
-        #region fields
-        #if ODIN_INSPECTOR
-        [ShowIf(nameof(state)),BoxGroup("State"),HideLabel,PropertyOrder(-1)]
-        [HideReferenceObjectPicker,HideDuplicateReferenceBox]
-        #endif
-        public T state;
-        #endregion
-
-        #region methods
-        public override ItemComponentHandler CreateInstance(){
-            var r = base.CreateInstance() as ItemUsageHandler<T>;
-            r.state = new T();
-            return r; 
-        }
-        #endregion
-    }
 }

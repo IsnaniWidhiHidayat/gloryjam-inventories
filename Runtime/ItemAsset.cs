@@ -90,25 +90,13 @@ namespace GloryJam.Inventories
         {
             if(component == null || component.Count == 0) return;
 
-            if(component.Count > 1) {
-                var last = component[component.Count - 1];
-                if(last == null) return;
+            var lastIndex = component.Count - 1;
+            component[lastIndex].SetItem(this);
+            DisallowMultipleItemComponent.CheckAttribute(component[lastIndex]);
 
-                var lastType = last.GetType();
-                var allowMultiple = lastType.GetAttribute<DisallowMultipleItemComponent>() == null;
-                
-                if(!allowMultiple) {
-                    for (int i = 0; i < component.Count - 1; i++)
-                    {
-                        if(component[i] == null) continue;
-                        if(component[i].GetType() == lastType){
-                            component.Remove(last);
-                            Debug.LogError($"Cannot have multiply component {lastType} cause mark {nameof(DisallowMultipleItemComponent)}");
-                            break;
-                        }
-                    }
-                }
-            }
+            lastIndex = component.Count - 1;
+            component[lastIndex].SetItem(this);
+            RequiredItemComponent.CheckAttribute(component[lastIndex]);
 
             //sort by component name
             component.Sort((x,y) =>{
