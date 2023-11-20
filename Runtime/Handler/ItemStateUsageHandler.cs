@@ -20,15 +20,19 @@ namespace GloryJam.Inventories
 
         #region methods
         public override void SaveState(){
-            if(useableComponent != null){
-                inUse = useableComponent.inUse;
-            }
+            if(useableComponent == null) return;
+            
+            inUse = useableComponent.inUse;
         }
         public override void LoadState(){
-            if(inUse){
-                useableComponent?.Use();
-            }else{
-                useableComponent?.Unuse();
+            if(useableComponent == null) return;
+
+            var useableInUse = useableComponent.inUse;
+
+            if(inUse && !useableInUse){
+                useableComponent.Use();
+            }else if (!inUse && useableInUse){
+                useableComponent.Unuse();
             }
         }
         #endregion

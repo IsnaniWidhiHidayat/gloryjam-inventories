@@ -166,7 +166,6 @@ namespace GloryJam.Inventories
                 }
             }
 
-            inventory?.SaveState();
             return result;
         }
 
@@ -202,8 +201,7 @@ namespace GloryJam.Inventories
                     }
                 }
             }
-
-            inventory?.SaveState();
+            
             return result;
         }
 
