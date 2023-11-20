@@ -7,6 +7,8 @@ namespace GloryJam.Inventories
     [Serializable]
     public class ItemStateUsageHandler : ItemStateHandler,EventListener<ItemUseableEvent>
     {
+        public bool log;
+
         #region property
         public bool inUse;
         #endregion
@@ -25,7 +27,10 @@ namespace GloryJam.Inventories
             if(useableComponent == null) return;
 
             inUse = useableComponent.inUse;
-            Debug.Log($"Save State - {stack.item.id} {inUse}");
+
+            if(log){
+                Debug.Log($"Save State - {stack.item.id} {inUse}");
+            }
         }
         public override void LoadState(){
             if(useableComponent == null) return;
@@ -56,7 +61,6 @@ namespace GloryJam.Inventories
 
         public void OnEvent(object sender, ItemUseableEvent Event)
         {
-            Debug.Log($"{Event.type} : {Event.stack.item.id}");
             switch(Event.type){
                 case ItemUseableEvent.Type.Use:{
                     SaveState();
