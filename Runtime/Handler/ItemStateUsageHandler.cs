@@ -50,12 +50,13 @@ namespace GloryJam.Inventories
         {
         }
         public override void OnDispose()
-        {
+        {   
             this.UnregisterEvent();
         }
 
         public void OnEvent(object sender, ItemUseableEvent Event)
         {
+            Debug.Log($"{Event.type} : {Event.stack.item.id}");
             switch(Event.type){
                 case ItemUseableEvent.Type.Use:{
                     SaveState();
