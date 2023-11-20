@@ -21,10 +21,11 @@ namespace GloryJam.Inventories
 
         #region methods
         public override void SaveState(){
-            Debug.Log($"Save State - {stack.item.id}");
+            
             if(useableComponent == null) return;
 
             inUse = useableComponent.inUse;
+            Debug.Log($"Save State - {stack.item.id} {inUse}");
         }
         public override void LoadState(){
             if(useableComponent == null) return;
