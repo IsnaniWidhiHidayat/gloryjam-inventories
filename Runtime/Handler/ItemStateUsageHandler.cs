@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using GloryJam.Event;
 
 namespace GloryJam.Inventories
@@ -20,8 +21,9 @@ namespace GloryJam.Inventories
 
         #region methods
         public override void SaveState(){
+            Debug.Log($"Save State - {stack.item.id}");
             if(useableComponent == null) return;
-            
+
             inUse = useableComponent.inUse;
         }
         public override void LoadState(){
