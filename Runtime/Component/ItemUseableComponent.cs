@@ -99,6 +99,7 @@ namespace GloryJam.Inventories
         private bool _isComponentRearMost; 
         private IItemUseable[] _useables;
         private ItemConsumeComponent _consume;
+        private ItemStateUsageHandler _stateHandler;
         #endregion
 
         #region methods
@@ -166,6 +167,10 @@ namespace GloryJam.Inventories
                 }
             }
 
+            if(_consume == null){
+                _stateHandler?.SaveState();
+            }
+
             return result;
         }
 
@@ -201,7 +206,12 @@ namespace GloryJam.Inventories
                     }
                 }
             }
-            
+
+            //save state
+            if(_consume == null){
+                _stateHandler?.SaveState();
+            }
+
             return result;
         }
 
@@ -252,6 +262,10 @@ namespace GloryJam.Inventories
             if(_isComponentRearMost){
                 _useables = stack.GetComponents<IItemUseable>();
                 _consume  = stack.GetComponent<ItemConsumeComponent>();
+            }
+
+            if(stack.TryGetComponent<ItemStateComponent>(out var stateComponent)){
+                _stateHandler = stateComponent.GetHandler<ItemStateUsageHandler>();
             }
         }
         public override void OnPostInit(){

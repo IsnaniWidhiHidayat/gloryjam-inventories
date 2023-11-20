@@ -5,7 +5,7 @@ using GloryJam.Event;
 namespace GloryJam.Inventories
 {
     [Serializable]
-    public class ItemStateUsageHandler : ItemStateHandler,EventListener<ItemUseableEvent>
+    public class ItemStateUsageHandler : ItemStateHandler//,EventListener<ItemUseableEvent>
     {
         public bool log;
 
@@ -42,13 +42,17 @@ namespace GloryJam.Inventories
             }else if (!inUse && useableInUse){
                 useableComponent.Unuse();
             }
+
+            if(log){
+                Debug.Log($"Load State - {stack.item.id} {inUse}");
+            }
         }
         #endregion
 
         #region callback
         public override void OnInit()
         {
-            this.RegisterEvent();
+            //this.RegisterEvent();
             stack.TryGetComponentUsable(out useableComponent);
         }
         public override void OnPostInit()
@@ -56,23 +60,23 @@ namespace GloryJam.Inventories
         }
         public override void OnDispose()
         {   
-            this.UnregisterEvent();
+            //this.UnregisterEvent();
         }
 
-        public void OnEvent(object sender, ItemUseableEvent Event)
-        {
-            switch(Event.type){
-                case ItemUseableEvent.Type.Use:{
-                    SaveState();
-                    break;
-                }
+        // public void OnEvent(object sender, ItemUseableEvent Event)
+        // {
+        //     switch(Event.type){
+        //         case ItemUseableEvent.Type.Use:{
+        //             SaveState();
+        //             break;
+        //         }
 
-                case ItemUseableEvent.Type.Unuse:{
-                    SaveState();
-                    break;
-                }
-            }
-        }
+        //         case ItemUseableEvent.Type.Unuse:{
+        //             SaveState();
+        //             break;
+        //         }
+        //     }
+        // }
         #endregion
     }
 }
