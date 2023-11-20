@@ -24,12 +24,39 @@ namespace GloryJam.Inventories
         public int index => inventory != null ? inventory.GetIndexOfSlot(this) : -1;
         public int count => _stack != null? _stack.Count : 0;
         public List<ItemStack> stack => _stack;
+        public bool inUse{
+            get{
+                for (int i = 0; i < _stack.Count; i++)
+                {
+                    if(_stack[i] == null) continue;
+                    if(_stack[i].InUse()) return true;
+                }
+
+                return default;
+            }
+        }
         
         // public ItemStack this[int index]
         // {
         //     get { return _stack[index]; }
         // }
-        public string name => _item != null ? $"{_item.name} : {count}" : string.Empty;
+        public string name {
+            get{
+                if(_item != null){
+                    var inUse  = this.inUse;
+                    var result = $"{_item.name} : {count}";
+
+                    if(inUse){
+                        result += " (In Use)";
+                    }
+                    
+                    return result;
+                }else{
+                    return string.Empty;
+                }
+            
+            }
+        }
         #endregion
 
         #region private
