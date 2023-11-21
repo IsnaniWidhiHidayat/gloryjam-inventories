@@ -1,13 +1,13 @@
 using System;
-using UnityEngine;
-using GloryJam.Event;
+using Sirenix.OdinInspector;
 
 namespace GloryJam.Inventories
 {
     [Serializable]
-    public class ItemStateUsageHandler : ItemStateHandler//,EventListener<ItemUseableEvent>
+    public class ItemStateUsageHandler : ItemStateHandler
     {
         #region property
+        [BoxGroup(grpRuntime)]
         public bool inUse;
         #endregion
 
@@ -42,31 +42,10 @@ namespace GloryJam.Inventories
         #region callback
         public override void OnInit()
         {
-            //this.RegisterEvent();
             stack.TryGetComponentUsable(out useableComponent);
         }
-        public override void OnPostInit()
-        {
-        }
-        public override void OnDispose()
-        {   
-            //this.UnregisterEvent();
-        }
-
-        // public void OnEvent(object sender, ItemUseableEvent Event)
-        // {
-        //     switch(Event.type){
-        //         case ItemUseableEvent.Type.Use:{
-        //             SaveState();
-        //             break;
-        //         }
-
-        //         case ItemUseableEvent.Type.Unuse:{
-        //             SaveState();
-        //             break;
-        //         }
-        //     }
-        // }
+        public override void OnPostInit(){}
+        public override void OnDispose(){}
         #endregion
     }
 }
