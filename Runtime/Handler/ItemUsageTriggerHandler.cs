@@ -127,8 +127,6 @@ namespace GloryJam.Inventories
             {
                 handlers[i]?.OnInit();
             }
-
-            if(inUse) Unuse();
         }
         public override void OnPostInit(){
             for (int i = 0; i < handlers.Count; i++)
