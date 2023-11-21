@@ -87,8 +87,10 @@ namespace GloryJam.Inventories
         }
         public override ItemComponentHandler CreateInstance()
         {
-            var clone = base.CreateInstance() as ItemUsageTriggerHandler;
-            
+            var clone = new ItemUsageTriggerHandler(){
+                id = id
+            };
+
             //clone triggers
             if(triggers?.Count > 0){
                 if(clone.triggers == null) clone.triggers = new List<ItemTriggerHandler>();
