@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+using UnityEngine;
 #endif
 
 namespace GloryJam.Inventories
@@ -13,12 +14,14 @@ namespace GloryJam.Inventories
     {
         #region field
         #if ODIN_INSPECTOR
+        [Space(1)]
         [ListDrawerSettings(Expanded = true,DraggableItems = false,ListElementLabelName = "title")]
         [HideReferenceObjectPicker,HideDuplicateReferenceBox]
         #endif
         public List<ItemTriggerHandler> triggers = new List<ItemTriggerHandler>();
 
         #if ODIN_INSPECTOR
+        [Space(1)]
         [ListDrawerSettings(Expanded = true,DraggableItems = false,ListElementLabelName = "title")]
         [HideReferenceObjectPicker,HideDuplicateReferenceBox]
         #endif
