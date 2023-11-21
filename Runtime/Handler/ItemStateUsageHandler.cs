@@ -9,6 +9,9 @@ namespace GloryJam.Inventories
         #region property
         [BoxGroup(grpRuntime)]
         public bool inUse;
+
+        public override bool showID => false;
+        public override bool requiredId => false;
         #endregion
 
         #region property
