@@ -123,10 +123,25 @@ namespace GloryJam.Inventories
         #region callback
         public override void OnInit()
         {
-            Unuse();
+            for (int i = 0; i < handlers.Count; i++)
+            {
+                handlers[i]?.OnInit();
+            }
+
+            if(inUse) Unuse();
         }
-        public override void OnPostInit(){}
-        public override void OnDispose(){}
+        public override void OnPostInit(){
+            for (int i = 0; i < handlers.Count; i++)
+            {
+                handlers[i]?.OnPostInit();
+            }
+        }
+        public override void OnDispose(){
+            for (int i = 0; i < handlers.Count; i++)
+            {
+                handlers[i]?.OnDispose();
+            }
+        }
         private void OnTrigger()
         {
             for (int i = 0; i < handlers.Count; i++)
