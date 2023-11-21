@@ -35,26 +35,21 @@ namespace GloryJam.Inventories
                 return default;
             }
         }
-        
-        // public ItemStack this[int index]
-        // {
-        //     get { return _stack[index]; }
-        // }
         public string name {
             get{
-                if(_item != null){
-                    var inUse  = this.inUse;
-                    var result = $"{_item.name} : {count}";
+                return _item != null ? _item.name : string.Empty;
+            }
+        }
+        public virtual string title{
+            get{
+                var inUse  = this.inUse;
+                var result = $"{name} : {count}";
 
-                    if(inUse){
-                        result += " (In Use)";
-                    }
-                    
-                    return result;
-                }else{
-                    return string.Empty;
+                if(inUse){
+                    result += " (In Use)";
                 }
-            
+
+                return result;
             }
         }
         #endregion

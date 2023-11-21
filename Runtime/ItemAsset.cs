@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using GloryJam.DataAsset;
 using UnityEngine;
-using Sirenix.Utilities;
-
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -57,7 +55,8 @@ namespace GloryJam.Inventories
         [SerializeField]
         #if ODIN_INSPECTOR
         [ValidateInput(nameof(InspectorValidateComponent))]
-        [OnValueChanged(nameof(InspectorOnComponentValueChange)),ListDrawerSettings(Expanded = true,ShowItemCount = false,DraggableItems = false,ListElementLabelName = "InspectorGetComponentName")]
+        [OnValueChanged(nameof(InspectorOnComponentValueChange))]
+        [ListDrawerSettings(Expanded = true,ShowItemCount = false,DraggableItems = false,ListElementLabelName = "title",CustomRemoveElementFunction = nameof(InspectorComponentRemove))]
         [HideInPlayMode]
         #endif
         public List<ItemComponent> component;
@@ -71,6 +70,18 @@ namespace GloryJam.Inventories
 
         #region inspector
         #if ODIN_INSPECTOR
+        private void InspectorComponentRemove(ItemComponent component){
+            var type = component.GetType();
+            for (int i = 0; i < this.component.Count; i++)
+            {
+                if(this.component[i] == null) continue;
+                if(RequiredItemComponent.IsTypeRequiredBy(type,this.component[i])){
+                    UnityEditor.EditorUtility.DisplayDialog("Message",$"Required by {this.component[i].name}","Ok");
+                    return;
+                }
+            }
+            this.component.Remove(component);
+        }
         private bool InspectorValidateTags(string[] tags)
         {
              return tags == null ? true : !Array.Exists(tags, x => string.IsNullOrEmpty(x));
@@ -92,11 +103,11 @@ namespace GloryJam.Inventories
 
             var lastIndex = component.Count - 1;
             component[lastIndex].SetItem(this);
-            DisallowMultipleItemComponent.CheckAttribute(component[lastIndex]);
+            DisallowMultipleItemComponent.ResolveAttribute(component[lastIndex]);
 
             lastIndex = component.Count - 1;
             component[lastIndex].SetItem(this);
-            RequiredItemComponent.CheckAttribute(component[lastIndex]);
+            RequiredItemComponent.ResolveAttribute(component[lastIndex]);
 
             //sort by component name
             component.Sort((x,y) =>{

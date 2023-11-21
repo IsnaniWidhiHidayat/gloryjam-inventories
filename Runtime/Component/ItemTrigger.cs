@@ -23,7 +23,7 @@ namespace GloryJam.Inventories
         #if ODIN_INSPECTOR
         [ShowIf(nameof(type),Type.Custom)]
         [ValidateInput(nameof(InspectorValidateTriggers),"Please remove empty trigger")]
-        [ListDrawerSettings(Expanded = true,DraggableItems = false,ListElementLabelName = "name")]
+        [ListDrawerSettings(Expanded = true,DraggableItems = false,ListElementLabelName = "title")]
         [HideReferenceObjectPicker,HideDuplicateReferenceBox]
         [Space(1)]
         #endif

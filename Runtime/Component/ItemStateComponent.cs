@@ -5,7 +5,9 @@ namespace GloryJam.Inventories
     {
         #region property
         public override string name => "State";
-        public override int propertyOrder => 100;
+        public override int propertyOrder => 101;
+        public override bool showID => false;
+        public override bool requiredId => false;
         #endregion
 
         #region methods

@@ -7,7 +7,7 @@ namespace GloryJam.Inventories
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public class DisallowMultipleItemComponent : Attribute
     {
-        public static void CheckAttribute(ItemComponent component){
+        public static void ResolveAttribute(ItemComponent component){
             if(component == null) return;
 
             var type  = component.GetType();

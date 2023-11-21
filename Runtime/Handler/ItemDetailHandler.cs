@@ -31,6 +31,8 @@ namespace GloryJam.Inventories
     {
         #region private
         protected const string grpValue = "Value";
+        public override bool showID => false;
+        public override bool requiredId => false;
         #endregion
 
         #region property

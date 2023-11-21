@@ -28,6 +28,7 @@ namespace GloryJam.Inventories
         
         #if ODIN_INSPECTOR
         [BoxGroup(grpConfig),PropertyOrder(-1)]
+        [ShowIf(nameof(showID))]
         #endif
         public string id;
         #endregion
@@ -39,7 +40,14 @@ namespace GloryJam.Inventories
         public Inventory inventory => slot?.inventory;
         
         public abstract string name{get;}
+        public virtual string title{
+            get{
+                return string.IsNullOrEmpty(id) ? name : $"{name} [{id}]";
+            }
+        }
         public abstract int propertyOrder{get;}
+        public virtual bool requiredId => false;
+        public virtual bool showID => true;
         #endregion
 
         #region protected
@@ -49,11 +57,16 @@ namespace GloryJam.Inventories
 
         #region inspector
         #if ODIN_INSPECTOR
-        public string InspectorGetComponentName(){
-            return string.IsNullOrEmpty(id) ? name : $"{name} [{id}]";
-        }
         public bool InspectorShowRuntime(){
             return Application.isPlaying && stack != null;
+        }
+        private bool InspectorValidateID(string id)
+        {
+            if(requiredId && string.IsNullOrEmpty(id)){
+                return false;
+            }
+
+            return true;
         }
         #endif
         #endregion
@@ -95,7 +108,7 @@ namespace GloryJam.Inventories
     {
         #region fields
         #if ODIN_INSPECTOR
-        [ListDrawerSettings(DraggableItems = false,Expanded = true,ListElementLabelName = "name")]
+        [ListDrawerSettings(DraggableItems = false,Expanded = true,ListElementLabelName = "title")]
         [HideDuplicateReferenceBox,HideReferenceObjectPicker]
         [ValidateInput(nameof(InspectorValidateHandlers),"Please remove empty handler")]
         [Space(1)]

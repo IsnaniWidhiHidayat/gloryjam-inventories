@@ -9,6 +9,7 @@ namespace GloryJam.Inventories
 {
     [Serializable]
     [DisallowMultipleItemComponent]
+    [RequiredItemComponent(typeof(ItemUseableComponent))]
     public class ItemConsumeComponent : ItemComponent<ItemConsumeComponent>
     {
         #region static
@@ -18,10 +19,12 @@ namespace GloryJam.Inventories
         #region property
         public override string name => "Consume";
         public override int propertyOrder => 100;
+        public override bool showID => false;
+        public override bool requiredId => false;
         #endregion
 
         #region inspector
-        #if ODIN_INSPECTOR
+#if ODIN_INSPECTOR
         [Button("Consume"),PropertyOrder(100),BoxGroup(grpDebug),ButtonGroup(grpDebug + "/Buttons"),ShowIf(nameof(InspectorShowRuntime))]
         private void InspectorConsume(){
             Consume();

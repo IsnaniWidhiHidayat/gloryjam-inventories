@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using GloryJam.DataAsset;
 using System.Collections;
 
 
@@ -69,6 +68,9 @@ namespace GloryJam.Inventories
 
         public override string name => "Usage";
         public override int propertyOrder => 2;
+
+        public override bool showID => false;
+        public override bool requiredId => false;
         #endregion
 
         #region inspector

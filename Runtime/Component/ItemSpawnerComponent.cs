@@ -18,6 +18,8 @@ namespace GloryJam.Inventories
         #region property
         public override string name => "Spawner";
         public override int propertyOrder => 99;
+        public override bool showID => false;
+        public override bool requiredId => false;
         #endregion
 
         #region methods

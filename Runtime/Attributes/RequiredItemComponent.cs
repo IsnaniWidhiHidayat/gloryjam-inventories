@@ -1,4 +1,5 @@
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using Sirenix.Utilities;
 
@@ -13,7 +14,7 @@ namespace GloryJam.Inventories
             type = itemComponent;
         }
 
-        public static void CheckAttribute(ItemComponent component){
+        public static void ResolveAttribute(ItemComponent component){
             if(component == null) return;
             
             var baseType = typeof(ItemComponent);
@@ -29,13 +30,20 @@ namespace GloryJam.Inventories
 
             component.item.component.Add(newComponent);
         }
-        public static void CheckAttribute(ItemComponentHandler handler){
+        public static void ResolveAttribute(ItemComponentHandler handler){
             var att = handler?.GetType()?.GetAttribute<RequiredItemComponent>();
             if(att == null) return;
             if(handler.item.component.Exists(x => x != null && x.GetType() == att.type)) return;
             var newComponent = Activator.CreateInstance(att.type) as ItemComponent;
             if(newComponent == null) return;
             handler.item.component.Add(newComponent);
+        }
+        public static bool IsTypeRequiredBy(Type type,ItemComponent component){
+            if(component == null) return default;
+            
+            var att  = component.GetType().GetAttribute<RequiredItemComponent>();
+            if(att == null) return default;
+            return att.type == type;
         }
     }
 }

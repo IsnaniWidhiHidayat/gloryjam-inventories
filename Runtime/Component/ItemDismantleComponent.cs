@@ -14,6 +14,8 @@ namespace GloryJam.Inventories
         #region property
         public override string name => "Dismantle";
         public override int propertyOrder => 1;
+        public override bool showID => false;
+        public override bool requiredId => false;
         #endregion
 
         #region methods

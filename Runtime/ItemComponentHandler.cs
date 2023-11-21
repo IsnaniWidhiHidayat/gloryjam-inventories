@@ -2,6 +2,10 @@ using System;
 using GloryJam.DataAsset;
 using UnityEngine;
 
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
+
 namespace GloryJam.Inventories
 {
     [Serializable]
@@ -14,12 +18,33 @@ namespace GloryJam.Inventories
         protected const string grpDebug = "Debug";
         #endregion
 
+        #region fields
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpConfig)]
+        [ValidateInput(nameof(InspectorValidateID),"Required")]
+        [ShowIf(nameof(showID))]
+        #endif
+        public string id;
+
+        #endregion
+
         #region property
         public Item item => component?.item;
         public ItemSlot slot => component?.slot;
         public ItemStack stack => component?.stack;
         public Inventory inventory => component?.inventory;
         public abstract string name{get;}
+        public virtual string title {
+            get{
+                if(!string.IsNullOrEmpty(id)){
+                    return $"{name} [{id}]";
+                }else{
+                    return name;
+                }
+            }
+        }
+        public virtual bool requiredId => false;
+        public virtual bool showID => true;
         #endregion
 
         #region protected
@@ -31,6 +56,14 @@ namespace GloryJam.Inventories
         public bool InspectorShowRuntime(){
             return Application.isPlaying;
         }
+        private bool InspectorValidateID(string id)
+        {
+            if(requiredId && string.IsNullOrEmpty(id)){
+                return false;
+            }
+
+            return true;
+        }
         #endif
         #endregion
 
@@ -38,7 +71,6 @@ namespace GloryJam.Inventories
         public virtual void SetComponent(ItemComponent component){
             this.component = component;
         }
-        
         public virtual ItemComponentHandler CreateInstance(){
             return (ItemComponentHandler)MemberwiseClone();
         }

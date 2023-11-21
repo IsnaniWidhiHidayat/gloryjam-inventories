@@ -14,7 +14,7 @@ namespace GloryJam.Inventories
     {
         #region fields
         #if ODIN_INSPECTOR
-        [ListDrawerSettings(IsReadOnly = true,ListElementLabelName = "name")]
+        [ListDrawerSettings(IsReadOnly = true,ListElementLabelName = "title")]
         [NonSerialized,ShowInInspector]
         [HideDuplicateReferenceBox,HideReferenceObjectPicker]
         #endif
