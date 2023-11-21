@@ -38,7 +38,20 @@ namespace GloryJam.Inventories
         private bool _inUse;
         #endregion
 
-        #region methods  
+        #region methods
+        public override void SetComponent(ItemComponent component)
+        {
+            base.SetComponent(component);
+            for (int i = 0; i < triggers.Count; i++)
+            {
+                triggers[i]?.SetComponent(component);
+            }
+
+            for (int i = 0; i < handlers.Count; i++)
+            {
+                handlers[i]?.SetComponent(component);
+            }
+        }
         public override bool Use(){ 
             //register trigger
             for (int i = 0; i < triggers.Count; i++)

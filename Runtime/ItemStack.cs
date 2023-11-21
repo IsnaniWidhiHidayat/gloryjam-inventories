@@ -22,7 +22,8 @@ namespace GloryJam.Inventories
         #region fields
         [SerializeField]
         #if ODIN_INSPECTOR
-        [HideReferenceObjectPicker,ListDrawerSettings(Expanded = true,IsReadOnly = true,ListElementLabelName = "title")]
+        [HideReferenceObjectPicker]
+        [ListDrawerSettings(Expanded = true,IsReadOnly = true,ListElementLabelName = "title")]
         #endif
         public List<ItemComponent> component;
         #endregion
