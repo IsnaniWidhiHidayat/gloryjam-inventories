@@ -76,8 +76,10 @@ namespace GloryJam.Inventories
             {
                 if(this.component[i] == null) continue;
                 if(RequiredItemComponent.IsTypeRequiredBy(type,this.component[i])){
-                    UnityEditor.EditorUtility.DisplayDialog("Message",$"Required by {this.component[i].name}","Ok");
-                    return;
+                    #if UNITY_EDITOR
+                        UnityEditor.EditorUtility.DisplayDialog("Message",$"Required by {this.component[i].name}","Ok");
+                        return;
+                    #endif
                 }
             }
             this.component.Remove(component);
