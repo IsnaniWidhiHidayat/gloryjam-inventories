@@ -186,23 +186,56 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: maxUse
+      Entry: 7
+      Data: GloryJam.Inventories.ItemUseableMaxUse, GloryJam.Inventories
+    - Name: Enabled
+      Entry: 5
+      Data: true
+    - Name: count
+      Entry: 3
+      Data: 1
+    - Name: dispose
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: cooldown
+      Entry: 7
+      Data: GloryJam.Inventories.ItemUseableCooldown, GloryJam.Inventories
+    - Name: Enabled
+      Entry: 5
+      Data: true
+    - Name: duration
       Entry: 3
       Data: 0
-    - Name: cooldown
-      Entry: 4
-      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: trigger
       Entry: 7
-      Data: 14|GloryJam.Inventories.ItemTrigger, GloryJam.Inventories
-    - Name: type
-      Entry: 3
-      Data: 0
+      Data: GloryJam.Inventories.ItemUseableTrigger, GloryJam.Inventories
+    - Name: Enabled
+      Entry: 5
+      Data: true
     - Name: triggers
       Entry: 7
-      Data: 15|GloryJam.Inventories.ItemTriggerHandler[], GloryJam.Inventories
+      Data: 14|GloryJam.Inventories.ItemTriggerHandler[], GloryJam.Inventories
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 15|GloryJam.Inventories.ItemTriggerTimeCounter, Assembly-CSharp
+    - Name: id
+      Entry: 6
+      Data: 
+    - Name: every
+      Entry: 3
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

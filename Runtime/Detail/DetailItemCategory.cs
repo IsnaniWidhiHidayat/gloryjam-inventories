@@ -1,4 +1,6 @@
 ﻿using System;
+using GloryJam.DataAsset;
+using UnityEngine;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -6,39 +8,25 @@ using Sirenix.OdinInspector;
 
 namespace GloryJam.Inventories
 {
-    [Serializable]
-    public enum ItemRarityType
-    {
-        Common,
-        Uncommon,
-        Rare,
-        Epic,
-        Legendary,
-        SetOrUnique
-    }
 
     [Serializable]
-    public class DetailItemRarity : ItemDetailHandler<ItemRarityType>
+    public class DetailItemCategory : ItemDetailHandler<ScriptableObject>
     {
-        #region const
-        public const string KEY = "ITEM-RARITY";
-        #endregion
-
         #region property
-        public override string name => KEY;
+        public override string name => "ITEM-CATEGORY";
         #endregion
 
         #region fields
         #if ODIN_INSPECTOR
         [BoxGroup(grpConfig)]
         #endif
-        public ItemRarityType type;
+        public ScriptableObject category;
         #endregion
 
         #region methods
-        public override ItemRarityType GetValue()
+        public override ScriptableObject GetValue()
         {
-            return type;
+            return category;
         }
         public override ItemComponentHandler CreateInstance()
         {
