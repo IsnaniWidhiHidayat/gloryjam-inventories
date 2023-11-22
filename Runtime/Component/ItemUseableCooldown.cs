@@ -1,6 +1,7 @@
 using System.Collections;
 using GloryJam.DataAsset;
 using UnityEngine;
+using System;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -8,6 +9,7 @@ using Sirenix.OdinInspector;
 
 namespace GloryJam.Inventories
 {
+    [Serializable]
     #if ODIN_INSPECTOR
     [Toggle("Enabled",CollapseOthersOnExpand = false)]
     #endif

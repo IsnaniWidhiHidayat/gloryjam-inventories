@@ -30,10 +30,10 @@ namespace GloryJam.Inventories
         public ItemUseableCooldown cooldown;
 
         #if ODIN_INSPECTOR
-        [BoxGroup("Trigger"),HideReferenceObjectPicker,HideDuplicateReferenceBox,HideLabel]
-        [PropertyOrder(-1)]
+        [BoxGroup(grpOptions)]
+        [LabelText("@trigger.title")]
         #endif
-        public ItemTrigger trigger = new ItemTrigger();
+        public  ItemUseableTrigger trigger;
         #endregion
 
         #region property
@@ -96,10 +96,9 @@ namespace GloryJam.Inventories
         {
             base.SetStack(stack);
 
-            //set trigger component
-            trigger?.SetComponent(this);
             maxUse.SetComponent(this);
             cooldown.SetComponent(this);
+            trigger.SetComponent(this);
         }
 
         public virtual bool Use(){
@@ -191,9 +190,9 @@ namespace GloryJam.Inventories
         public override ItemComponent CreateInstance()
         {
             var clone = base.CreateInstance() as ItemUseableComponent;
-                clone.maxUse    = maxUse;
-                clone.cooldown  = cooldown;
-                clone.trigger   = trigger?.CreateInstance();
+                clone.maxUse    = maxUse.CreateInstance();
+                clone.cooldown  = cooldown.CreateInstance();
+                clone.trigger   = trigger.CreateInstance();
 
             return clone;
         }
@@ -208,13 +207,6 @@ namespace GloryJam.Inventories
         {
             base.OnInit();
 
-            //listening trigger
-            if(trigger != null) {
-                trigger.onTrigger -= OnTrigger;
-                trigger.onTrigger += OnTrigger;
-                trigger.StartListenTrigger();
-            }
-
             //get consume component
             _consume = stack.GetComponent<ItemConsumeComponent>();
 
@@ -225,11 +217,16 @@ namespace GloryJam.Inventories
             if(stack.TryGetComponent<ItemStateComponent>(out var stateComponent)){
                 _stateHandler = stateComponent.GetHandler<ItemStateUsageHandler>();
             }
+
+            //listening trigger
+            if(trigger.Enabled) {
+                trigger.onTrigger -= OnTrigger;
+                trigger.onTrigger += OnTrigger;
+                trigger.StartListenTrigger();
+            }
         }
         public override void OnPostInit(){
-            if(trigger != null && trigger.type == ItemTrigger.Type.Instant && inventory != null){
-                OnTrigger();
-            }
+            
         }
         public override void OnDispose()
         {
@@ -238,7 +235,7 @@ namespace GloryJam.Inventories
             base.OnDispose();
 
             //iunlisten trigger
-            if(trigger != null) {
+            if(trigger.Enabled) {
                 trigger.onTrigger -= OnTrigger;
                 trigger.StopListenTrigger();
             }

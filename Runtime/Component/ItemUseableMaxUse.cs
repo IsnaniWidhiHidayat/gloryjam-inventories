@@ -1,5 +1,6 @@
 using GloryJam.DataAsset;
 using UnityEngine;
+using System;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -7,7 +8,8 @@ using Sirenix.OdinInspector;
 
 namespace GloryJam.Inventories
 {
-     #if ODIN_INSPECTOR
+    [Serializable]
+    #if ODIN_INSPECTOR
     [Toggle("Enabled",CollapseOthersOnExpand = false)]
     #endif
     public struct ItemUseableMaxUse : IInstance<ItemUseableMaxUse>

@@ -6,28 +6,33 @@ using UnityEngine;
 namespace GloryJam.Inventories
 {
     [Serializable]
-    public class ItemTrigger : IInstance<ItemTrigger>
+    #if ODIN_INSPECTOR
+    [Toggle("Enabled",CollapseOthersOnExpand = false)]
+    #endif
+    public struct ItemUseableTrigger : IInstance<ItemUseableTrigger>
     {
-        #region innerclass
-        [Serializable]
-        public enum Type{
-            Manual,
-            Instant,
-            Custom,
-        }
-        #endregion
-
         #region field
-        public Type type;
+        public bool Enabled;
 
         #if ODIN_INSPECTOR
-        [ShowIf(nameof(type),Type.Custom)]
         [ValidateInput(nameof(InspectorValidateTriggers),"Please remove empty trigger")]
         [ListDrawerSettings(Expanded = true,DraggableItems = false,ListElementLabelName = "title")]
         [HideReferenceObjectPicker,HideDuplicateReferenceBox]
         [Space(1)]
         #endif
-        public ItemTriggerHandler[] triggers = new ItemTriggerHandler[0];
+        public ItemTriggerHandler[] triggers;
+        #endregion
+
+        #region property
+        public string name => "Trigger";
+
+        public string title {
+            get{
+                if(!Enabled) return name;
+
+                return $"{name} ({(triggers != null ? triggers.Length : 0)})";
+            }
+        }
         #endregion
 
         #region events
@@ -54,7 +59,7 @@ namespace GloryJam.Inventories
             }
         }
         public void StartListenTrigger(){
-            if(type == Type.Custom && triggers?.Length > 0){
+            if(triggers?.Length > 0){
                 for (int i = 0; i < triggers.Length; i++)
                 {
                     if(triggers[i] == null) continue;
@@ -65,7 +70,7 @@ namespace GloryJam.Inventories
             }
         }
         public void StopListenTrigger(){
-            if(type == Type.Custom && triggers?.Length > 0){
+            if(triggers?.Length > 0){
                 for (int i = 0; i < triggers.Length; i++)
                 {
                     if(triggers[i] == null) continue;
@@ -77,11 +82,10 @@ namespace GloryJam.Inventories
         public void InvokeOnTrigger(){
             onTrigger?.Invoke();
         }
-        public ItemTrigger CreateInstance(){
-            var clone = new ItemTrigger();
-                clone.type = type;
+        public ItemUseableTrigger CreateInstance(){
+            var clone = new ItemUseableTrigger();
                 
-            if(type == Type.Custom && triggers?.Length > 0){
+            if(triggers?.Length > 0){
                 if(clone.triggers == null) clone.triggers = new ItemTriggerHandler[triggers.Length];
 
                 for (int i = 0; i < triggers.Length; i++){
