@@ -564,6 +564,12 @@ namespace GloryJam.Inventories
             onItemUnuse     = null;
             onItemDispose   = null;
 
+            for (int i = 0; i < slots.Length; i++)
+            {
+                slots[i]?.SetInventory(null);
+                slots[i]?.Init();
+            }
+
             if(!data.useReference){
                 for (int i = 0; i < slots.Length; i++)
                 {

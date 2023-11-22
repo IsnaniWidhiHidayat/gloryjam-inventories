@@ -126,6 +126,10 @@ namespace GloryJam.Inventories
         #region callback
         public override void OnInit()
         {
+            if(inventory == null){
+                Unuse();
+            }
+
             for (int i = 0; i < handlers.Count; i++)
             {
                 handlers[i]?.OnInit();
