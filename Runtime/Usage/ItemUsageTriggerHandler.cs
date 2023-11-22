@@ -56,6 +56,22 @@ namespace GloryJam.Inventories
             }
         }
         public override bool Use(){ 
+            StartListening();
+
+            return true;
+        }
+        public override bool Unuse(){
+            StopListening();
+
+            //unuse item
+            for (int i = 0; i < handlers.Count; i++)
+            {
+                handlers[i]?.Unuse();
+            }
+
+            return true;
+        }
+        private void StartListening(){
             //register trigger
             for (int i = 0; i < triggers.Count; i++)
             {
@@ -66,10 +82,8 @@ namespace GloryJam.Inventories
             }
 
             _inUse = true;
-
-            return true;
         }
-        public override bool Unuse(){
+        private void StopListening(){
             //unregister trigger
             for (int i = 0; i < triggers.Count; i++)
             {
@@ -78,15 +92,7 @@ namespace GloryJam.Inventories
                 triggers[i].OnDispose();
             }
 
-            //unuse item
-            for (int i = 0; i < handlers.Count; i++)
-            {
-                handlers[i]?.Unuse();
-            }
-
             _inUse = false;
-
-            return true;
         }
         public override ItemComponentHandler CreateInstance()
         {
@@ -126,9 +132,7 @@ namespace GloryJam.Inventories
         #region callback
         public override void OnInit()
         {
-            if(inventory == null && inUse){
-                Unuse();
-            }
+            if(inventory == null) StopListening();
 
             for (int i = 0; i < handlers.Count; i++)
             {
