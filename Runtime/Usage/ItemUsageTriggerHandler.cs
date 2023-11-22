@@ -126,7 +126,7 @@ namespace GloryJam.Inventories
         #region callback
         public override void OnInit()
         {
-            if(inventory == null){
+            if(inventory == null && inUse){
                 Unuse();
             }
 
