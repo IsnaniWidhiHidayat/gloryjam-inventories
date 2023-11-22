@@ -21,6 +21,7 @@ namespace GloryJam.Inventories
         protected const string grpRequired = "Required";
         protected const string grpRuntime = "Runtime";
         protected const string grpDebug = "Debug";
+        protected const string grpOptions = "Options";
         #endregion
 
         #region fields

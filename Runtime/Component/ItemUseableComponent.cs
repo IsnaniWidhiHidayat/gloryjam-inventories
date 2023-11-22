@@ -1,15 +1,14 @@
 using System;
 using UnityEngine;
 using System.Collections;
-
-
+using GloryJam.DataAsset;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
 
 namespace GloryJam.Inventories
-{   
+{
     [Serializable,DisallowMultipleItemComponent]
     public class ItemUseableComponent : ItemComponent<ItemUseableComponent,ItemUsageHandler>
     {
@@ -19,14 +18,16 @@ namespace GloryJam.Inventories
 
         #region fields
         #if ODIN_INSPECTOR
-        [BoxGroup(grpConfig)]
+        [BoxGroup(grpOptions),PropertyOrder(-1)]
+        [LabelText("@maxUse.title")]
         #endif
-        public int maxUse;
+        public ItemUseableMaxUse maxUse;
 
         #if ODIN_INSPECTOR
-        [BoxGroup(grpConfig)]
+        [BoxGroup(grpOptions)]
+        [LabelText("@cooldown.title")]
         #endif
-        public float cooldown;
+        public ItemUseableCooldown cooldown;
 
         #if ODIN_INSPECTOR
         [BoxGroup("Trigger"),HideReferenceObjectPicker,HideDuplicateReferenceBox,HideLabel]
@@ -56,16 +57,6 @@ namespace GloryJam.Inventories
             }
         }
 
-        #if ODIN_INSPECTOR
-        [ShowInInspector,ShowIf(nameof(InspectorShowRuntime)),BoxGroup(grpRuntime),DisplayAsString]
-        #endif
-        public int runtimeUsed => _runtimeUsed;
-
-        #if ODIN_INSPECTOR
-        [ShowInInspector,ShowIf(nameof(InspectorShowCooldown)),BoxGroup(grpRuntime),DisplayAsString]
-        #endif
-        public float runtimeCooldown => _runtimeCooldown;
-
         public override string name => "Usage";
         public override int propertyOrder => 2;
 
@@ -89,17 +80,13 @@ namespace GloryJam.Inventories
             return triggers == null ? true : !Array.Exists(triggers, x => x == null);
         }
         private bool InspectorShowCooldown(){
-            return cooldown > 0 && InspectorShowRuntime();
+            return cooldown.Enabled && cooldown.duration > 0 && InspectorShowRuntime();
         }
         #endif
         #endregion
 
         #region private
-        private Coroutine CR_Cooldown;
-        private float _runtimeCooldown;
-        private int _runtimeUsed;
-        private bool _isComponentRearMost; 
-        private IItemUseable[] _useables;
+        private IItemUseable[] _itemUseables;
         private ItemConsumeComponent _consume;
         private ItemStateUsageHandler _stateHandler;
         #endregion
@@ -111,14 +98,16 @@ namespace GloryJam.Inventories
 
             //set trigger component
             trigger?.SetComponent(this);
+            maxUse.SetComponent(this);
+            cooldown.SetComponent(this);
         }
 
         public virtual bool Use(){
             //chekc max use
-            if(maxUse > 0 && _runtimeUsed >= maxUse) return false;
+            if(maxUse.Enabled && !maxUse.isCanUse) return false;
 
             //cooldown
-            if(cooldown > 0 && CR_Cooldown != null) return false;
+            if(cooldown.Enabled && !cooldown.isCanUse) return false;
 
             var prevInUse = inUse;
             
@@ -132,87 +121,69 @@ namespace GloryJam.Inventories
 
             var result = !prevInUse && inUse;
 
-            //Trigger use
             if(result) {
+                //Trigger Event
                 Event.type  = ItemUseableEvent.Type.Use;
                 Event.stack = stack;
                 ItemUseableEvent.Trigger(inventory,Event);
-            }
 
-            //running cooldown
-            if(result && cooldown > 0) {
-                CR_Cooldown = inventory?.StartCoroutine(CoroutineCooldown());
-            }
-
-            //increase used
-            if(result){
-                _runtimeUsed++;
-            }
-
-            //check if component is rear most in this stack
-            if(result && _isComponentRearMost) {
-                //Get IItem Useable and invoke Use
-                if(_useables?.Length > 0){
-                    for (int i = 0; i < _useables.Length; i++)
+                //ItemUseable
+                if(_itemUseables?.Length > 0) {
+                    for (int i = 0; i < _itemUseables.Length; i++)
                     {
-                        _useables[i]?.OnUse();
+                        _itemUseables[i]?.OnUse();
                     }
                 }
 
-                //consume item
-                if(maxUse > 0){
-                    if(_runtimeUsed >= maxUse){
-                        _consume?.Consume();
-                    }
-                }else{
-                    _consume?.Consume();
-                }
+                //running cooldown
+                if(cooldown.Enabled) cooldown.RunCooldown();
+
+                //increase used
+                if(maxUse.Enabled) maxUse.IncreaseUse();
+
+                //consume
+                _consume?.Consume();
             }
 
-            if(_consume == null){
-                _stateHandler?.SaveState();
-            }
+            //save state
+            if(_consume == null) _stateHandler?.SaveState();
 
             return result;
         }
 
         public virtual bool Unuse(){
             var prevInUse = inUse;
-            var result = false;
 
             for (int i = 0; i < handlers.Count; i++)
             {
                 if(handlers[i] == null)
                     continue;
 
-                result |= handlers[i].Unuse();
+                handlers[i].Unuse();
             }
             
-            //Trigger unuse
-            if(prevInUse && !inUse){
+            var result = prevInUse && !inUse;
+
+            if(result){
+                //Trigger Event
                 Event.type  = ItemUseableEvent.Type.Unuse;
                 Event.stack = stack;
                 ItemUseableEvent.Trigger(inventory,Event);
-            }
 
-            var useableComponents = stack.GetComponents<ItemUseableComponent>();
-            var isRearmost = Array.IndexOf(useableComponents,this) == useableComponents.Length - 1;
-
-            if(isRearmost) {
-                //Get IItem Useable and invoke Unuse
-                if(result && stack.TryGetComponents<IItemUseable>(out var useables)){
-                    for (int i = 0; i < useables.Length; i++)
+                //ItemUseable
+                if(_itemUseables?.Length > 0) {
+                    for (int i = 0; i < _itemUseables.Length; i++)
                     {
-                        if(useables[i] == null) continue;
-                        useables[i].OnUnuse();
+                        _itemUseables[i]?.OnUnuse();
                     }
                 }
+
+                //stop cooldown
+                if(cooldown.Enabled) cooldown.StopCooldown();
             }
 
             //save state
-            if(_consume == null){
-                _stateHandler?.SaveState();
-            }
+            if(_consume == null) _stateHandler?.SaveState();
 
             return result;
         }
@@ -229,19 +200,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region coroutine
-        private IEnumerator CoroutineCooldown()
-        {
-            _runtimeCooldown = cooldown;
-            while (runtimeCooldown > 0)
-            {
-                _runtimeCooldown -= Time.deltaTime;
-                yield return null;
-            }
-
-            _runtimeCooldown = 0;
-
-            CR_Cooldown = null;
-        }
+        
         #endregion
 
         #region callback
@@ -256,16 +215,13 @@ namespace GloryJam.Inventories
                 trigger.StartListenTrigger();
             }
 
-            //check if component is rear most in this stack
-            var useableComponents = stack.GetComponents<ItemUseableComponent>();
-            _isComponentRearMost  = Array.IndexOf(useableComponents,this) == useableComponents.Length - 1;
+            //get consume component
+            _consume = stack.GetComponent<ItemConsumeComponent>();
 
-            //component useables & consume
-            if(_isComponentRearMost){
-                _useables = stack.GetComponents<IItemUseable>();
-                _consume  = stack.GetComponent<ItemConsumeComponent>();
-            }
+            //get item useable
+            _itemUseables = stack.GetComponents<IItemUseable>();
 
+            //Get usage state handler
             if(stack.TryGetComponent<ItemStateComponent>(out var stateComponent)){
                 _stateHandler = stateComponent.GetHandler<ItemStateUsageHandler>();
             }
