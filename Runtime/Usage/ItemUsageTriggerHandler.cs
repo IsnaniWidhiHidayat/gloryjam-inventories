@@ -72,6 +72,8 @@ namespace GloryJam.Inventories
             return true;
         }
         private void StartListening(){
+            _inUse = true;
+
             //register trigger
             for (int i = 0; i < triggers.Count; i++)
             {
@@ -80,10 +82,10 @@ namespace GloryJam.Inventories
                 triggers[i].onTrigger -= OnTrigger;
                 triggers[i].onTrigger += OnTrigger;
             }
-
-            _inUse = true;
         }
         private void StopListening(){
+            _inUse = false;
+
             //unregister trigger
             for (int i = 0; i < triggers.Count; i++)
             {
@@ -92,7 +94,6 @@ namespace GloryJam.Inventories
                 triggers[i].OnDispose();
             }
 
-            _inUse = false;
         }
         public override ItemComponentHandler CreateInstance()
         {
