@@ -5,6 +5,8 @@ using UnityEngine.Events;
 using GloryJam.DataAsset;
 using GloryJam.Event;
 using System.Linq;
+using System.Collections;
+
 
 
 
@@ -195,6 +197,9 @@ namespace GloryJam.Inventories
             //add default items
             if(slots.Length != _maxSlot) Array.Resize(ref data.value.slots,_maxSlot);
             
+            StartCoroutine(CoroutinePostInitialize());
+        }
+        private void PostInitialize(){
             //set inventory
             for (int i = 0; i < slots.Length; i++)
             {
@@ -557,6 +562,14 @@ namespace GloryJam.Inventories
         }
         #endregion
         
+        #region coroutine
+        private IEnumerator CoroutinePostInitialize()
+        {
+            yield return null;
+            PostInitialize();
+        }
+        #endregion
+
         #region callback
         private void OnDestroy() {
             onItemInit      = null;
