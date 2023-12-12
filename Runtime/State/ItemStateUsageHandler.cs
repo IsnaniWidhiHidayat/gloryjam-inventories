@@ -1,6 +1,5 @@
 using System;
 using Sirenix.OdinInspector;
-using UnityEngine;
 
 namespace GloryJam.Inventories
 {
@@ -35,7 +34,6 @@ namespace GloryJam.Inventories
             if(useableComponent == null) return;
 
             var useableInUse = useableComponent.inUse;
-            Debug.Log($"Load state usage : {item.id}");
             if(inUse && !useableInUse){
                 useableComponent.Use();
             }else if (!inUse && useableInUse){
