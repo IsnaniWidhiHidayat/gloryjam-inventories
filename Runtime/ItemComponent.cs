@@ -162,42 +162,138 @@ namespace GloryJam.Inventories
                 }
             }
         }
+        
         public bool ContainHandler<T1>() where T1 : H
         {
             return handlers.Exists(x => x != null && x is T1);
         }
-        public T1 GetHandler<T1>() where T1 : H
+        public T1 GetHandler<T1>(Func<T1,bool> condition = null) where T1 : H
         {
-            if(TryGetHandler<T1>(out var result)) return result;
+            if(TryGetHandler<T1>(out var result,condition)) return result;
             return default;
         }
-        public T1[] GetHandlers<T1>() where T1 : H
+        public T1[] GetHandlers<T1>(Func<T1,bool> condition = null) where T1 : H
         {
-            if(TryGetHandlers<T1>(out var result)) return result;
+            if(TryGetHandlers<T1>(out var result,condition)) return result;
             return default;
         }
-        public bool TryGetHandler<T1>(out T1 result) where T1 : H
-        {
-            result = handlers.Find(x => x != null && x is T1) as T1;
-            return result != null;
-        }
-        public bool TryGetHandlers<T1>(out T1[] result) where T1 : H
+        
+        public bool TryGetHandler<T1>(out T1 result,Func<T1,bool> condition = null,bool deep = false) where T1 : H
         {
             result = default;
 
-            var tmp = handlers.FindAll(x => x != null && x is T1);
-            
-            if(tmp?.Count > 0){
-                result = new T1[tmp.Count];
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = tmp[i] as T1;
+            for (int i = 0; i < handlers.Count; i++)
+            {
+                //handler
+                if(handlers[i] is T1){
+
+                    var handler = handlers[i] as T1;
+
+                    //check null
+                    if(handler == null) continue;
+
+                    //check condition
+                    if(condition != null){
+                        if(condition(handler)){
+                            result = handler;
+                            break;
+                        }
+                    }else{
+                        result = handler;
+                        break;
+                    }
+                }
+                //check deep
+                else if(deep && handlers[i] is IHandlers<H>){
+                    //get deep handlers
+                    var deepHandlers = (handlers[i] as IHandlers<H>).GetHandlers();
+
+                    //check handlers
+                    if(deepHandlers != null && deepHandlers?.Count > 0) {
+                        for (int j = 0; j < deepHandlers.Count; j++)
+                        {
+                            var handler = deepHandlers[j] as T1;
+
+                            //check null
+                            if(handler == null) continue;
+
+                            //check condition
+                            if(condition != null){
+                                if(condition(handler)){
+                                    result = handler;
+                                    break;
+                                }
+                            }else{
+                                result = handler;
+                                break;
+                            }
+                        }
+                    }
                 }
 
-                return result != null;
+                if(result != null) break;
             }
 
-            return default;
+            return result != null;
+        }
+        public bool TryGetHandlers<T1>(out T1[] result,Func<T1,bool> condition = null,bool deep = false) where T1 : H
+        {
+            result = default;
+
+            var listResult = new List<T1>();
+
+            for (int i = 0; i < handlers.Count; i++)
+            {
+                //handler
+                if(handlers[i] is T1){
+
+                    var handler = handlers[i] as T1;
+
+                    //check null
+                    if(handler == null) continue;
+
+                    //check condition
+                    if(condition != null){
+                        if(condition(handler)){
+                            listResult.Add(handler);
+                        }
+                    }else{
+                        listResult.Add(handler);
+                    }
+                }
+                //check deep
+                else if(deep && handlers[i] is IHandlers<H>){
+                    //get deep handlers
+                    var deepHandlers = (handlers[i] as IHandlers<H>).GetHandlers();
+
+                    //check handlers
+                    if(deepHandlers != null && deepHandlers?.Count > 0) {
+                        for (int j = 0; j < deepHandlers.Count; j++)
+                        {
+                            var handler = deepHandlers[j] as T1;
+
+                            //check null
+                            if(handler == null) continue;
+
+                            //check condition
+                            if(condition != null){
+                                if(condition(handler)){
+                                    listResult.Add(handler);
+                                }
+                            }else{
+                                listResult.Add(handler);
+                            }
+                        }
+                    }
+                }
+            }
+
+            //check list result
+            if(listResult?.Count > 0){
+                result = listResult.ToArray();
+            }
+
+            return result != null && result.Length > 0;
         }
         public override ItemComponent CreateInstance()
         {

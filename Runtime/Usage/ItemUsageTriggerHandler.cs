@@ -10,7 +10,7 @@ using UnityEngine;
 namespace GloryJam.Inventories
 {
     [Serializable]
-    public class ItemUsageTriggerHandler : ItemUsageHandler
+    public class ItemUsageTriggerHandler : ItemUsageHandler, IHandlers<ItemUsageHandler>
     {
         #region field
         #if ODIN_INSPECTOR
@@ -94,6 +94,10 @@ namespace GloryJam.Inventories
                 triggers[i].OnDispose();
             }
 
+        }
+        public List<ItemUsageHandler> GetHandlers()
+        {
+            return handlers;
         }
         public override ItemComponentHandler CreateInstance()
         {
