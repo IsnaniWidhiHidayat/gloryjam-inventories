@@ -9,7 +9,7 @@ using Sirenix.OdinInspector;
 namespace GloryJam.Inventories
 {
     [Serializable]
-    public class ItemStack
+    public class ItemStack : ISort
     {
         #region static
         private static InventoryEvent Event = new InventoryEvent();
@@ -52,6 +52,13 @@ namespace GloryJam.Inventories
         #endif
         #endregion
 
+        #region constructor
+        public ItemStack(List<ItemComponent> component){
+            this.component = component;
+            Sort();
+        }
+        #endregion
+
         #region methods
         public void Init()
         {
@@ -90,6 +97,22 @@ namespace GloryJam.Inventories
         }
         public void SetItem(Item item){
             _item = item;
+        }
+        public void Sort(){
+            //sort component by order
+            component?.Sort((x,y) =>{
+                if(x == null || y == null) return -1;
+                return x.order.CompareTo(y.order);
+            });
+
+            if(component?.Count > 0){
+                for (int i = 0; i < component.Count; i++)
+                {
+                    var ISort = component[i] as ISort;
+                    if(ISort == null) continue;
+                    ISort.Sort();
+                }
+            }
         }
         public void Dispose(){
             var inventory = this.inventory;

@@ -46,7 +46,7 @@ namespace GloryJam.Inventories
                 return string.IsNullOrEmpty(id) ? name : $"{name} [{id}]";
             }
         }
-        public abstract int propertyOrder{get;}
+        public virtual int order => 0;
         public virtual bool requiredId => false;
         public virtual bool showID => true;
         #endregion
@@ -103,7 +103,7 @@ namespace GloryJam.Inventories
     }
 
     [Serializable]
-    public abstract class ItemComponent<T,H> : ItemComponent<T> 
+    public abstract class ItemComponent<T,H> : ItemComponent<T> ,ISort
     where T : ItemComponent<T,H>,new()
     where H : ItemComponentHandler
     {
@@ -112,6 +112,7 @@ namespace GloryJam.Inventories
         [ListDrawerSettings(DraggableItems = false,Expanded = true,ListElementLabelName = "title")]
         [HideDuplicateReferenceBox,HideReferenceObjectPicker]
         [ValidateInput(nameof(InspectorValidateHandlers),"Please remove empty handler")]
+        [OnValueChanged(nameof(InspectorOnComponentValueChange))]
         [Space(1)]
         #endif
         public List<H> handlers = new List<H>();
@@ -128,6 +129,10 @@ namespace GloryJam.Inventories
         private bool InspectorValidateHandlers(List<H> handlers)
         {
             return handlers == null ? true : !handlers.Exists(x => x == null);
+        }
+        private void InspectorOnComponentValueChange()
+        {
+            Sort();
         }
         #endregion
 
@@ -161,6 +166,13 @@ namespace GloryJam.Inventories
                     handlers[i].SetComponent(this);
                 }
             }
+        }
+
+        public void Sort(){
+            handlers.Sort((x,y) =>{
+                if(x == null || y == null) return -1;
+                return x.order.CompareTo(y.order);
+            });
         }
         
         public bool ContainHandler<T1>() where T1 : H
@@ -307,6 +319,8 @@ namespace GloryJam.Inventories
                     clone.handlers.Add(handlers[i].CreateInstance() as H);
                 }
             }
+
+            clone?.Sort();
 
             return clone;
         }

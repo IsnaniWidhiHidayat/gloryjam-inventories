@@ -42,7 +42,7 @@ namespace GloryJam.Inventories
 
         #region property
         public override string name => "Details";
-        public override int propertyOrder => 0;
+        public override int order => 0;
         public override bool showID => false;
         public override bool requiredId => false;
         #endregion

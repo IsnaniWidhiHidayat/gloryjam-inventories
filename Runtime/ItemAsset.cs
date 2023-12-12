@@ -13,7 +13,7 @@ namespace GloryJam.Inventories
     #if ODIN_INSPECTOR
     [HideReferenceObjectPicker]
     #endif
-    public class Item : IInstance<ItemStack>
+    public class Item : IInstance<ItemStack> , ISort
     {
         #region const
         protected const string grpMain = "Main";
@@ -111,11 +111,7 @@ namespace GloryJam.Inventories
             component[lastIndex].SetItem(this);
             RequiredItemComponent.ResolveAttribute(component[lastIndex]);
 
-            //sort by component name
-            component.Sort((x,y) =>{
-                if(x == null || y == null) return -1;
-                return x.propertyOrder.CompareTo(y.propertyOrder);
-            });
+            Sort();
 
             InspectorValidateComponent(component);
         }
@@ -145,17 +141,30 @@ namespace GloryJam.Inventories
             if(string.IsNullOrEmpty(tag) || _tags == null || _tags.Length == 0) return false;
             return Array.IndexOf(_tags,tag) >= 0;
         }
+        public void Sort(){
+            //sort component by order
+            component?.Sort((x,y) =>{
+                if(x == null || y == null) return -1;
+                return x.order.CompareTo(y.order);
+            });
+
+            if(component?.Count > 0){
+                for (int i = 0; i < component.Count; i++)
+                {
+                    var ISort = component[i] as ISort;
+                    if(ISort == null) continue;
+                    ISort.Sort();
+                }
+            }
+        }
         #endregion
 
         #region IInstance
         public ItemStack CreateInstance(){
-            var value = new ItemStack(){
-                component = component.CreateInstance((x) => x.Enabled),
-            };
+            var stack = new ItemStack(component.CreateInstance((x) => x.Enabled));
+            stack.SetItem(this);
 
-            value.SetItem(this);
-
-            return value;
+            return stack;
         }
         #endregion
     }

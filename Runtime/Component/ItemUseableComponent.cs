@@ -58,7 +58,7 @@ namespace GloryJam.Inventories
         }
 
         public override string name => "Usage";
-        public override int propertyOrder => 2;
+        public override int order => 2;
 
         public override bool showID => false;
         public override bool requiredId => false;

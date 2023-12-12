@@ -45,6 +45,7 @@ namespace GloryJam.Inventories
         }
         public virtual bool requiredId => false;
         public virtual bool showID => true;
+        public virtual int order => 0;
         #endregion
 
         #region protected

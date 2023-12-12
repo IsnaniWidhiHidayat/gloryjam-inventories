@@ -16,6 +16,7 @@ namespace GloryJam.Inventories
 
         #region property
         public override string name => $"In Use [{inUse}]";
+        public override int order => 1000;
         #endregion
 
         #region private
