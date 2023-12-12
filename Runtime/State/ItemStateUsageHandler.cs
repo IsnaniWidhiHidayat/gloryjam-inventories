@@ -15,7 +15,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region property
-        public override string name => $"In Use : {inUse}";
+        public override string name => $"In Use [{inUse}]";
         #endregion
 
         #region private
