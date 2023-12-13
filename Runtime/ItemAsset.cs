@@ -163,6 +163,7 @@ namespace GloryJam.Inventories
         public ItemStack CreateInstance(){
             var stack = new ItemStack(component.CreateInstance((x) => x.Enabled));
             stack.SetItem(this);
+            stack.SetSlot(null);
 
             return stack;
         }
