@@ -34,6 +34,8 @@ namespace GloryJam.Inventories
 
         #region methods
         public void Consume(){
+            if(stack == null) return;
+            
             stack.Dispose();
 
             //Trigger event
