@@ -109,16 +109,17 @@ namespace GloryJam.Inventories
             if(cooldown.Enabled && !cooldown.isCanUse) return false;
 
             var prevInUse = inUse;
-            
+            var used = false;
+
             for (int i = 0; i < handlers.Count; i++)
             {
                 if(handlers[i] == null)
                     continue;
 
-                handlers[i].Use();
+                used |= handlers[i].Use();
             }
 
-            var result = !prevInUse && inUse;
+            var result = !prevInUse && used;
 
             if(result) {
                 //Trigger Event
