@@ -57,7 +57,7 @@ MonoBehaviour:
         GloryJam.Inventories]], mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 7
       Data: 3|GloryJam.Inventories.ItemDetailComponent, GloryJam.Inventories
@@ -131,41 +131,16 @@ MonoBehaviour:
         GloryJam.Inventories]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 3
     - Name: 
       Entry: 7
       Data: 10|GloryJam.Inventories.ItemUsageTriggerHandler, GloryJam.Inventories
     - Name: id
       Entry: 1
-      Data: awdawdad
+      Data: Trigger_1
     - Name: triggers
       Entry: 7
       Data: 11|System.Collections.Generic.List`1[[GloryJam.Inventories.ItemTriggerHandler,
-        GloryJam.Inventories]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 12|GloryJam.Inventories.ItemTriggerTimeCounter, Assembly-CSharp
-    - Name: id
-      Entry: 6
-      Data: 
-    - Name: every
-      Entry: 3
-      Data: 10
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: handlers
-      Entry: 7
-      Data: 13|System.Collections.Generic.List`1[[GloryJam.Inventories.ItemUsageHandler,
         GloryJam.Inventories]], mscorlib
     - Name: 
       Entry: 12
@@ -176,6 +151,64 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: handlers
+      Entry: 7
+      Data: 12|System.Collections.Generic.List`1[[GloryJam.Inventories.ItemUsageHandler,
+        GloryJam.Inventories]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 13|GloryJam.Inventories.UsageConsume, GloryJam.Inventories
+    - Name: id
+      Entry: 1
+      Data: consume_1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 14|GloryJam.Inventories.UsageConsume, GloryJam.Inventories
+    - Name: id
+      Entry: 1
+      Data: consume_2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 15|GloryJam.Inventories.UsageConsume, GloryJam.Inventories
+    - Name: id
+      Entry: 1
+      Data: consume_3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 16|GloryJam.Inventories.UsageConsume, GloryJam.Inventories
+    - Name: id
+      Entry: 1
+      Data: consume_0_1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 17|GloryJam.Inventories.UsageConsume, GloryJam.Inventories
+    - Name: id
+      Entry: 1
+      Data: consume_0_2
     - Name: 
       Entry: 8
       Data: 
@@ -190,7 +223,7 @@ MonoBehaviour:
       Data: GloryJam.Inventories.ItemUseableMaxUse, GloryJam.Inventories
     - Name: Enabled
       Entry: 5
-      Data: true
+      Data: false
     - Name: count
       Entry: 3
       Data: 1
@@ -205,7 +238,7 @@ MonoBehaviour:
       Data: GloryJam.Inventories.ItemUseableCooldown, GloryJam.Inventories
     - Name: Enabled
       Entry: 5
-      Data: true
+      Data: false
     - Name: duration
       Entry: 3
       Data: 0
@@ -217,16 +250,16 @@ MonoBehaviour:
       Data: GloryJam.Inventories.ItemUseableTrigger, GloryJam.Inventories
     - Name: Enabled
       Entry: 5
-      Data: true
+      Data: false
     - Name: triggers
       Entry: 7
-      Data: 14|GloryJam.Inventories.ItemTriggerHandler[], GloryJam.Inventories
+      Data: 18|GloryJam.Inventories.ItemTriggerHandler[], GloryJam.Inventories
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 15|GloryJam.Inventories.ItemTriggerTimeCounter, Assembly-CSharp
+      Data: 19|GloryJam.Inventories.ItemTriggerTimeCounter, Assembly-CSharp
     - Name: id
       Entry: 6
       Data: 
@@ -244,18 +277,6 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 16|GloryJam.Inventories.ItemConsumeComponent, GloryJam.Inventories
-    - Name: Enabled
-      Entry: 5
-      Data: true
-    - Name: id
-      Entry: 6
       Data: 
     - Name: 
       Entry: 8

@@ -289,7 +289,8 @@ namespace GloryJam.Inventories
                     if(this.slots[i] != null) continue;
 
                     var addCount = remain - item.maxStack > 0 ? item.maxStack : remain;
-                    this.slots[i] = new ItemSlot(item,this,addCount);
+                    this.slots[i] = new ItemSlot(item,this);
+                    this.slots[i].Add(addCount);
                     remain -= addCount;
 
                     if(remain <= 0) break;

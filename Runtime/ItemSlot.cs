@@ -70,10 +70,6 @@ namespace GloryJam.Inventories
             _item = item;
             SetInventory(inventory);
         }
-        public ItemSlot(Item item,Inventory inventory,int count) : this(item,inventory)
-        {
-            Add(count);
-        }
         #endregion
 
         #region methods
