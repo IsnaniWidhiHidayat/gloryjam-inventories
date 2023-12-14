@@ -89,6 +89,7 @@ namespace GloryJam.Inventories
         private IItemUseable[] _itemUseables;
         private ItemConsumeComponent _consume;
         private ItemStateUsageHandler _stateHandler;
+        private Func<ItemUsageHandler,bool> _handlesCondition;
         #endregion
 
         #region methods
@@ -101,7 +102,7 @@ namespace GloryJam.Inventories
             trigger.SetComponent(this);
         }
 
-        public virtual bool Use(){
+        public virtual bool Use(Func<ItemUsageHandler,bool> condition = null){
             //chekc max use
             if(maxUse.Enabled && !maxUse.isCanUse) return false;
 
@@ -114,6 +115,9 @@ namespace GloryJam.Inventories
             for (int i = 0; i < handlers.Count; i++)
             {
                 if(handlers[i] == null)
+                    continue;
+
+                if(condition != null && !condition(handlers[i]))
                     continue;
 
                 used |= handlers[i].Use();
@@ -151,12 +155,15 @@ namespace GloryJam.Inventories
             return result;
         }
 
-        public virtual bool Unuse(){
+        public virtual bool Unuse(Func<ItemUsageHandler,bool> condition = null){
             var prevInUse = inUse;
 
             for (int i = 0; i < handlers.Count; i++)
             {
                 if(handlers[i] == null)
+                    continue;
+
+                if(condition != null && !condition(handlers[i]))
                     continue;
 
                 handlers[i].Unuse();
@@ -231,7 +238,9 @@ namespace GloryJam.Inventories
         }
         public override void OnDispose()
         {
-            if(inUse) Unuse();
+            if(inUse){
+                Unuse(x=> x.unuseOnDispose);
+            }
 
             base.OnDispose();
 

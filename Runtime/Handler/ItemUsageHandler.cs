@@ -9,6 +9,11 @@ namespace GloryJam.Inventories
     [Serializable]
     public abstract class ItemUsageHandler : ItemComponentHandler
     {
+        #region fields
+        [BoxGroup(grpConfig)]
+        public bool unuseOnDispose = true;
+        #endregion
+
         #region property 
         #if ODIN_INSPECTOR
         [ShowInInspector,ShowIf(nameof(InspectorShowRuntime)),BoxGroup(grpRuntime)]
