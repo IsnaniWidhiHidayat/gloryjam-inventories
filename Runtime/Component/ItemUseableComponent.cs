@@ -239,7 +239,7 @@ namespace GloryJam.Inventories
         public override void OnDispose()
         {
             if(inUse){
-                Unuse(x=> x.unuseOnDispose);
+                Unuse(x=> !x.persistent);
             }
 
             base.OnDispose();

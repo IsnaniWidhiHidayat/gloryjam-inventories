@@ -2,6 +2,7 @@ using System;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+using UnityEngine;
 #endif
 
 namespace GloryJam.Inventories
@@ -11,7 +12,8 @@ namespace GloryJam.Inventories
     {
         #region fields
         [BoxGroup(grpConfig)]
-        public bool unuseOnDispose = true;
+        [Tooltip("check this if you want item not unuse when disposed")]
+        public bool persistent;
         #endregion
 
         #region property 
