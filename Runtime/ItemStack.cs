@@ -17,7 +17,7 @@ namespace GloryJam.Inventories
 
         #region const
         const string grpDebug = "Debug";
-        const string grpRuntime = "Runtime";
+        const string grpProperty = "Properties";
         #endregion
 
         #region fields
@@ -31,8 +31,20 @@ namespace GloryJam.Inventories
 
         #region property
         #if ODIN_INSPECTOR
-        [BoxGroup(grpRuntime)]
-        [ShowInInspector,DisplayAsString,HideInEditorMode]
+        [BoxGroup(grpProperty)]
+        [ShowInInspector,DisplayAsString,HideInEditorMode,LabelText("Inventory")]
+        #endif
+        private string inventoryName => inventory?.name;
+
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpProperty)]
+        [ShowInInspector,DisplayAsString,HideInEditorMode,LabelText("Slot Index")]
+        #endif
+        private string slotIndex => slot != null? slot.index.ToString() : default;
+
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpProperty)]
+        [ShowInInspector,DisplayAsString,HideInEditorMode,LabelText("Stack Index")]
         #endif
         public int index => _slot != null ? _slot.GetStackIndex(this) : -1;
 
