@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace GloryJam.Inventories
@@ -71,15 +72,16 @@ namespace GloryJam.Inventories
             
             return result;
         }
-    
+        
         public static bool InUse(this ItemSlot slot) {
             for (int i = 0; i < slot.count; i++)
             {
+                if(slot.stack[i] == null) continue;
                 if(slot.stack[i].InUse()) return true;
             }
             return default;
         }
-        public static bool Use(this ItemSlot slot,int count){
+        public static bool Use(this ItemSlot slot,int count,Func<ItemStack,bool> condition = null){
             if(!slot.Available(count)){
                 Debug.LogError($"Item {slot.item.name} not available with count : {count}");
                 return false;
@@ -89,11 +91,13 @@ namespace GloryJam.Inventories
             var startIndex = slot.count - 1;
             var result = true;
             for (var i = startIndex; i >= startIndex - (count - 1); i--){
+                if(slot.stack[i] == null) continue;
+                if(condition != null && !condition(slot.stack[i])) continue;
                 result |= slot.stack[i].Use();
             }
             return result;
         } 
-        public static bool Unuse(this ItemSlot slot,int count){
+        public static bool Unuse(this ItemSlot slot,int count,Func<ItemStack,bool> condition = null){
             if(!slot.Available(count)){
                 Debug.LogError($"Item {slot.item.name} not available with count : {count}");
                 return false;
@@ -103,6 +107,8 @@ namespace GloryJam.Inventories
             var startIndex = slot.count - 1;
             var result = true;
             for (var i = startIndex; i >= startIndex - (count - 1); i--){
+                if(slot.stack[i] == null) continue;
+                if(condition != null && !condition(slot.stack[i])) continue;
                 result |= slot.stack[i].Unuse();
             }
             return result;

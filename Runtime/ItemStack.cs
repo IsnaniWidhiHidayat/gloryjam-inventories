@@ -33,6 +33,7 @@ namespace GloryJam.Inventories
         public Item item => _item;
         public ItemSlot slot => _slot;
         public Inventory inventory => slot?.inventory;
+        public bool inUse => this.InUse();
         #endregion
         
         #region private
