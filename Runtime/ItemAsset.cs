@@ -57,7 +57,6 @@ namespace GloryJam.Inventories
         [ValidateInput(nameof(InspectorValidateComponent))]
         [OnValueChanged(nameof(InspectorOnComponentValueChange))]
         [ListDrawerSettings(Expanded = true,ShowItemCount = false,DraggableItems = false,ListElementLabelName = "title",CustomRemoveElementFunction = nameof(InspectorComponentRemove))]
-        [HideInPlayMode]
         #endif
         public List<ItemComponent> component;
         #endregion
