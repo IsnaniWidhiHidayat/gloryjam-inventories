@@ -1,13 +1,11 @@
+using Sirenix.OdinInspector;
+
 namespace GloryJam.Inventories
 {
     public interface IItemObjectStack
     {
         #region property
-        ItemStack stack{get;}
-        #endregion
-
-        #region methods
-        void SetStack(ItemStack item);
+        ItemStack stack{get;set;}
         #endregion
     }
 }

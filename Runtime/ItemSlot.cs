@@ -48,7 +48,7 @@ namespace GloryJam.Inventories
         protected Inventory _inventory;
 
         #if ODIN_INSPECTOR
-        [ShowInInspector,ListDrawerSettings(IsReadOnly = true,Expanded = true,ShowIndexLabels = true)]
+        [ShowInInspector,ListDrawerSettings(IsReadOnly = true,Expanded = true,ListElementLabelName = "title")]
         [HideDuplicateReferenceBox,HideReferenceObjectPicker]
         #endif
         protected List<ItemStack> _stack;

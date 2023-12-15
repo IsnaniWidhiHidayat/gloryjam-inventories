@@ -9,35 +9,23 @@ namespace GloryJam.Inventories
     [AddComponentMenu("Glory Jam/Inventory/" + nameof(ItemObjectStack))]
     public class ItemObjectStack : MonoBehaviour ,IItemObjectStack
     {
-        #region const
-        protected const string grpItem = "Item";
-        protected const string grpConfig = "Config";
-        protected const string grpRequired = "Required";
-        protected const string grpRuntime = "Runtime";
-        #endregion
-
-        #region fields
-        #if ODIN_INSPECTOR
-        [ShowInInspector,BoxGroup(grpItem),HideLabel,HideDuplicateReferenceBox,HideReferenceObjectPicker]
-        #endif
-        protected Item _item;
-
-        #if ODIN_INSPECTOR
-        [ShowInInspector,BoxGroup(grpItem),HideLabel,HideDuplicateReferenceBox,HideReferenceObjectPicker]
-        #endif
-        protected ItemStack _stack;
-        #endregion
-
         #region property
-        public Item item => _stack?.item;
-        public ItemStack stack => _stack;
+        #if ODIN_INSPECTOR
+        [ShowInInspector,HideLabel,HideDuplicateReferenceBox,HideReferenceObjectPicker]
+        #endif
+        public Item item => stack != null? stack.item : default;
+
+        #if ODIN_INSPECTOR
+        [ShowInInspector,HideLabel,HideDuplicateReferenceBox,HideReferenceObjectPicker]
+        #endif
+        public ItemStack stack {
+            get => _stack;
+            set => _stack = value;
+        }
         #endregion
 
-        #region methods
-        public void SetStack(ItemStack stack){
-            _stack = stack;
-            _item = stack?.item;
-        }
+        #region protected
+        protected ItemStack _stack;
         #endregion
     }
 }

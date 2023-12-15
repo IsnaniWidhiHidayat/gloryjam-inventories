@@ -46,7 +46,8 @@ namespace GloryJam.Inventories
             if(objStack == null){
                 objStack = clone?.AddComponent<ItemObjectStack>();
             }
-            objStack?.SetStack(stack);
+
+            if(objStack != null) objStack.stack = stack;
 
             //Trigger event
             Event.stack  = stack;
@@ -80,7 +81,8 @@ namespace GloryJam.Inventories
             if(objStack == null){
                 objStack = clone?.AddComponent<ItemObjectStack>();
             }
-            objStack?.SetStack(stack);
+
+            if(objStack != null) objStack.stack = stack;
 
             //Trigger event
             Event.stack = stack;
