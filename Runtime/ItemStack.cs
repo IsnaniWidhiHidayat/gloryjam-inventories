@@ -34,7 +34,7 @@ namespace GloryJam.Inventories
         [BoxGroup(grpProperty)]
         [ShowInInspector,DisplayAsString,HideInEditorMode,LabelText("Inventory")]
         #endif
-        private string inventoryName => inventory?.name;
+        private string inventoryName => inventory?.id;
 
         #if ODIN_INSPECTOR
         [BoxGroup(grpProperty)]
