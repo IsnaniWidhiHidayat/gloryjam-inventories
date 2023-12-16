@@ -10,5 +10,10 @@ namespace GloryJam.Inventories
         public ItemStack stack;
         public GameObject Object;
         #endregion
+
+        public override string ToString()
+        {
+            return $"{{ stack:{stack} }}";
+        }
     }
 }

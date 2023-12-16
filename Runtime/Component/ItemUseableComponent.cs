@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using System.Collections;
 using GloryJam.DataAsset;
+using GloryJam.Extend;
+
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -103,6 +105,8 @@ namespace GloryJam.Inventories
         }
 
         public virtual bool Use(Func<ItemUsageHandler,bool> condition = null){
+            $"Use {stack}".Log(DebugFilter.Item);
+
             //chekc max use
             if(maxUse.Enabled && !maxUse.isCanUse) return false;
 
@@ -126,6 +130,7 @@ namespace GloryJam.Inventories
             var result = !prevInUse && used;
 
             if(result) {
+
                 //Trigger Event
                 Event.type  = ItemUseableEvent.Type.Use;
                 Event.stack = stack;
@@ -156,6 +161,8 @@ namespace GloryJam.Inventories
         }
 
         public virtual bool Unuse(Func<ItemUsageHandler,bool> condition = null){
+            $"Unuse {stack}".Log(DebugFilter.Item);
+            
             var prevInUse = inUse;
 
             for (int i = 0; i < handlers.Count; i++)
@@ -252,6 +259,7 @@ namespace GloryJam.Inventories
         }
         private void OnTrigger()
         {
+            $"Usage Trigger {stack}".Log(DebugFilter.Item);
             Use();
         }
         #endregion

@@ -2,6 +2,8 @@ using System.Collections;
 using GloryJam.DataAsset;
 using UnityEngine;
 using System;
+using GloryJam.Extend;
+
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -77,11 +79,15 @@ namespace GloryJam.Inventories
             StopCooldown();
 
             if(duration <= 0) return;
+
+            $"Run Cooldown {_component?.stack}".Log(DebugFilter.Item);
             _coroutineRunner = _component?.inventory;
             CR_Cooldown = _coroutineRunner?.StartCoroutine(CoroutineCooldown());
         }
         public void StopCooldown(){
             if(CR_Cooldown == null) return;
+
+             $"Stop Cooldown {_component?.stack}".Log(DebugFilter.Item);
             _coroutineRunner?.StopCoroutine(CR_Cooldown);
         }
         public ItemUseableCooldown CreateInstance()

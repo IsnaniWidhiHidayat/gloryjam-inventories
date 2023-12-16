@@ -18,5 +18,10 @@ namespace GloryJam.Inventories
         public Type type;
         public ItemStack stack;
         #endregion
+
+        public override string ToString()
+        {
+            return $"{{ type:{type}, stack:{stack} }}";
+        }
     }
 }

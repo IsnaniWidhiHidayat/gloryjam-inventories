@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using GloryJam.Extend;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -108,6 +109,8 @@ namespace GloryJam.Inventories
                 }
             }
             
+            $"Init {this}".Log(DebugFilter.Item);
+
             //Trigger event
             Event.type  = InventoryEvent.Type.Init;
             Event.stack = this;
@@ -147,6 +150,8 @@ namespace GloryJam.Inventories
         public void Dispose(){
             var inventory = this.inventory;
             
+            $"Dispose {this}".Log(DebugFilter.Item);
+
             _slot.Dispose(this);
 
             if(component?.Count > 0)
@@ -163,5 +168,10 @@ namespace GloryJam.Inventories
             InventoryEvent.Trigger(inventory,Event);
         }
         #endregion
+
+        public override string ToString()
+        {
+            return $"{{ id:{item?.id}, inventory:{inventoryName}, slotIndex:{slotIndex}, index:{index} }}";
+        }
     }
 }

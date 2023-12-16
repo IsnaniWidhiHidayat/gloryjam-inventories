@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using GloryJam.Extend;
+
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -34,13 +36,15 @@ namespace GloryJam.Inventories
 
         #region methods
         public void Consume(){
+            $"Consume {stack}".Log(DebugFilter.Item);
+
             if(stack == null) return;
             
-            stack.Dispose();
-
             //Trigger event
             Event.stack = stack;
             ItemConsumeEvent.Trigger(inventory,Event);
+
+            stack.Dispose();
         }
         #endregion
 

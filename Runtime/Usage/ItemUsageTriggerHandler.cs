@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using GloryJam.Extend;
+
 
 
 #if ODIN_INSPECTOR
@@ -158,8 +160,14 @@ namespace GloryJam.Inventories
         }
         private void OnTrigger()
         {
+            var markLog = 0;
             for (int i = 0; i < handlers.Count; i++)
             {
+                if(handlers[i] == null) continue;
+                if(markLog == 0){
+                    $"Usage Trigger Handler {stack}".Log(DebugFilter.Item);
+                    markLog++;
+                }
                 handlers[i]?.Use();
             }
         }

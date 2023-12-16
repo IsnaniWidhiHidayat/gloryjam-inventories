@@ -1,4 +1,5 @@
 using System;
+using GloryJam.Extend;
 
 namespace GloryJam.Inventories
 {
@@ -17,6 +18,7 @@ namespace GloryJam.Inventories
         #region methods
         public override bool Use()
         {
+            $"Consume {stack}".Log(DebugFilter.Item);
             stack.Dispose();
             return true;
         }

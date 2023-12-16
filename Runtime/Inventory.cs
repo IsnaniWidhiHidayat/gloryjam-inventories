@@ -23,7 +23,7 @@ namespace GloryJam.Inventories
 #else
     MonoBehaviour
 #endif
-    , EventListener<InventoryEvent>,EventListener<ItemUseableEvent>
+    , EventListener<InventoryEvent>,EventListener<ItemUseableEvent>,EventListener<ItemConsumeEvent>
     {
         #region const
         const string grpConfig = "Config";
@@ -141,7 +141,7 @@ namespace GloryJam.Inventories
         #if ODIN_INSPECTOR
         [BoxGroup(grpEvent)]
         #endif
-        public UnityEvent<ItemStack> onItemInit,onItemUse,onItemUnuse,onItemDispose;
+        public UnityEvent<ItemStack> onItemInit,onItemUse,onItemUnuse,onItemDispose,onItemConsume;
         #endregion
 
         #region private
@@ -561,8 +561,13 @@ namespace GloryJam.Inventories
                 slots[fromIndex]?.Init();
             }
         }
+
+        public override string ToString()
+        {
+            return id;
+        }
         #endregion
-        
+
         #region coroutine
         private IEnumerator CoroutinePostInitialize()
         {
@@ -593,22 +598,28 @@ namespace GloryJam.Inventories
         }
         public void OnEvent(object sender, InventoryEvent Event)
         {
-           switch(Event.type){
-                case InventoryEvent.Type.Init:{
-                    if(sender != (object)this) return;
-                    onItemInit?.Invoke(Event.stack);
-                    break;
-                }
+            if(Event.stack == null) return;
+            if(sender != (object)this) return;
 
-                case InventoryEvent.Type.Dispose:{
-                    if(sender != (object)this) return;
-                    onItemDispose?.Invoke(Event.stack);
-                    break;
-                }
-           }
+            switch(Event.type){
+                    case InventoryEvent.Type.Init:{
+                        if(sender != (object)this) return;
+                        onItemInit?.Invoke(Event.stack);
+                        break;
+                    }
+
+                    case InventoryEvent.Type.Dispose:{
+                        if(sender != (object)this) return;
+                        onItemDispose?.Invoke(Event.stack);
+                        break;
+                    }
+            }
         }
         public void OnEvent(object sender,ItemUseableEvent Event)
         {
+            if(Event.stack == null) return;
+            if(sender != (object)this) return;
+
             switch(Event.type){
                 case ItemUseableEvent.Type.Use:{
                     if(sender != (object)this) return;
@@ -622,6 +633,13 @@ namespace GloryJam.Inventories
                     break;
                 }
             }
+        }
+        public void OnEvent(object sender, ItemConsumeEvent Event)
+        {
+            if(Event.stack == null) return;
+            if(sender != (object)this) return;
+
+            onItemConsume?.Invoke(Event.stack);
         }
         #endregion
     }

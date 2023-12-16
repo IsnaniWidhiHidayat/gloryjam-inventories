@@ -157,6 +157,10 @@ namespace GloryJam.Inventories
                 }
             }
         }
+        public override string ToString()
+        {
+            return id;
+        }
         #endregion
 
         #region IInstance

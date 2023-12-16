@@ -1,3 +1,5 @@
+using GloryJam.Extend;
+
 namespace GloryJam.Inventories
 {
     [DisallowMultipleItemComponent]
@@ -12,12 +14,16 @@ namespace GloryJam.Inventories
 
         #region methods
         public void SaveState(){
+            $"Save State {stack}".Log(DebugFilter.Item);
+
             for (int i = 0; i < handlers.Count; i++)
             {
                 handlers[i]?.SaveState();
             }
         }
         public void LoadState(){
+            $"Load State {stack}".Log(DebugFilter.Item);
+
             for (int i = 0; i < handlers.Count; i++)
             {
                 handlers[i]?.LoadState();

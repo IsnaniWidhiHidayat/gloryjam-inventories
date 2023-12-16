@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using GloryJam.Extend;
+
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -21,6 +23,8 @@ namespace GloryJam.Inventories
         #region methods
         public bool Dismantle(ref Dictionary<Item, int> result)
         {
+            $"Dismantle {stack}".Log(DebugFilter.Item);
+
             var r = true;
             
             for (int i = 0; i < handlers.Count; i++)

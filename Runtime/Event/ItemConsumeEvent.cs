@@ -8,5 +8,10 @@ namespace GloryJam.Inventories
         #region fields
         public ItemStack stack;
         #endregion
+
+        public override string ToString()
+        {
+            return $"{{ stack:{stack} }}";
+        }
     }
 }
