@@ -14,7 +14,7 @@ namespace GloryJam.Inventories
 
         #region methods
         public void SaveState(){
-            Debug.Log($"[Inventory]{stack?.item?.id} Save State, stack:{stack}");
+            Debug.Log($"[Inventory]{inventory?.name} Save State {stack?.item?.id}, stack:{stack}");
 
             for (int i = 0; i < handlers.Count; i++)
             {
@@ -22,7 +22,7 @@ namespace GloryJam.Inventories
             }
         }
         public void LoadState(){
-            Debug.Log($"[Inventory]{stack?.item?.id} Load State, stack:{stack}");
+            Debug.Log($"[Inventory]{inventory?.name} Load State {stack?.item?.id}, stack:{stack}");
 
             for (int i = 0; i < handlers.Count; i++)
             {

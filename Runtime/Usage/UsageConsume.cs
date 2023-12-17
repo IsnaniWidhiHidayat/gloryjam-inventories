@@ -18,7 +18,7 @@ namespace GloryJam.Inventories
         #region methods
         public override bool Use()
         {
-            Debug.Log($"[Inventory]{stack?.item?.id} Consume, stack:{stack}");
+            Debug.Log($"[Inventory]{inventory?.name} Consume {stack?.item?.id}, stack:{stack}");
             stack.Dispose();
             return true;
         }

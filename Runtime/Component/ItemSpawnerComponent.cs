@@ -32,7 +32,7 @@ namespace GloryJam.Inventories
                 stack = item.CreateInstance();
             }
 
-            Debug.Log($"[Inventory]{stack?.item?.id} Spawn, stack:{stack}");
+            Debug.Log($"[Inventory]{inventory?.name} Spawn {stack?.item?.id}, stack:{stack}");
 
             //spawn object
             var clone = default(GameObject);
@@ -68,7 +68,7 @@ namespace GloryJam.Inventories
                 stack = item.CreateInstance();
             }
 
-            Debug.Log($"[Inventory]{stack?.item?.id} Spawn, stack:{stack}");
+            Debug.Log($"[Inventory]{inventory?.name} Spawn {stack?.item?.id}, stack:{stack}");
 
             //spawn object
             var clone = default(GameObject);
