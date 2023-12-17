@@ -22,7 +22,7 @@ namespace GloryJam.Inventories
         #region methods
         public bool Dismantle(ref Dictionary<Item, int> result)
         {
-            Debug.Log($"[Inventory]Item Dismantle, stack:{stack}");
+            Debug.Log($"[Inventory]{stack?.item?.id} Dismantle, stack:{stack}");
 
             var r = true;
             

@@ -35,7 +35,7 @@ namespace GloryJam.Inventories
 
         #region methods
         public void Consume(){
-            Debug.Log($"[Inventory]Item Consume, stack:{stack}");
+            Debug.Log($"[Inventory]{stack?.item?.id} Consume, stack:{stack}");
 
             if(stack == null) return;
             

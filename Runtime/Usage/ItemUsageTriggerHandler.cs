@@ -162,7 +162,7 @@ namespace GloryJam.Inventories
             {
                 if(handlers[i] == null) continue;
                 if(markLog == 0){
-                    Debug.Log($"[Inventory]Item Usage Trigger Handler, stack:{stack}");
+                    Debug.Log($"[Inventory]{stack?.item?.id} Usage Trigger Handler, stack:{stack}");
                     markLog++;
                 }
                 handlers[i]?.Use();

@@ -78,14 +78,14 @@ namespace GloryJam.Inventories
 
             if(duration <= 0) return;
 
-            Debug.Log($"[Inventory]Item Usage Run Cooldown, stack:{_component?.stack}");
+            Debug.Log($"[Inventory]{_component?.stack?.item?.id} Usage Run Cooldown, stack:{_component?.stack}");
             _coroutineRunner = _component?.inventory;
             CR_Cooldown = _coroutineRunner?.StartCoroutine(CoroutineCooldown());
         }
         public void StopCooldown(){
             if(CR_Cooldown == null) return;
 
-             Debug.Log($"[Inventory]Item Usage Stop Cooldown, stack:{_component?.stack}");
+             Debug.Log($"[Inventory]{_component?.stack?.item?.id} Usage Stop Cooldown, stack:{_component?.stack}");
             _coroutineRunner?.StopCoroutine(CR_Cooldown);
         }
         public ItemUseableCooldown CreateInstance()
