@@ -25,14 +25,14 @@ namespace GloryJam.Inventories
         #region methods
         public GameObject Spawn()
         {
-            Debug.Log($"[Inventory]Item Spawn, stack:{this.stack}");
-
             var stack = this.stack;
 
             //create instance of stack
             if(stack == null && item != null){
                 stack = item.CreateInstance();
             }
+
+            Debug.Log($"[Inventory]Item Spawn, stack:{this.stack}");
 
             //spawn object
             var clone = default(GameObject);
@@ -60,7 +60,6 @@ namespace GloryJam.Inventories
         }
         public GameObject Spawn<T1>() where T1 : ItemSpawnerHandler
         {
-            Debug.Log($"[Inventory]Item Spawn, stack:{this.stack}");
 
             var stack = this.stack;
 
@@ -68,6 +67,8 @@ namespace GloryJam.Inventories
             if(stack == null && item != null){
                 stack = item.CreateInstance();
             }
+
+            Debug.Log($"[Inventory]Item Spawn, stack:{this.stack}");
 
             //spawn object
             var clone = default(GameObject);
