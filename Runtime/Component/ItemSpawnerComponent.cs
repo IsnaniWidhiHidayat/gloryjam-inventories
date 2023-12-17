@@ -1,7 +1,5 @@
 using System;
 using UnityEngine;
-using GloryJam.Extend;
-
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -27,7 +25,7 @@ namespace GloryJam.Inventories
         #region methods
         public GameObject Spawn()
         {
-            $"Spawn {this.stack}".Log(DebugFilter.Item);
+            Debug.Log($"[Inventory]Item Spawn, stack:{this.stack}");
 
             var stack = this.stack;
 
@@ -62,7 +60,7 @@ namespace GloryJam.Inventories
         }
         public GameObject Spawn<T1>() where T1 : ItemSpawnerHandler
         {
-            $"Spawn {this.stack}".Log(DebugFilter.Item);
+            Debug.Log($"[Inventory]Item Spawn, stack:{this.stack}");
 
             var stack = this.stack;
 

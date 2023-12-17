@@ -57,7 +57,7 @@ MonoBehaviour:
         GloryJam.Inventories]], mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 7
       Data: 3|GloryJam.Inventories.ItemDetailComponent, GloryJam.Inventories
@@ -149,7 +149,19 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 7|GloryJam.Inventories.ItemStateComponent, GloryJam.Inventories
+      Data: 7|GloryJam.Inventories.ItemConsumeComponent, GloryJam.Inventories
+    - Name: Enabled
+      Entry: 5
+      Data: true
+    - Name: id
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|GloryJam.Inventories.ItemStateComponent, GloryJam.Inventories
     - Name: Enabled
       Entry: 5
       Data: true
@@ -158,14 +170,14 @@ MonoBehaviour:
       Data: 
     - Name: handlers
       Entry: 7
-      Data: 8|System.Collections.Generic.List`1[[GloryJam.Inventories.ItemStateHandler,
+      Data: 9|System.Collections.Generic.List`1[[GloryJam.Inventories.ItemStateHandler,
         GloryJam.Inventories]], mscorlib
     - Name: 
       Entry: 12
       Data: 3
     - Name: 
       Entry: 7
-      Data: 9|GloryJam.Inventories.ItemStateViewedHandler, GloryJam.Inventories
+      Data: 10|GloryJam.Inventories.ItemStateViewedHandler, GloryJam.Inventories
     - Name: id
       Entry: 6
       Data: 
@@ -177,7 +189,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 10|GloryJam.Inventories.ItemStateUsageHandler, GloryJam.Inventories
+      Data: 11|GloryJam.Inventories.ItemStateUsageHandler, GloryJam.Inventories
     - Name: id
       Entry: 6
       Data: 
@@ -189,7 +201,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 11|GloryJam.Inventories.ItemStateUsageHandler, GloryJam.Inventories
+      Data: 12|GloryJam.Inventories.ItemStateUsageHandler, GloryJam.Inventories
     - Name: id
       Entry: 6
       Data: 

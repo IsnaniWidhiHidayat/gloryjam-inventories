@@ -1,4 +1,4 @@
-using GloryJam.Extend;
+using UnityEngine;
 
 namespace GloryJam.Inventories
 {
@@ -14,7 +14,7 @@ namespace GloryJam.Inventories
 
         #region methods
         public void SaveState(){
-            $"Save State {stack}".Log(DebugFilter.Item);
+            Debug.Log($"[Inventory]Item Save State, stack:{stack}");
 
             for (int i = 0; i < handlers.Count; i++)
             {
@@ -22,7 +22,7 @@ namespace GloryJam.Inventories
             }
         }
         public void LoadState(){
-            $"Load State {stack}".Log(DebugFilter.Item);
+            Debug.Log($"[Inventory]Item Load State, stack:{stack}");
 
             for (int i = 0; i < handlers.Count; i++)
             {

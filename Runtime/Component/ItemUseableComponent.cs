@@ -1,9 +1,5 @@
 using System;
 using UnityEngine;
-using System.Collections;
-using GloryJam.DataAsset;
-using GloryJam.Extend;
-
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -105,7 +101,7 @@ namespace GloryJam.Inventories
         }
 
         public virtual bool Use(Func<ItemUsageHandler,bool> condition = null){
-            $"Use {stack}".Log(DebugFilter.Item);
+            Debug.Log($"[Inventory]Item Use, stack:{stack}");
 
             //chekc max use
             if(maxUse.Enabled && !maxUse.isCanUse) return false;
@@ -161,7 +157,7 @@ namespace GloryJam.Inventories
         }
 
         public virtual bool Unuse(Func<ItemUsageHandler,bool> condition = null){
-            $"Unuse {stack}".Log(DebugFilter.Item);
+            Debug.Log($"[Inventory]Item Unuse {stack}");
             
             var prevInUse = inUse;
 
@@ -259,7 +255,7 @@ namespace GloryJam.Inventories
         }
         private void OnTrigger()
         {
-            $"Usage Trigger {stack}".Log(DebugFilter.Item);
+            Debug.Log($"[Inventory]Item Usage Trigger, stack:{stack}");
             Use();
         }
         #endregion

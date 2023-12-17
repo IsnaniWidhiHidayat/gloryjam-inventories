@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using GloryJam.Extend;
 
 
 #if ODIN_INSPECTOR
@@ -36,7 +35,7 @@ namespace GloryJam.Inventories
 
         #region methods
         public void Consume(){
-            $"Consume {stack}".Log(DebugFilter.Item);
+            Debug.Log($"[Inventory]Item Consume, stack:{stack}");
 
             if(stack == null) return;
             
