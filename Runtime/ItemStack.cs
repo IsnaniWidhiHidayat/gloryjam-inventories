@@ -108,7 +108,7 @@ namespace GloryJam.Inventories
                 }
             }
             
-            Debug.Log($"[Inventory]{item?.id} Init, stack:{this}");
+            Debug.Log($"[Inventory]{inventory?.name} Inventory {inventory?.id} Init {item?.id}, stack:{this}");
 
             //Trigger event
             Event.type  = InventoryEvent.Type.Init;
@@ -149,7 +149,7 @@ namespace GloryJam.Inventories
         public void Dispose(){
             var inventory = this.inventory;
             
-            Debug.Log($"[Inventory]{item?.id} Stack Dispose, stack:{this}");
+            Debug.Log($"[Inventory]{inventory?.name} Inventory {inventory?.id} Dispose {item?.id}, stack:{this}");
 
             _slot.Dispose(this);
 

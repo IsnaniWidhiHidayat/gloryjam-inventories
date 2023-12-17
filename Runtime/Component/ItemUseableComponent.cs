@@ -101,7 +101,7 @@ namespace GloryJam.Inventories
         }
 
         public virtual bool Use(Func<ItemUsageHandler,bool> condition = null){
-            Debug.Log($"[Inventory]{inventory?.name} Use {stack?.item?.id}, stack:{stack}");
+            Debug.Log($"[Inventory]{inventory?.name} Inventory {inventory?.id} Use {stack?.item?.id}, stack:{stack}");
 
             //chekc max use
             if(maxUse.Enabled && !maxUse.isCanUse) return false;
@@ -157,7 +157,7 @@ namespace GloryJam.Inventories
         }
 
         public virtual bool Unuse(Func<ItemUsageHandler,bool> condition = null){
-            Debug.Log($"[Inventory]{inventory?.name} Unuse {stack?.item?.id}, stack:{stack}");
+            Debug.Log($"[Inventory]{inventory?.name} Inventory {inventory?.id} Unuse {stack?.item?.id}, stack:{stack}");
             
             var prevInUse = inUse;
 
@@ -255,7 +255,7 @@ namespace GloryJam.Inventories
         }
         private void OnTrigger()
         {
-            Debug.Log($"[Inventory]{inventory?.name} Usage Trigger {stack?.item?.id}, stack:{stack}");
+            Debug.Log($"[Inventory]{inventory?.name} Inventory {inventory?.id} Usage Trigger {stack?.item?.id}, stack:{stack}");
             Use();
         }
         #endregion
