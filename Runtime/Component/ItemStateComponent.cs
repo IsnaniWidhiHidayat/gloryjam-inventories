@@ -18,6 +18,7 @@ namespace GloryJam.Inventories
 
             for (int i = 0; i < handlers.Count; i++)
             {
+                if(handlers[i] == null) continue;
                 handlers[i]?.SaveState();
             }
         }
@@ -26,6 +27,7 @@ namespace GloryJam.Inventories
 
             for (int i = 0; i < handlers.Count; i++)
             {
+                if(handlers[i] == null) continue;
                 handlers[i]?.LoadState();
             }
         }

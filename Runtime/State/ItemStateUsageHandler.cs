@@ -1,5 +1,6 @@
 using System;
 using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace GloryJam.Inventories
 {
@@ -28,10 +29,14 @@ namespace GloryJam.Inventories
             
             if(useableComponent == null) return;
 
+            Debug.Log($"[Inventory]{inventory?.name} Inventory {inventory?.id} Save State {GetType()?.Name}:{this}, stack:{stack}");
+
             inUse = useableComponent.inUse;
         }
         public override void LoadState(){
             if(useableComponent == null) return;
+
+            Debug.Log($"[Inventory]{inventory?.name} Inventory {inventory?.id} Load State {GetType()?.Name}:{this}, stack:{stack}");
 
             var useableInUse = useableComponent.inUse;
             if(inUse && !useableInUse){
@@ -39,6 +44,10 @@ namespace GloryJam.Inventories
             }else if (!inUse && useableInUse){
                 useableComponent.Unuse();
             }
+        }
+        public override string ToString()
+        {
+            return $"{{ inUse:{inUse} }}";
         }
         #endregion
 

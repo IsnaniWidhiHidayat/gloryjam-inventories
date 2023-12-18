@@ -1,5 +1,6 @@
 using System;
 using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace GloryJam.Inventories
 {
@@ -19,8 +20,16 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public override void SaveState(){}
-        public override void LoadState(){}
+        public override void SaveState(){
+            Debug.Log($"[Inventory]{inventory?.name} Inventory {inventory?.id} Save State {GetType()?.Name}:{this}, stack:{stack}");
+        }
+        public override void LoadState(){
+            Debug.Log($"[Inventory]{inventory?.name} Inventory {inventory?.id} Load State {GetType()?.Name}:{this}, stack:{stack}");
+        }
+        public override string ToString()
+        {
+            return $"{{ inViewed:{isViewed} }}";
+        }
         #endregion
 
         #region callback
