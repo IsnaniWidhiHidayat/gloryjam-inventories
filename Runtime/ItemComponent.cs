@@ -309,13 +309,14 @@ namespace GloryJam.Inventories
             return result != null && result.Length > 0;
         }
         
-        public string[] GetHandlersID()
+        public string[] GetHandlersID(Func<H,bool> condition = null)
         {
             var result = new List<string>();
 
             for (int i = 0; i < handlers.Count; i++)
             {
                 if(string.IsNullOrEmpty(handlers[i].id)) continue;
+                if(condition != null && !condition(handlers[i])) continue;
                 result.Add(handlers[i].id);
             }
 
@@ -323,7 +324,7 @@ namespace GloryJam.Inventories
 
             return result.ToArray();
         }
-        public string[] GetHandlersID<T1>() where T1: H
+        public string[] GetHandlersID<T1>(Func<T1,bool> condition = null) where T1: H
         {
             if(TryGetHandlers(out T1[] handlers))
             {
@@ -332,6 +333,7 @@ namespace GloryJam.Inventories
                 for (int i = 0; i < handlers.Length; i++)
                 {
                     if(string.IsNullOrEmpty(handlers[i].id)) continue;
+                    if(condition != null && !condition(handlers[i])) continue;
                     result.Add(handlers[i].id);
                 }
 
