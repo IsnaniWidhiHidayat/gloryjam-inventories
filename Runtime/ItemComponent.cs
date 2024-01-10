@@ -133,6 +133,7 @@ namespace GloryJam.Inventories
         private void InspectorOnComponentValueChange()
         {
             Sort();
+            SetItem(item);
         }
         #endregion
 
