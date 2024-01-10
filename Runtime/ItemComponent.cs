@@ -308,6 +308,41 @@ namespace GloryJam.Inventories
 
             return result != null && result.Length > 0;
         }
+        
+        public string[] GetHandlersID()
+        {
+            var result = new List<string>();
+
+            for (int i = 0; i < handlers.Count; i++)
+            {
+                if(string.IsNullOrEmpty(handlers[i].id)) continue;
+                result.Add(handlers[i].id);
+            }
+
+            result.Sort((x,y)=> x.CompareTo(y));
+
+            return result.ToArray();
+        }
+        public string[] GetHandlersID<T1>() where T1: H
+        {
+            if(TryGetHandlers(out T1[] handlers))
+            {
+                var result = new List<string>();
+
+                for (int i = 0; i < handlers.Length; i++)
+                {
+                    if(string.IsNullOrEmpty(handlers[i].id)) continue;
+                    result.Add(handlers[i].id);
+                }
+
+                result.Sort((x,y)=> x.CompareTo(y));
+
+                return result.ToArray();
+            }
+
+            return default;
+        }
+        
         public override ItemComponent CreateInstance()
         {
             var clone = base.CreateInstance() as T;

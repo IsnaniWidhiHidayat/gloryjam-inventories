@@ -122,6 +122,44 @@ namespace GloryJam.Inventories
             var component = stack.GetComponent<T>();
             return component != null;
         }
+    
+        public static string[] GetComponentsID<T>(this Item item) where T : ItemComponent
+        {
+            if(item.TryGetComponents<T>(out var components)){
+                var result = new List<string>();
+
+                for (int i = 0; i < components.Length; i++)
+                {
+                    if(string.IsNullOrEmpty(components[i].id)) continue;
+                    result.Add(components[i].id);
+                }
+
+                result.Sort((x,y)=> x.CompareTo(y));
+
+                return result.ToArray();
+            }
+
+            return default;
+        }
+
+        public static string[] GetComponentsID<T>(this ItemStack stack) where T : ItemComponent
+        {
+            if(stack.TryGetComponents<T>(out var components)){
+                var result = new List<string>();
+
+                for (int i = 0; i < components.Length; i++)
+                {
+                    if(string.IsNullOrEmpty(components[i].id)) continue;
+                    result.Add(components[i].id);
+                }
+
+                result.Sort((x,y)=> x.CompareTo(y));
+
+                return result.ToArray();
+            }
+
+            return default;
+        }
     }
 }
 
