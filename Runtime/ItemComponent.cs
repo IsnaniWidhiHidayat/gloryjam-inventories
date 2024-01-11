@@ -176,18 +176,19 @@ namespace GloryJam.Inventories
             });
         }
         
-        public bool ContainHandler<T1>() where T1 : H
+        public bool ContainHandler<T1>(Func<T1,bool> condition = null,bool deep = false) where T1 : H
         {
-            return handlers.Exists(x => x != null && x is T1);
+            return TryGetHandler(out var handler,condition,deep);
         }
-        public T1 GetHandler<T1>(Func<T1,bool> condition = null) where T1 : H
+
+        public T1 GetHandler<T1>(Func<T1,bool> condition = null,bool deep = false) where T1 : H
         {
-            if(TryGetHandler<T1>(out var result,condition)) return result;
+            if(TryGetHandler(out var result,condition,deep)) return result;
             return default;
         }
-        public T1[] GetHandlers<T1>(Func<T1,bool> condition = null) where T1 : H
+        public T1[] GetHandlers<T1>(Func<T1,bool> condition = null,bool deep = false) where T1 : H
         {
-            if(TryGetHandlers<T1>(out var result,condition)) return result;
+            if(TryGetHandlers(out var result,condition,deep)) return result;
             return default;
         }
         
@@ -309,36 +310,35 @@ namespace GloryJam.Inventories
             return result != null && result.Length > 0;
         }
         
-        public string[] GetHandlersID(Func<H,bool> condition = null)
+        public string[] GetHandlersID(Func<H,bool> condition = null,bool deep = false)
         {
-            var result = new List<string>();
-
-            for (int i = 0; i < handlers.Count; i++)
-            {
-                if(string.IsNullOrEmpty(handlers[i].id)) continue;
-                if(condition != null && !condition(handlers[i])) continue;
-                result.Add(handlers[i].id);
-            }
-
-            result.Sort((x,y)=> x.CompareTo(y));
-
-            return result.ToArray();
-        }
-        public string[] GetHandlersID<T1>(Func<T1,bool> condition = null) where T1: H
-        {
-            if(TryGetHandlers(out T1[] handlers))
+            if(TryGetHandlers(out var handlers,condition,deep))
             {
                 var result = new List<string>();
-
                 for (int i = 0; i < handlers.Length; i++)
                 {
                     if(string.IsNullOrEmpty(handlers[i].id)) continue;
-                    if(condition != null && !condition(handlers[i])) continue;
                     result.Add(handlers[i].id);
                 }
 
                 result.Sort((x,y)=> x.CompareTo(y));
+                return result.ToArray();
+            }
 
+            return default;
+        }
+        public string[] GetHandlersID<T1>(Func<T1,bool> condition = null,bool deep = false) where T1: H
+        {
+            if(TryGetHandlers(out T1[] handlers,condition,deep))
+            {
+                var result = new List<string>();
+                for (int i = 0; i < handlers.Length; i++)
+                {
+                    if(string.IsNullOrEmpty(handlers[i].id)) continue;
+                    result.Add(handlers[i].id);
+                }
+
+                result.Sort((x,y)=> x.CompareTo(y));
                 return result.ToArray();
             }
 
