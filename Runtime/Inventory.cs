@@ -4,11 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using GloryJam.DataAsset;
 using GloryJam.Event;
-using System.Linq;
 using System.Collections;
-
-
-
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;

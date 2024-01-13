@@ -1,0 +1,157 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc055574f6483344a0b8e13e350bb66, type: 3}
+  m_Name: Test Set Data Asset
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: d501e640a9069a9448e155bd0c2d3d3a, type: 2}
+    - {fileID: 11400000, guid: fdc402b7c3c11374aa0b96d77ba5da2b, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: value
+      Entry: 7
+      Data: 0|GloryJam.Inventories.ItemSetData, GloryJam.Inventories
+    - Name: items
+      Entry: 7
+      Data: 1|GloryJam.Inventories.ItemReferenceCount[], GloryJam.Inventories
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 2|GloryJam.Inventories.ItemReferenceCount, GloryJam.Inventories
+    - Name: item
+      Entry: 10
+      Data: 0
+    - Name: count
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 3|GloryJam.Inventories.ItemReferenceCount, GloryJam.Inventories
+    - Name: item
+      Entry: 10
+      Data: 1
+    - Name: count
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: handler
+      Entry: 7
+      Data: 4|GloryJam.Inventories.ItemSetHandler[], GloryJam.Inventories
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 5|GloryJam.Inventories.ItemSetBonusItemHandler, GloryJam.Inventories
+    - Name: itemBonus
+      Entry: 7
+      Data: 6|GloryJam.Inventories.ItemSetBonusItemHandler+ItemBonus[], GloryJam.Inventories
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 7|GloryJam.Inventories.ItemSetBonusItemHandler+ItemBonus, GloryJam.Inventories
+    - Name: match
+      Entry: 3
+      Data: 1
+    - Name: bonusItems
+      Entry: 7
+      Data: 8|GloryJam.Inventories.ItemReferenceCount[], GloryJam.Inventories
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 9|GloryJam.Inventories.ItemReferenceCount, GloryJam.Inventories
+    - Name: item
+      Entry: 10
+      Data: 0
+    - Name: count
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|GloryJam.Inventories.ItemSetBonusItemHandler+ItemBonus, GloryJam.Inventories
+    - Name: match
+      Entry: 3
+      Data: 2
+    - Name: bonusItems
+      Entry: 7
+      Data: 11|GloryJam.Inventories.ItemReferenceCount[], GloryJam.Inventories
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  value:
+    items:
+    - item: {fileID: 11400000, guid: d501e640a9069a9448e155bd0c2d3d3a, type: 2}
+      count: 0
+    - item: {fileID: 11400000, guid: fdc402b7c3c11374aa0b96d77ba5da2b, type: 2}
+      count: 0
