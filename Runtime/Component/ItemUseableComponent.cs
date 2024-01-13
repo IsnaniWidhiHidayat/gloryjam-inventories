@@ -7,12 +7,12 @@ using Sirenix.OdinInspector;
 
 namespace GloryJam.Inventories
 {
-    [Serializable,DisallowMultipleItemComponent]
+    [Serializable]
     public class ItemUseableComponent : ItemComponent<ItemUseableComponent,ItemUsageHandler>
     {
-        #region static
-        private static ItemUseableEvent Event = new ItemUseableEvent();
-        #endregion
+        // #region static
+        // private static ItemUseableEvent Event = new ItemUseableEvent();
+        // #endregion
 
         #region fields
         #if ODIN_INSPECTOR
@@ -58,8 +58,8 @@ namespace GloryJam.Inventories
         public override string name => "Usage";
         public override int order => 2;
 
-        public override bool showID => false;
-        public override bool requiredId => false;
+        public override bool showID => true;
+        //public override bool requiredId => false;
         #endregion
 
         #region inspector
@@ -128,9 +128,10 @@ namespace GloryJam.Inventories
             if(result) {
 
                 //Trigger Event
-                Event.type  = ItemUseableEvent.Type.Use;
-                Event.stack = stack;
-                ItemUseableEvent.Trigger(inventory,Event);
+                ItemUseableEvent.Trigger(inventory,new ItemUseableEvent(){
+                    type  = ItemUseableEvent.Type.Use,
+                    stack = stack
+                });
 
                 //ItemUseable
                 if(_itemUseables?.Length > 0) {
@@ -176,9 +177,10 @@ namespace GloryJam.Inventories
 
             if(result){
                 //Trigger Event
-                Event.type  = ItemUseableEvent.Type.Unuse;
-                Event.stack = stack;
-                ItemUseableEvent.Trigger(inventory,Event);
+                ItemUseableEvent.Trigger(inventory,new ItemUseableEvent(){
+                    type  = ItemUseableEvent.Type.Unuse,
+                    stack = stack,
+                });
 
                 //ItemUseable
                 if(_itemUseables?.Length > 0) {
@@ -209,10 +211,6 @@ namespace GloryJam.Inventories
         }
         #endregion
 
-        #region coroutine
-        
-        #endregion
-
         #region callback
         public override void OnInit()
         {
@@ -226,7 +224,14 @@ namespace GloryJam.Inventories
 
             //Get usage state handler
             if(stack.TryGetComponent<ItemStateComponent>(out var stateComponent)){
-                _stateHandler = stateComponent.GetHandler<ItemStateUsageHandler>();
+                //find default _stateHandler
+                if(string.IsNullOrEmpty(id)){
+                    _stateHandler = stateComponent.GetHandler<ItemStateUsageHandler>(x=> x != null && x.type == ItemStateUsageHandler.Type.Default);
+                }
+                //find state
+                else{
+                    _stateHandler = stateComponent.GetHandler<ItemStateUsageHandler>(x=> x != null && x.type == ItemStateUsageHandler.Type.ID && x.id == id);
+                }
             }
 
             //listening trigger

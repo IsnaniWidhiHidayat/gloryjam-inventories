@@ -87,7 +87,7 @@ namespace GloryJam.Inventories
         #if ODIN_INSPECTOR
         [BoxGroup(grpRuntime),SerializeField,HideLabel]
         #endif
-        protected DataReference<InventoryData> data;
+        public DataReference<InventoryData> data;
         #endregion
 
         #region property
@@ -106,39 +106,11 @@ namespace GloryJam.Inventories
                 data.value.slots = value;
             }
         }
-        
-        // public ItemSlot this[int index]
-        // {
-        //     get { return  slots[index]; }
-        //     set{
-                
-        //         //check same object
-        //         if(slots[index] == value) return;
-
-        //         //Switch slot
-        //         if(value != null){
-        //             if(value.inventory != null) {
-        //                 var idx = value.index;
-        //                 var inv = value.inventory;
-        //                 inv.slots[idx] = slots[index];
-        //                 inv.slots[idx]?.SetInventory(inv);
-        //                 inv.slots[idx]?.Init();
-        //             }
-        //         }else{
-        //             slots[index]?.SetInventory(null);
-        //             slots[index]?.Init();
-        //         }
-                
-        //         //set current slot
-        //         slots[index] = value;
-        //         slots[index]?.SetInventory(this);
-        //         slots[index]?.Init();
-        //     }   
-        // }
-        #endregion 
+        public int maxSlot => _maxSlot;
+        #endregion
 
         #region events
-        #if ODIN_INSPECTOR
+#if ODIN_INSPECTOR
         [BoxGroup(grpEvent)]
         #endif
         public UnityEvent<ItemStack> onItemInit,onItemUse,onItemUnuse,onItemDispose,onItemConsume;
@@ -195,7 +167,7 @@ namespace GloryJam.Inventories
             if(slots == null) slots = new ItemSlot[_maxSlot];
 
             //add default items
-            if(slots.Length != _maxSlot) Array.Resize(ref data.value.slots,_maxSlot);
+            SetMaxSlot(_maxSlot);
             
             StartCoroutine(CoroutinePostInitialize());
         }
@@ -369,6 +341,19 @@ namespace GloryJam.Inventories
 
             return false;
         }     
+        public bool DisposeItems(){
+            if(count <= 0) return false;
+
+            //Check existing item
+            if(slots?.Length> 0){
+                for (var i = 0; i < slots.Length; i++)
+                {
+                    slots[i]?.Dispose();
+                }
+            }
+
+            return true;
+        }
 
         public int GetEmptySlot(){
             var counter = 0;
@@ -562,6 +547,10 @@ namespace GloryJam.Inventories
             }
         }
 
+        public void SetMaxSlot(int maxSlot){
+            //add default items
+            if(slots.Length != maxSlot) Array.Resize(ref data.value.slots,maxSlot);
+        }
         public override string ToString()
         {
             return id;

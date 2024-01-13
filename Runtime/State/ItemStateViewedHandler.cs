@@ -7,16 +7,43 @@ namespace GloryJam.Inventories
     [Serializable]
     public class ItemStateViewedHandler : ItemStateHandler
     {
+        #region inner class
+        [Serializable]
+        public class SaveData :  ItemStateSaveData{
+            public bool isViewed;
+        }
+        #endregion
+
         #region property
         [BoxGroup(grpRuntime),DisableInEditorMode]
         public bool isViewed;
-
-        public override bool showID => false;
-        public override bool requiredId => false;
         #endregion
 
         #region property
         public override string name => $"Viewed : {isViewed}";
+        public override ItemStateSaveData saveData { 
+            get {
+                if(_saveData == null) _saveData = new SaveData();
+                
+                _saveData.id = id;
+                _saveData.isViewed = isViewed;
+                return _saveData;
+            }
+            set {
+                _saveData = value as SaveData;
+                isViewed = _saveData.isViewed;
+            }
+        }
+        #endregion
+
+        #region private
+        private SaveData _saveData;
+        #endregion
+
+        #region constructor
+        public ItemStateViewedHandler(){
+            id = "Viewed";
+        }
         #endregion
 
         #region methods

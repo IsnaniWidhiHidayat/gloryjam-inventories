@@ -2,7 +2,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GloryJam.Inventories
+namespace GloryJam.Inventories.Test
 {
     public class TimeCounter : MonoBehaviour
     {

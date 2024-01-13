@@ -57,7 +57,7 @@ MonoBehaviour:
         GloryJam.Inventories]], mscorlib
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 3
     - Name: 
       Entry: 7
       Data: 3|GloryJam.Inventories.ItemDetailComponent, GloryJam.Inventories
@@ -98,7 +98,19 @@ MonoBehaviour:
         GloryJam.Inventories]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 7|GloryJam.Inventories.Test.TestUsageItem, Assembly-CSharp
+    - Name: id
+      Entry: 6
+      Data: 
+    - Name: persistent
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -149,18 +161,6 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 7|GloryJam.Inventories.ItemConsumeComponent, GloryJam.Inventories
-    - Name: Enabled
-      Entry: 5
-      Data: true
-    - Name: id
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
       Data: 8|GloryJam.Inventories.ItemStateComponent, GloryJam.Inventories
     - Name: Enabled
       Entry: 5
@@ -174,40 +174,22 @@ MonoBehaviour:
         GloryJam.Inventories]], mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 1
     - Name: 
       Entry: 7
-      Data: 10|GloryJam.Inventories.ItemStateViewedHandler, GloryJam.Inventories
+      Data: 10|GloryJam.Inventories.ItemStateUsageHandler, GloryJam.Inventories
     - Name: id
-      Entry: 6
-      Data: 
-    - Name: isViewed
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 11|GloryJam.Inventories.ItemStateUsageHandler, GloryJam.Inventories
-    - Name: id
+      Entry: 1
+      Data: Usage
+    - Name: type
+      Entry: 3
+      Data: 0
+    - Name: UsageID
       Entry: 6
       Data: 
     - Name: inUse
       Entry: 5
       Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 12|GloryJam.Inventories.ItemStateUsageHandler, GloryJam.Inventories
-    - Name: id
-      Entry: 6
-      Data: 
-    - Name: inUse
-      Entry: 5
-      Data: true
     - Name: 
       Entry: 8
       Data: 

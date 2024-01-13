@@ -1,7 +1,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-namespace GloryJam.Inventories
+namespace GloryJam.Inventories.Test
 {
     public class TestInventory : MonoBehaviour {
         public Inventory inventory_1,inventory_2;

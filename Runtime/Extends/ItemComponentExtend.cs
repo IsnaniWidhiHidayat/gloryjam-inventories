@@ -125,6 +125,17 @@ namespace GloryJam.Inventories
             return component != null;
         }
     
+        public static bool ContainComponent<T>(this Item item,string id) where T : class
+        {
+            var component = item.GetComponent<T>(id);
+            return component != null;
+        }
+        public static bool ContainComponent<T>(this ItemStack stack,string id) where T : class
+        {
+            var component = stack.GetComponent<T>(id);
+            return component != null;
+        }
+    
         public static string[] GetComponentsID<T>(this Item item,Func<T,bool> condition = null) where T : ItemComponent
         {
             if(item.TryGetComponents<T>(out var components)){

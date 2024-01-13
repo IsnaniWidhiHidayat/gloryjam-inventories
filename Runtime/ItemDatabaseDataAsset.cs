@@ -23,7 +23,7 @@ namespace GloryJam.Inventories
         #endregion
     }
 
-    [CreateAssetMenu(menuName = "Glory Jam/Inventory/Item Database Data Asset")]
+    [CreateAssetMenu(menuName = "Glory Jam/Inventory/Item Database Data")]
     public class ItemDatabaseDataAsset : DataAsset<ItemDatabaseData>
     {
         

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace GloryJam.Inventories
+namespace GloryJam.Inventories.Test
 {
     [Serializable]
     public class ItemTriggerTimeCounter : ItemTriggerHandler
