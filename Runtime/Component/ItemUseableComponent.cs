@@ -17,6 +17,12 @@ namespace GloryJam.Inventories
         #region fields
         #if ODIN_INSPECTOR
         [BoxGroup(grpOptions),PropertyOrder(-1)]
+        [LabelText("@autoUse.title")]
+        #endif
+        public ItemUseableAutoUse autoUse;
+
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpOptions),PropertyOrder(-1)]
         [LabelText("@maxUse.title")]
         #endif
         public ItemUseableMaxUse maxUse;
@@ -95,6 +101,7 @@ namespace GloryJam.Inventories
         {
             base.SetStack(stack);
 
+            autoUse.SetComponent(this);
             maxUse.SetComponent(this);
             cooldown.SetComponent(this);
             trigger.SetComponent(this);
@@ -242,7 +249,12 @@ namespace GloryJam.Inventories
             }
         }
         public override void OnPostInit(){
-            
+            //auto use
+            if(autoUse.Enabled){
+                if(autoUse.autoUse){
+                    stack.Use();
+                }
+            }
         }
         public override void OnDispose()
         {
