@@ -11,26 +11,44 @@ namespace GloryJam.Inventories
         #if ODIN_INSPECTOR
         [BoxGroup(grpConfig)]
         [ValueDropdown(nameof(InspectorGetUsageID))]
-        [ValidateInput(nameof(InspectorValidateUsageID))]
-        [ListDrawerSettings(ShowIndexLabels = true,Expanded = true)]
+        [ValidateInput(nameof(InspectorValidateUsageID),"Contain Invalid Usage ID",InfoMessageType.Error)]
+        [ListDrawerSettings(Expanded = true)]
         #endif
         public string[] usageID = new string[0];
         #endregion
 
         #region property
+        #if ODIN_INSPECTOR
+        [ShowIf(nameof(InspectorShowRuntime))]
         [BoxGroup(grpRuntime),ShowInInspector,DisplayAsString]
-        public string currentStack {
+        #endif
+        public string currentUsage {
             get {
-                if(currentIndex >= 0 && currentIndex < usageID.Length){
-                    return usageID[currentIndex];
+                if(currentUsageIndex >= 0 && currentUsageIndex < usageID.Length){
+                    return usageID[currentUsageIndex];
                 }
 
                 return default;
             }
         }
 
+        #if ODIN_INSPECTOR
+        [ShowIf(nameof(InspectorShowRuntime))]
         [BoxGroup(grpRuntime),ShowInInspector,DisplayAsString]
-        public int currentIndex => _currentIndex;
+        #endif
+        public string nextUsage{
+            get {
+                if(nextUsageIndex >= 0 && nextUsageIndex < usageID.Length){
+                    return usageID[nextUsageIndex];
+                }
+
+                return default;
+            }
+        }
+
+        //[BoxGroup(grpRuntime),ShowInInspector,DisplayAsString]
+        public int currentUsageIndex => nextUsageIndex - 1;
+        public int nextUsageIndex => _nextUsageIndex;
 
         public override bool inUse{
             get{
@@ -58,32 +76,47 @@ namespace GloryJam.Inventories
             if(item != null) return item.GetComponentsID<ItemUseableComponent>((x)=> x != component);
             return default;
         }
-        private bool InspectorValidateUsageID(string ID)
+        private bool InspectorValidateUsageID()
         {
-            Debug.Log(ID);
-            if(stack != null) return stack.ContainComponent<ItemUseableComponent>(ID);
-            if(item != null) return item.ContainComponent<ItemUseableComponent>(ID);
-            return default;
+            var isValid = true;
+            if(usageID?.Length > 0) {
+                for (int i = 0; i < usageID.Length; i++)
+                {
+                    if(string.IsNullOrEmpty(usageID[i])) continue;
+
+                    if(stack != null && !stack.ContainComponent<ItemUseableComponent>(usageID[i])){
+                        isValid = false;
+                        break;
+                    }
+
+                    if(item != null && !item.ContainComponent<ItemUseableComponent>(usageID[i])){
+                        isValid = false;
+                        break;
+                    }
+                }
+            }
+            
+            return isValid;
         }
         #endif
         #endregion
 
         #region private
         private ItemUseableComponent[] _useables;
-        private int _currentIndex = -1;
+        private int _nextUsageIndex;
         #endregion
 
         #region methods
         public override bool Use()
         {
             var result = false;
-            if(_currentIndex + 1 >= 0 && _currentIndex + 1 < usageID.Length){
-                if(_useables[currentIndex] != null){
-                    result = _useables[_currentIndex].Use();
+            if(_useables?.Length > 0 && _nextUsageIndex >= 0 && _nextUsageIndex < usageID.Length){
+                if(_useables[_nextUsageIndex] != null && !_useables[_nextUsageIndex].inUse){
+                    result = _useables[_nextUsageIndex].Use();
                 }
 
                 if(result){
-                    _currentIndex++;
+                    _nextUsageIndex++;
                 }
             }
 
@@ -92,11 +125,13 @@ namespace GloryJam.Inventories
         public override bool Unuse()
         {
             var result = false;
-            if(_useables?.Length > 0) {
-                for (int i = 0; i < _useables.Length; i++)
-                {
-                    if(_useables[i] == null) continue;
-                    result |= _useables[i].Unuse();
+            if(_useables?.Length > 0 && currentUsageIndex >= 0 && currentUsageIndex < usageID.Length) {
+                if(_useables[currentUsageIndex] != null && _useables[_nextUsageIndex].inUse){
+                    result = _useables[currentUsageIndex].Unuse();
+                }
+
+                if(result){
+                    _nextUsageIndex--;
                 }
             }
             return result;
