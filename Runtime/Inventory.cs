@@ -173,7 +173,7 @@ namespace GloryJam.Inventories
             {
                 if(slots[i] == null) continue;
                 slots[i]?.SetInventory(this);
-                slots[i]?.Init();
+                //slots[i]?.Init();
             }
 
             //load state
@@ -532,14 +532,14 @@ namespace GloryJam.Inventories
 
             if(this != toInventory) {
                 toInventory.slots[toIndex]?.SetInventory(toInventory);
-                toInventory.slots[toIndex]?.Init();
+                //toInventory.slots[toIndex]?.Init();
             }
 
             slots[fromIndex] = tmp;
 
             if(this != toInventory) {
                 slots[fromIndex]?.SetInventory(this);
-                slots[fromIndex]?.Init();
+                //slots[fromIndex]?.Init();
             }
         }
 
@@ -571,7 +571,7 @@ namespace GloryJam.Inventories
             for (int i = 0; i < slots.Length; i++)
             {
                 slots[i]?.SetInventory(null);
-                slots[i]?.Init();
+                //slots[i]?.Init();
             }
 
             if(!data.useReference){

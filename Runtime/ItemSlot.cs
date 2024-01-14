@@ -63,15 +63,15 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public void Init(){
-            if(_stack?.Count > 0) 
-            {
-                for (int i = 0; i < _stack.Count; i++)
-                {
-                    _stack[i]?.Init();
-                }
-            }
-        }
+        // public void Init(){
+        //     if(_stack?.Count > 0) 
+        //     {
+        //         for (int i = 0; i < _stack.Count; i++)
+        //         {
+        //             _stack[i]?.Init();
+        //         }
+        //     }
+        // }
         public void Add(int count = 1){
             count = Mathf.Clamp(count,0,_item.maxStack);
             if(count <= 0) return;
@@ -80,13 +80,13 @@ namespace GloryJam.Inventories
                 Add(_item.CreateInstance());
             }
         }
-        public void Add(params ItemStack[] items){
-            if(items?.Length > 0) {
-                for (int i = 0; i < items.Length; i++)
+        public void Add(params ItemStack[] itemStacks){
+            if(itemStacks?.Length > 0) {
+                for (int i = 0; i < itemStacks.Length; i++)
                 {
-                    _stack.Add(items[i]);
-                    items[i].SetSlot(this);
-                    items[i].Init();
+                    _stack.Add(itemStacks[i]);
+                    itemStacks[i].SetSlot(this);
+                    //itemStacks[i].Init();
                 }
             }
         }

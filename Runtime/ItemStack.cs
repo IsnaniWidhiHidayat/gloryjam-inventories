@@ -90,7 +90,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region methods
-        public void Init()
+        private void Init()
         {
             if(component?.Count > 0)
             {   
@@ -126,6 +126,8 @@ namespace GloryJam.Inventories
                     component[i].SetStack(this);
                 }
             }
+
+            Init();
         }
         public void SetItem(Item item){
             _item = item;
