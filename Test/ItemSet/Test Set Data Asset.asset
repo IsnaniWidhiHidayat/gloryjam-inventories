@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebc055574f6483344a0b8e13e350bb66, type: 3}
+  m_Script: {fileID: 11500000, guid: 572af53eea8b8194fa8ed572e28b437f, type: 3}
   m_Name: Test Set Data Asset
   m_EditorClassIdentifier: 
   serializationData:
@@ -18,6 +18,7 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: d501e640a9069a9448e155bd0c2d3d3a, type: 2}
     - {fileID: 11400000, guid: fdc402b7c3c11374aa0b96d77ba5da2b, type: 2}
+    - {fileID: 11400000, guid: e90ff677d0029794a9baec5e2e28f4a8, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -40,7 +41,7 @@ MonoBehaviour:
       Data: 0
     - Name: count
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -52,7 +53,7 @@ MonoBehaviour:
       Data: 1
     - Name: count
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -62,7 +63,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: handler
+    - Name: handlers
       Entry: 7
       Data: 4|GloryJam.Inventories.ItemSetHandler[], GloryJam.Inventories
     - Name: 
@@ -76,13 +77,13 @@ MonoBehaviour:
       Data: 6|GloryJam.Inventories.ItemSetBonusItemHandler+ItemBonus[], GloryJam.Inventories
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 7
       Data: 7|GloryJam.Inventories.ItemSetBonusItemHandler+ItemBonus, GloryJam.Inventories
-    - Name: match
-      Entry: 3
-      Data: 1
+    - Name: inventory
+      Entry: 1
+      Data: Main
     - Name: bonusItems
       Entry: 7
       Data: 8|GloryJam.Inventories.ItemReferenceCount[], GloryJam.Inventories
@@ -94,34 +95,13 @@ MonoBehaviour:
       Data: 9|GloryJam.Inventories.ItemReferenceCount, GloryJam.Inventories
     - Name: item
       Entry: 10
-      Data: 0
+      Data: 2
     - Name: count
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 10|GloryJam.Inventories.ItemSetBonusItemHandler+ItemBonus, GloryJam.Inventories
-    - Name: match
-      Entry: 3
-      Data: 2
-    - Name: bonusItems
-      Entry: 7
-      Data: 11|GloryJam.Inventories.ItemReferenceCount[], GloryJam.Inventories
-    - Name: 
-      Entry: 12
-      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -152,6 +132,6 @@ MonoBehaviour:
   value:
     items:
     - item: {fileID: 11400000, guid: d501e640a9069a9448e155bd0c2d3d3a, type: 2}
-      count: 0
+      count: 1
     - item: {fileID: 11400000, guid: fdc402b7c3c11374aa0b96d77ba5da2b, type: 2}
-      count: 0
+      count: 1

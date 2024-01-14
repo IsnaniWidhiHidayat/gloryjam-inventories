@@ -24,7 +24,7 @@ namespace GloryJam.Inventories
         #endif
         public ItemAsset item;
         
-        [TableColumnWidth(80,false)]
-        public int count;
+        [TableColumnWidth(60,false)]
+        public int count = 1;
     }
 }

@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 1141882088}
   - component: {fileID: 1141882087}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,7 +166,31 @@ MonoBehaviour:
   _id: Main
   _maxSlot: 10
   _loadState: 0
-  initialItems: []
+  initialItems:
+  - item:
+      useReference: 1
+      persistent: 0
+      _data:
+        _id: 
+        _name: 
+        _description: 
+        _icon: {fileID: 0}
+        _maxStack: 1
+        _tags: []
+      _reference: {fileID: 11400000, guid: d501e640a9069a9448e155bd0c2d3d3a, type: 2}
+    count: 1
+  - item:
+      useReference: 1
+      persistent: 0
+      _data:
+        _id: 
+        _name: 
+        _description: 
+        _icon: {fileID: 0}
+        _maxStack: 1
+        _tags: []
+      _reference: {fileID: 11400000, guid: fdc402b7c3c11374aa0b96d77ba5da2b, type: 2}
+    count: 1
   initialUseItems: []
   data:
     useReference: 1

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace GloryJam.Inventories
 {
@@ -19,8 +18,8 @@ namespace GloryJam.Inventories
         public abstract string name{get;}
         #endregion
 
-        #region methods
-        public abstract void OnItemMatch(Dictionary<Item,ItemSetProgress> match,Inventory inventory);
+        #region callback
+        public abstract void OnItemMatch(Dictionary<Item,ItemStack[]> itemTracker);
         #endregion
     }
 }
