@@ -31,6 +31,9 @@ namespace GloryJam.Inventories
 
         #region static
         private static List<Inventory> _inventorys = new List<Inventory>();
+        public static Inventory[] GetInventorys(){
+            return _inventorys.ToArray();
+        }
         public static Inventory GetInventoryById(string id){
             return _inventorys.Find(x => x.id == id);
         }
@@ -169,17 +172,27 @@ namespace GloryJam.Inventories
         }
         private void PostInitialize(){
             //set inventory
+            InitSlot();
+
+            //load state
+            //if(_loadState) 
+            this.LoadState();
+
+            AddInitialItem();
+            UseInitialItem();
+
+            _inited = true;
+        }
+        
+        public void InitSlot(){
             for (int i = 0; i < slots.Length; i++)
             {
                 if(slots[i] == null) continue;
                 slots[i]?.SetInventory(this);
                 //slots[i]?.Init();
             }
-
-            //load state
-            //if(_loadState) 
-            this.LoadState();
-
+        }
+        private void AddInitialItem(){
             //add initial item
             foreach (var item in initialItems)
             {
@@ -191,7 +204,8 @@ namespace GloryJam.Inventories
 
                 AddItem(item.item.value,count,true);
             }
-
+        }
+        private void UseInitialItem(){
             //use default item
             foreach (var item in initialUseItems)
             {
@@ -219,9 +233,8 @@ namespace GloryJam.Inventories
                 }
             }
 
-            _inited = true;
         }
-        
+
         public bool AddItem(Item item,int count,bool combine)
         {
             if(count <= 0) return false;

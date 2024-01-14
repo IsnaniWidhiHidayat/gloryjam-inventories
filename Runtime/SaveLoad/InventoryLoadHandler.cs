@@ -108,6 +108,20 @@ namespace GloryJam.Inventories
                     }
                 }
             }
+        
+            //get inventory which use inventoryData
+            var inventorys = Inventory.GetInventorys();
+
+            //check empty inventories
+            if(inventorys == null || inventorys.Length <= 0) return;
+
+            //init inventory
+            for (int i = 0; i < inventorys.Length; i++)
+            {
+                if(inventorys[i].data.value != _inventoryData.value) continue;
+                inventorys[i].InitSlot();
+                inventorys[i].LoadState();
+            }
         }
         // private void Reset() {
         //     if(_inventory == null) _inventory.GetComponent<Inventory>();

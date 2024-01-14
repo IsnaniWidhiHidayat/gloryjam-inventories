@@ -23,9 +23,7 @@ namespace GloryJam.Inventories
         #region methods
         public override ItemComponent CreateInstance()
         {
-            var clone = base.CreateInstance() as ItemSetComponent;
-                clone.itemSet = itemSet;
-            return clone;
+            return this;
         }
         #endregion
 

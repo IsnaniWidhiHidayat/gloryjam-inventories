@@ -70,6 +70,7 @@ namespace GloryJam.Inventories
             }
         }
         private void AddItemBonus(){
+            //TODO: Contain bug when bonus given and save inventory then load inventory can cause duplicate item bonus
             //give bonus
             var trackerIndex = 0;
             var fullAdd = true;
