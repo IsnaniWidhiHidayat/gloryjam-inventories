@@ -79,6 +79,7 @@ namespace GloryJam.Inventories
 
                             //add stack save data
                             stackSaveData.Add(new ItemStackSaveData(){
+                                hash  = stack.hash,
                                 state = stateSaveData
                             });
                         }

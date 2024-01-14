@@ -49,11 +49,12 @@ namespace GloryJam.Inventories
     [Serializable]
     public class ItemStackSaveData{
 
+        public int hash;
+
         #if ODIN_INSPECTOR
         [ListDrawerSettings(DraggableItems = false,Expanded = true,ListElementLabelName = "id")]
         [HideReferenceObjectPicker,HideDuplicateReferenceBox]
         #endif
-
         public List<ItemStateSaveData> state = new List<ItemStateSaveData>();
     }
 

@@ -75,10 +75,13 @@ namespace GloryJam.Inventories
                     var stackSaveData = itemSaveData.stack[j];
 
                     //check empty stack & data
-                    if(stack == null 
-                    || stackSaveData == null 
-                    || stackSaveData.state == null 
-                    || stackSaveData.state.Count <= 0) continue;
+                    if(stack == null || stackSaveData == null) continue;
+
+                    //set stack hash
+                    stack.hash = stackSaveData.hash;
+
+                    //check state
+                    if(stackSaveData.state == null || stackSaveData.state.Count <= 0) continue;
 
                     //check contain state component
                     if(!stack.TryGetComponentState(out var stateComponent)) continue;

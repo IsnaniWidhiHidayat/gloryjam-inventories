@@ -63,6 +63,9 @@ namespace GloryJam.Inventories
                 return result;
             }
         }
+        
+        [HideInInspector]
+        public int hash;
         #endregion
         
         #region private
@@ -83,7 +86,11 @@ namespace GloryJam.Inventories
         #endregion
 
         #region constructor
-        public ItemStack(List<ItemComponent> component){
+        public ItemStack(){
+            hash = DateTime.Now.GetHashCode();
+        }
+        public ItemStack(List<ItemComponent> component) : this()
+        {
             this.component = component;
             Sort();
         }
