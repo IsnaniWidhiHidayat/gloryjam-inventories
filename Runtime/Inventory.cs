@@ -63,12 +63,12 @@ namespace GloryJam.Inventories
         #endif
         protected int _maxSlot = 10;
 
-        [SerializeField]
-        #if ODIN_INSPECTOR
-        [BoxGroup(grpConfig)]
-        [ShowIf(nameof(InspectorShowLoadState))]
-        #endif
-        protected bool _loadState;
+        // [SerializeField]
+        // #if ODIN_INSPECTOR
+        // [BoxGroup(grpConfig)]
+        // [ShowIf(nameof(InspectorShowLoadState))]
+        // #endif
+        // protected bool _loadState;
 
         #if ODIN_INSPECTOR
         [TableList,BoxGroup(grpConfig)]
@@ -177,7 +177,8 @@ namespace GloryJam.Inventories
             }
 
             //load state
-            if(_loadState) this.LoadState();
+            //if(_loadState) 
+            this.LoadState();
 
             //add initial item
             foreach (var item in initialItems)
