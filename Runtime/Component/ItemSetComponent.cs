@@ -14,7 +14,7 @@ namespace GloryJam.Inventories
     {
         #region fields
         #if ODIN_INSPECTOR
-        [BoxGroup(grpRequired),InlineEditor,Required]
+        [InlineEditor,Required]
         #endif
         public ItemSetDataAsset itemSet;
         #endregion
