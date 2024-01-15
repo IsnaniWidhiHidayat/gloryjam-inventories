@@ -12,22 +12,47 @@ namespace GloryJam.Inventories
     [Serializable]
     public class ItemSetData
     {
+        #region const
+        protected const string grpConfig = "Config";
+        protected const string grpRuntime = "Runtime";
+        #endregion
+
         #region fields
         #if ODIN_INSPECTOR
+        [BoxGroup(grpConfig)]
         [TableList(AlwaysExpanded = true)]
         [HideReferenceObjectPicker,HideDuplicateReferenceBox]
         #endif
         public ItemReferenceCount [] items = new ItemReferenceCount [0];
 
         #if ODIN_INSPECTOR
+        [BoxGroup(grpConfig)]
         [ListDrawerSettings(DraggableItems = false,Expanded = true,ListElementLabelName = "title")]
         [HideReferenceObjectPicker,HideDuplicateReferenceBox]
         #endif
         public ItemSetHandler[] handlers = new ItemSetHandler[0];
+
+        #if ODIN_INSPECTOR
+        [ShowIf(nameof(InspectorShowRuntime))]
+        [BoxGroup(grpRuntime),ReadOnly]
+        #endif
+        public bool obtained;
         #endregion
 
-        #region property
+        #region private
+        #if ODIN_INSPECTOR
+        [ShowIf(nameof(InspectorShowRuntime))]
+        [BoxGroup(grpRuntime),ShowInInspector,ReadOnly]
+        #endif
         protected Dictionary<Item,ItemStack[]> _itemTracker;
+        #endregion
+
+        #region inspector
+        #if ODIN_INSPECTOR
+        public bool InspectorShowRuntime(){
+            return Application.isPlaying;
+        }
+        #endif
         #endregion
 
         #region methods
@@ -96,5 +121,8 @@ namespace GloryJam.Inventories
     }
 
     [CreateAssetMenu(menuName = "Glory Jam/Inventory/Item Set Data")]
-    public class ItemSetDataAsset : DataAsset<ItemSetData>{}
+    public class ItemSetDataAsset : DataAsset<ItemSetData>
+    {
+        
+    }
 }
