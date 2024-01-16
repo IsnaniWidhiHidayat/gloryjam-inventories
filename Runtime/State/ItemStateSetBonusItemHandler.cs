@@ -1,142 +1,178 @@
 using System;
-using Sirenix.OdinInspector;
 using UnityEngine;
+using System.Collections.Generic;
+
+
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector; 
+#endif
+
 
 namespace GloryJam.Inventories
 {
     [Serializable]
-    public class ItemStateSetBonusItemHandler : ItemStateHandler
+    public class ItemStateSetBonusItemHandler : ItemStateSetItemHandler
     {
         #region inner class
         [Serializable]
-        public enum Type
+        public class SaveData : SetSaveData
         {
-            Default,
-            ID
-        }
-        
-        [Serializable]
-        public class SaveData : ItemStateSaveData
-        {
-            public Type type;
-
-            [ShowIf(nameof(type),Type.ID)]
-            public string setID;
-
             public bool obtained;
+            public List<int> itemStacksHash = new List<int>();
         }
         #endregion
 
-        #region property
-        [BoxGroup(grpConfig)]
-        public Type type;
-
-        [BoxGroup(grpConfig)]
-        [ShowIf(nameof(type),Type.ID)]
-        [ValueDropdown(nameof(InspectorGetComponentsID))]
-        [ValidateInput(nameof(InspectorValidateComponentID),"ID not found",InfoMessageType.Error)]
-        public string setID;
-
+        #region fields
+        #if ODIN_INSPECTOR
         [BoxGroup(grpRuntime)]
+        [ShowIf(nameof(InspectorShowRuntime))]
+        #endif
         public bool obtained;
 
-        public override ItemStateSaveData saveData{
-            get{
-                if(_saveData == null) _saveData = new SaveData();
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpRuntime)]
+        [ShowIf(nameof(InspectorShowRuntime))]
+        [ListDrawerSettings(IsReadOnly = true,ListElementLabelName = "title")]
+        [HideReferenceObjectPicker,HideDuplicateReferenceBox]
+        #endif
+        [NonSerialized]
+        public List<ItemStack> itemBonusTracker = new List<ItemStack>();
+        #endregion
+
+        #region property
+        public override ItemStateSaveData saveData { 
+            get {
+                if(_saveData == null){
+                    _saveData = new SaveData();
+                }
 
                 _saveData.id = id;
                 _saveData.type = type;
                 _saveData.setID = setID;
                 _saveData.obtained = obtained;
 
+                if(_saveData.itemStacksHash == null){
+                    _saveData.itemStacksHash = new List<int>();
+                }
+
+                _saveData.itemStacksHash.Clear();
+
+                if(itemBonusTracker?.Count > 0) {
+                    for (int i = 0; i < itemBonusTracker.Count; i++)
+                    {
+                        if(itemBonusTracker[i] == null) continue;
+                        _saveData.itemStacksHash.Add(itemBonusTracker[i].hash);
+                    }
+                }
+
                 return _saveData;
             }
-            set{
+            set {
+                
                 _saveData = value as SaveData;
+                
+                type  = _saveData.type ; 
+                setID = _saveData.setID ; 
+                obtained = _saveData.obtained;
 
-                type      = _saveData.type;
-                setID     = _saveData.setID;
-                obtained  = _saveData.obtained;
+                if(itemBonusTracker == null){
+                    itemBonusTracker = new List<ItemStack>();
+                }
+
+                itemBonusTracker.Clear();
+
+                if(_saveData.itemStacksHash?.Count > 0) {
+                    for (int i = 0; i < _saveData.itemStacksHash.Count; i++)
+                    {
+                        var hash  = _saveData.itemStacksHash[0];
+                        var stack = ItemStack.GetByHash(hash);
+
+                        if(itemBonusTracker.Contains(stack)) continue;
+
+                        itemBonusTracker.Add(stack);
+                    }
+                }
             }
         }
-
         public override string name => $"Set [{obtained}]";
-        public override int order => 1000;
         #endregion
 
         #region private
-        SaveData _saveData;
-        #endregion
-
-        #region inspector
-        private string[] InspectorGetComponentsID()
-        {
-            if(stack != null) return stack.GetComponentsID<ItemSetComponent>();
-            if(item != null) return item.GetComponentsID<ItemSetComponent>();
-
-            return default;
-        }
-        private bool InspectorValidateComponentID()
-        {
-            if(stack != null) return stack.ContainComponent<ItemSetComponent>(setID);
-            if(item != null) return item.ContainComponent<ItemSetComponent>(setID);
-
-            return default;
-        }
+        private SaveData _saveData;
         #endregion
 
         #region constructor
         public ItemStateSetBonusItemHandler(){
-            id = "Set";
+            id = "Set Bonus Item";
         }
         #endregion
 
         #region methods
         public override void SaveState(){
 
-            var setComponent = GetComponent();
-
-            if(setComponent == null) return;
-
-            Debug.Log($"[Inventory]{inventory?.name} Inventory {inventory?.id} Save State {GetType()?.Name}:{this}, stack:{stack}");
-
-            obtained = setComponent.itemSet.value.obtained;
-        }
-        public override void LoadState(){
-
-            var setComponent = GetComponent();
+            var setComponent = GetSetComponent();
 
             //check empty
             if(setComponent == null) return;
 
+            //check handler
+            var handler = GetSetHandler<ItemSetBonusItemHandler>();
+            if(handler == null) return;
+
+            Debug.Log($"[Inventory]{inventory?.name} Inventory {inventory?.id} Save State {GetType()?.Name}:{this}, stack:{stack}");
+
+            obtained = handler.obtained;
+
+            if(itemBonusTracker == null){
+                itemBonusTracker = new List<ItemStack>();
+            }
+
+            itemBonusTracker.Clear();
+
+            if(handler.itemBonusTracker?.Length > 0) {
+                for (int i = 0; i < handler.itemBonusTracker.Length; i++)
+                {
+                    var stack = handler.itemBonusTracker[i];
+                    if(stack == null) continue;
+                    itemBonusTracker.Add(stack);
+                }
+            }
+        }
+        public override void LoadState(){
+
+            var setComponent = GetSetComponent();
+
+            //check empty
+            if(setComponent == null) return;
+
+            //check handler
+            var handler = GetSetHandler<ItemSetBonusItemHandler>();
+            if(handler == null) return;
+
             Debug.Log($"[Inventory]{inventory?.name} Inventory {inventory?.id} Load State {GetType()?.Name}:{this}, stack:{stack}");
 
-            setComponent.itemSet.value.obtained = obtained;
+            if(itemBonusTracker == null){
+                itemBonusTracker = new List<ItemStack>();
+            }
+
+            handler.TryInitialize();
+
+            handler.obtained = obtained;
+
+            if(handler.itemBonusTracker?.Length > 0) {
+                for (int i = 0; i < handler.itemBonusTracker.Length; i++)
+                {
+                    handler.itemBonusTracker[i] = null;
+                    
+                    if(i < itemBonusTracker.Count){
+                        handler.itemBonusTracker[i] = itemBonusTracker[i];
+                    }
+                }
+            }
         }
         public override string ToString()
         {
             return $"{{ inUse:{obtained} }}";
-        }
-        private ItemSetComponent GetComponent(){
-            var component = default(ItemSetComponent);
-            switch(type)
-            {
-                case Type.Default:{
-                    if(!stack.TryGetComponentSet(out component)){
-                        Debug.LogError($"No {nameof(ItemSetComponent)} was found in item {item?.id}");
-                    }
-                    break;
-                }
-
-                case Type.ID:{
-                    if(!stack.TryGetComponent(setID,out component)){
-                        Debug.LogError($"No {nameof(ItemSetComponent)} with ID {setID} was found in item {item?.id}");
-                    }
-                    break;
-                }
-            }
-
-            return component;
         }
         #endregion
 

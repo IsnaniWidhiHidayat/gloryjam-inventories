@@ -18,6 +18,7 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: d501e640a9069a9448e155bd0c2d3d3a, type: 2}
     - {fileID: 11400000, guid: fdc402b7c3c11374aa0b96d77ba5da2b, type: 2}
+    - {fileID: 11400000, guid: e90ff677d0029794a9baec5e2e28f4a8, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -32,13 +33,16 @@ MonoBehaviour:
         GloryJam.Inventories]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 10
       Data: 0
     - Name: 
       Entry: 10
       Data: 1
+    - Name: 
+      Entry: 10
+      Data: 2
     - Name: 
       Entry: 13
       Data: 
@@ -52,3 +56,4 @@ MonoBehaviour:
     items:
     - {fileID: 11400000, guid: d501e640a9069a9448e155bd0c2d3d3a, type: 2}
     - {fileID: 11400000, guid: fdc402b7c3c11374aa0b96d77ba5da2b, type: 2}
+    - {fileID: 11400000, guid: e90ff677d0029794a9baec5e2e28f4a8, type: 2}

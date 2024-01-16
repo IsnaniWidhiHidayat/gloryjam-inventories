@@ -15,6 +15,7 @@ namespace GloryJam.Inventories
         #region const
         protected const string grpConfig = "Config";
         protected const string grpRuntime = "Runtime";
+        protected const string grpHandler = "Handler";
         #endregion
 
         #region fields
@@ -26,25 +27,20 @@ namespace GloryJam.Inventories
         public ItemReferenceCount [] items = new ItemReferenceCount [0];
 
         #if ODIN_INSPECTOR
-        [BoxGroup(grpConfig)]
-        [ListDrawerSettings(DraggableItems = false,Expanded = true,ListElementLabelName = "title")]
+        [BoxGroup(grpHandler)]
         [HideReferenceObjectPicker,HideDuplicateReferenceBox]
         #endif
-        public ItemSetHandler[] handlers = new ItemSetHandler[0];
-
-        #if ODIN_INSPECTOR
-        [ShowIf(nameof(InspectorShowRuntime))]
-        [BoxGroup(grpRuntime),ReadOnly]
-        #endif
-        public bool obtained;
+        public ItemSetHandler handler;
         #endregion
 
         #region private
         #if ODIN_INSPECTOR
         [ShowIf(nameof(InspectorShowRuntime))]
         [BoxGroup(grpRuntime),ShowInInspector,ReadOnly]
+        [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.Foldout,KeyLabel = "Item ID",ValueLabel = "Item Stacks")]
         #endif
-        protected Dictionary<Item,ItemStack[]> _itemTracker;
+        [NonSerialized]
+        public Dictionary<string,ItemStack[]> itemTracker;
         #endregion
 
         #region inspector
@@ -57,8 +53,8 @@ namespace GloryJam.Inventories
 
         #region methods
         private void TryInitialize(){
-            if(_itemTracker == null){
-                _itemTracker = new Dictionary<Item, ItemStack[]>();
+            if(itemTracker == null){
+                itemTracker = new Dictionary<string, ItemStack[]>();
                 
                 for (int i = 0; i < items.Length; i++)
                 {
@@ -66,7 +62,7 @@ namespace GloryJam.Inventories
                     if(items[i].item == null) continue;
                     if(items[i].count <= 0) continue;
 
-                    _itemTracker[items[i].item.value] = new ItemStack[items[i].count];
+                    itemTracker[items[i].item.value.id] = new ItemStack[items[i].count];
                 }
             }
         }
@@ -74,48 +70,40 @@ namespace GloryJam.Inventories
 
         #region callback
         public void OnItemStackInit(ItemStack stack){
-            Debug.Log($"OnItemStackInit : {stack.item.id}");
-
             TryInitialize();
 
-            if(_itemTracker == null) return;
-            if(!_itemTracker.ContainsKey(stack.item)) return;
+            if(itemTracker == null) return;
+            if(!itemTracker.ContainsKey(stack.item.id)) return;
 
             //get empty index from tracker
-            var emptyIndex = Array.FindIndex(_itemTracker[stack.item], (x)=> x == null);
+            var emptyIndex = Array.FindIndex(itemTracker[stack.item.id], (x)=> x == null);
 
             //no index found
             if(emptyIndex < 0) return;
 
             //set stack to empty index
-            _itemTracker[stack.item][emptyIndex] = stack;
+            itemTracker[stack.item.id][emptyIndex] = stack;
 
             //invoke handler
-            for (int i = 0; i < handlers.Length; i++)
-            {
-                handlers[i]?.OnItemMatch(_itemTracker);
-            }
+            handler?.OnItemMatch(itemTracker);
         }
         public void OnItemStackDispose(ItemStack stack){
             Debug.Log($"OnItemStackDispose : {stack.item.id}");
 
-            if(_itemTracker == null) return;
-            if(!_itemTracker.ContainsKey(stack.item)) return;
+            if(itemTracker == null) return;
+            if(!itemTracker.ContainsKey(stack.item.id)) return;
 
             //get index from tracker
-            var stackIndex = Array.FindIndex(_itemTracker[stack.item], (x)=> x == stack);
+            var stackIndex = Array.FindIndex(itemTracker[stack.item.id], (x)=> x == stack);
             
             //no index found
             if(stackIndex < 0) return;
 
             //set stack to null
-            _itemTracker[stack.item][stackIndex] = null;
+            itemTracker[stack.item.id][stackIndex] = null;
 
             //invoke handler
-            for (int i = 0; i < handlers.Length; i++)
-            {
-                handlers[i]?.OnItemMatch(_itemTracker);
-            }
+            handler?.OnItemMatch(itemTracker);
         }
         #endregion
     }

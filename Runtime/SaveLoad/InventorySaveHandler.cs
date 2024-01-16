@@ -26,6 +26,9 @@ namespace GloryJam.Inventories
             _saveData.value.maxSlot = inventoryData.value.slots.Length;
 
             if(inventoryData.value.slots?.Length > 0){
+                //save state
+                inventoryData.value.slots.SaveState();
+
                 for (int i = 0; i < inventoryData.value.slots.Length; i++)
                 {
                     var slot = inventoryData.value.slots[i];

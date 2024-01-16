@@ -13,6 +13,10 @@ namespace GloryJam.Inventories
     {
         #region static
         private static InventoryEvent Event = new InventoryEvent();
+        private static Dictionary<int,ItemStack> itemStacks = new Dictionary<int, ItemStack>();
+        public static ItemStack GetByHash(int hash){
+            return itemStacks.ContainsKey(hash) ? itemStacks[hash] : default;
+        }
         #endregion
 
         #region const
@@ -54,7 +58,7 @@ namespace GloryJam.Inventories
         public bool inUse => this.InUse();
         public string title{
             get{
-                var result = $"{index}";
+                var result = $"{item.id} ({hash})";
 
                 if(inUse){
                     result += " (In Use)";
@@ -64,13 +68,27 @@ namespace GloryJam.Inventories
             }
         }
         
-        [HideInInspector]
-        public int hash;
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpProperty)]
+        [ShowInInspector,DisplayAsString,ReadOnly]
+        #endif
+        public int hash{
+            get{
+                return _hash;
+            }
+
+            set{
+                itemStacks.Remove(_hash);
+                _hash = value;
+                itemStacks[_hash] = this;
+            }
+        }
         #endregion
         
         #region private
         private ItemSlot _slot;
         private Item _item;
+        private int _hash;
         #endregion
 
         #region inspector

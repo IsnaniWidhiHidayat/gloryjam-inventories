@@ -19,7 +19,14 @@ namespace GloryJam.Inventories
         public override bool requiredId => true;
         public override bool showID => true;
 
+        #if ODIN_INSPECTOR
+        [Button,BoxGroup(grpDebug),HorizontalGroup(grpDebug + "/h1")]
+        #endif
         public abstract void SaveState();
+
+        #if ODIN_INSPECTOR
+        [Button,HorizontalGroup(grpDebug + "/h1")]
+        #endif
         public abstract void LoadState();
     }
 }

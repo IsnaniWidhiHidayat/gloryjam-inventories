@@ -134,6 +134,10 @@ namespace GloryJam.Inventories
             }
         }
         public string[] tags => _tags;
+
+        public int hash{
+            get => GetHashCode();
+        }
         #endregion
 
         #region methods

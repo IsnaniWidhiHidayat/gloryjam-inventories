@@ -19,7 +19,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region callback
-        public abstract void OnItemMatch(Dictionary<Item,ItemStack[]> itemTracker);
+        public abstract void OnItemMatch(Dictionary<string,ItemStack[]> itemTracker);
         #endregion
     }
 }

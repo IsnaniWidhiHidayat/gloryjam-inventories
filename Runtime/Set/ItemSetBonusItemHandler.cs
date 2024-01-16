@@ -30,6 +30,22 @@ namespace GloryJam.Inventories
         [TableList(AlwaysExpanded = true)]
         #endif
         public ItemBonus[] itemBonus = new ItemBonus[0];
+
+        #if ODIN_INSPECTOR
+        [ShowIf(nameof(InspectorShowRuntime))]
+        [BoxGroup(grpRuntime),ShowInInspector]
+        #endif
+        [NonSerialized]
+        public bool obtained;
+
+        #if ODIN_INSPECTOR
+        [ShowIf(nameof(InspectorShowRuntime))]
+        [BoxGroup(grpRuntime),ShowInInspector]
+        [ListDrawerSettings(IsReadOnly = true,ListElementLabelName = "title")]
+        [HideReferenceObjectPicker,HideDuplicateReferenceBox]
+        #endif
+        [NonSerialized]
+        public ItemStack[] itemBonusTracker;
         #endregion
         
         #region property
@@ -38,16 +54,21 @@ namespace GloryJam.Inventories
 
         #region private
         [NonSerialized]
-        private ItemStack[] _itemBonusTracker;
-
-        [NonSerialized]
         private bool _fullMatch;
         #endregion 
 
+        #region inspector
+        #if ODIN_INSPECTOR
+        public bool InspectorShowRuntime(){
+            return Application.isPlaying;
+        }
+        #endif
+        #endregion
+
         #region methods
-        private void TryInitialize()
+        public void TryInitialize()
         {
-            if(_itemBonusTracker == null){
+            if(itemBonusTracker == null){
                 
                 var totalCount = 0;
 
@@ -66,11 +87,14 @@ namespace GloryJam.Inventories
                     }
                 }
 
-                _itemBonusTracker = new ItemStack[totalCount];
+                itemBonusTracker = new ItemStack[totalCount];
             }
         }
-        private void AddItemBonus(){
+        public void AddItemBonus(){
             //TODO: Contain bug when bonus given and save inventory then load inventory can cause duplicate item bonus
+            
+            if(obtained) return;
+            
             //give bonus
             var trackerIndex = 0;
             var fullAdd = true;
@@ -101,16 +125,16 @@ namespace GloryJam.Inventories
                     for (int k = 0; k < count; k++)
                     {
                         //check trackerIndex
-                        if(trackerIndex >= _itemBonusTracker.Length) continue;
+                        if(trackerIndex >= itemBonusTracker.Length) continue;
 
                         //check empty bonus
-                        if(_itemBonusTracker[trackerIndex] == null){
-                            _itemBonusTracker[trackerIndex] = item.CreateInstance();
+                        if(itemBonusTracker[trackerIndex] == null){
+                            itemBonusTracker[trackerIndex] = item.CreateInstance();
                         }
                         
                         //check item inventory is null
-                        if(_itemBonusTracker[trackerIndex].inventory == null){
-                            if(!targetInventory.AddItem(_itemBonusTracker[trackerIndex])){
+                        if(itemBonusTracker[trackerIndex].inventory == null){
+                            if(!targetInventory.AddItem(itemBonusTracker[trackerIndex])){
                                 fullAdd = false;
                             }
                         }
@@ -122,20 +146,24 @@ namespace GloryJam.Inventories
 
             if(!fullAdd){
                 Debug.LogError("Inventory is full, some bonus is not given");
+            }else{
+                obtained = true;
             }
         }
-        private void RemoveItemBonus(){
-            if(_itemBonusTracker?.Length > 0) {
-                for (int i = 0; i < _itemBonusTracker.Length; i++)
+        public void RemoveItemBonus(){
+            if(itemBonusTracker?.Length > 0) {
+                for (int i = 0; i < itemBonusTracker.Length; i++)
                 {
-                    _itemBonusTracker[i]?.Dispose();
+                    itemBonusTracker[i]?.Dispose();
                 }
             }
+
+            obtained = false;
         }
         #endregion
 
         #region callback
-        public override void OnItemMatch(Dictionary<Item, ItemStack[]> itemTracker)
+        public override void OnItemMatch(Dictionary<string, ItemStack[]> itemTracker)
         {
             TryInitialize();
 

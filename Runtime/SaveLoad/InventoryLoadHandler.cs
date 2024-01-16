@@ -2,6 +2,8 @@ using UnityEngine;
 using GloryJam.SaveLoad;
 using GloryJam.DataAsset;
 using Sirenix.OdinInspector;
+using System;
+using System.Collections.Generic;
 
 namespace GloryJam.Inventories
 {
@@ -36,6 +38,9 @@ namespace GloryJam.Inventories
 
             //set max slot;
             inventoryData.value.slots = new ItemSlot[_saveData.value.maxSlot];
+
+            var itemStateHandler = new List<ItemStateHandler>();
+            var itemStateSaveData = new List<ItemStateSaveData>();
 
             //add item to inventory
             for (int i = 0; i < _saveData.value.items.Count; i++)
@@ -104,7 +109,8 @@ namespace GloryJam.Inventories
                         var handler = stateComponent.handlers.Find(x=> x.id == stateSaveData.id);
                         if(handler == null) continue;
 
-                        handler.saveData = stateSaveData;
+                        itemStateHandler.Add(handler);
+                        itemStateSaveData.Add(stateSaveData);
                     }
                 }
             }
@@ -112,15 +118,28 @@ namespace GloryJam.Inventories
             //get inventory which use inventoryData
             var inventorys = Inventory.GetInventorys();
 
-            //check empty inventories
-            if(inventorys == null || inventorys.Length <= 0) return;
-
             //init inventory
-            for (int i = 0; i < inventorys.Length; i++)
+            if(inventorys?.Length > 0) {
+                for (int i = 0; i < inventorys.Length; i++)
+                {
+                    if(inventorys[i].data.value != _inventoryData.value) continue;
+                    inventorys[i].InitSlot();
+                }
+            }
+
+            //set save data
+            for (int i = 0; i < itemStateHandler.Count; i++)
             {
-                if(inventorys[i].data.value != _inventoryData.value) continue;
-                inventorys[i].InitSlot();
-                inventorys[i].LoadState();
+                itemStateHandler[i].saveData = itemStateSaveData[i];
+            }
+
+            //init load
+            if(inventorys?.Length > 0) {
+                for (int i = 0; i < inventorys.Length; i++)
+                {
+                    if(inventorys[i].data.value != _inventoryData.value) continue;
+                    inventorys[i].LoadState();
+                }
             }
         }
         // private void Reset() {

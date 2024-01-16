@@ -19,6 +19,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d501e640a9069a9448e155bd0c2d3d3a, type: 2}
     - {fileID: 11400000, guid: fdc402b7c3c11374aa0b96d77ba5da2b, type: 2}
     - {fileID: 11400000, guid: e90ff677d0029794a9baec5e2e28f4a8, type: 2}
+    - {fileID: 11400000, guid: 4655b928cf1aadf4cabd75d6562d4130, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -41,7 +42,7 @@ MonoBehaviour:
       Data: 0
     - Name: count
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -53,7 +54,7 @@ MonoBehaviour:
       Data: 1
     - Name: count
       Entry: 3
-      Data: 1
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -63,36 +64,33 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: handlers
+    - Name: handler
       Entry: 7
-      Data: 4|GloryJam.Inventories.ItemSetHandler[], GloryJam.Inventories
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 5|GloryJam.Inventories.ItemSetBonusItemHandler, GloryJam.Inventories
+      Data: 4|GloryJam.Inventories.ItemSetBonusItemHandler, GloryJam.Inventories
+    - Name: retrieveAble
+      Entry: 5
+      Data: false
     - Name: itemBonus
       Entry: 7
-      Data: 6|GloryJam.Inventories.ItemSetBonusItemHandler+ItemBonus[], GloryJam.Inventories
+      Data: 5|GloryJam.Inventories.ItemSetBonusItemHandler+ItemBonus[], GloryJam.Inventories
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 7|GloryJam.Inventories.ItemSetBonusItemHandler+ItemBonus, GloryJam.Inventories
+      Data: 6|GloryJam.Inventories.ItemSetBonusItemHandler+ItemBonus, GloryJam.Inventories
     - Name: inventory
       Entry: 1
       Data: Main
     - Name: bonusItems
       Entry: 7
-      Data: 8|GloryJam.Inventories.ItemReferenceCount[], GloryJam.Inventories
+      Data: 7|GloryJam.Inventories.ItemReferenceCount[], GloryJam.Inventories
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
-      Data: 9|GloryJam.Inventories.ItemReferenceCount, GloryJam.Inventories
+      Data: 8|GloryJam.Inventories.ItemReferenceCount, GloryJam.Inventories
     - Name: item
       Entry: 10
       Data: 2
@@ -103,25 +101,31 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+      Entry: 7
+      Data: 9|GloryJam.Inventories.ItemReferenceCount, GloryJam.Inventories
+    - Name: item
+      Entry: 10
+      Data: 3
+    - Name: count
+      Entry: 3
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: 
       Entry: 8
@@ -132,6 +136,6 @@ MonoBehaviour:
   value:
     items:
     - item: {fileID: 11400000, guid: d501e640a9069a9448e155bd0c2d3d3a, type: 2}
-      count: 1
+      count: 2
     - item: {fileID: 11400000, guid: fdc402b7c3c11374aa0b96d77ba5da2b, type: 2}
-      count: 1
+      count: 3

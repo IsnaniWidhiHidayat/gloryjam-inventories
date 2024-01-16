@@ -46,22 +46,27 @@ namespace GloryJam.Inventories
         
         public static void SaveState(this Inventory inventory){
             if(inventory == null) return;
-            if(inventory.slots == null) return;
-
-            for (int i = 0; i < inventory.slots.Length; i++)
-            {
-                inventory.slots[i]?.SaveState();
-            }
+            inventory.slots.SaveState();
         }
         public static void LoadState(this Inventory inventory){
             if(inventory == null) return;
-            if(inventory.slots == null) return;
+            inventory.slots.LoadState();
+        }
+        public static void SaveState(this ItemSlot[] slots){
+            if(slots == null) return;
             
-            for (int i = 0; i < inventory.slots.Length; i++)
+            for (int i = 0; i < slots.Length; i++)
             {
-                inventory.slots[i]?.LoadState();
+                slots[i]?.SaveState();
             }
         }
-        
+        public static void LoadState(this ItemSlot[] slots){
+            if(slots == null) return;
+            
+            for (int i = 0; i < slots.Length; i++)
+            {
+                slots[i]?.LoadState();
+            }
+        }
     }
 }

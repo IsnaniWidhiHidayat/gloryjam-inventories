@@ -1,28 +1,20 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
-using System;
 
 namespace GloryJam.Inventories.Test
 {
     public class TestInventory : MonoBehaviour {
-        public Inventory inventory_1,inventory_2;
+        public Inventory inventory;
+        public InventorySaveState saveState;
 
         [Button]
-        public void Swap(int idx1,int idx2)
-        {
-            inventory_1.Swap (idx1,inventory_2,idx2);
+        private void Save(){
+            saveState.Save("main");
         }
 
         [Button]
-        public void SwapSelf(int idx1,int idx2)
-        {
-           inventory_1.Swap(idx1,idx2);
-        }
-
-        [Button]
-        private void TestHash(){
-            Debug.Log(DateTime.Now.GetHashCode());
-            Debug.Log(DateTime.Now.GetHashCode());
+        private void load(){
+            saveState.Load("main");
         }
     }
 }

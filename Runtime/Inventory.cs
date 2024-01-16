@@ -163,6 +163,7 @@ namespace GloryJam.Inventories
         }
         private void Initialize()
         {
+            if(data.useReference) data.persistent = true;
             if(slots == null) slots = new ItemSlot[_maxSlot];
 
             //add default items
