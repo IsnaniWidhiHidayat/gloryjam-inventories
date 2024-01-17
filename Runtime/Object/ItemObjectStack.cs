@@ -17,7 +17,7 @@ namespace GloryJam.Inventories
 
         #region property
         #if ODIN_INSPECTOR
-        [ShowInInspector,BoxGroup(grpItem),HideLabel,HideDuplicateReferenceBox,HideReferenceObjectPicker]
+        [ShowInInspector,BoxGroup(grpItem),HideLabel,HideDuplicateReferenceBox,HideReferenceObjectPicker,ReadOnly]
         #endif
         public ItemStack stack {
             get => _stack;
