@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 
 namespace GloryJam.Inventories
 {
-    [AddComponentMenu("Glory Jam/Inventory/" + nameof(ItemObjectStack))]
+    [AddComponentMenu("Glory Jam/Inventory/Item Object Stack")]
     public class ItemObjectStack : MonoBehaviour ,IItemObjectStack
     {
         #region const
