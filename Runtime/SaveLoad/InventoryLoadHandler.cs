@@ -114,6 +114,12 @@ namespace GloryJam.Inventories
                     }
                 }
             }
+
+            //set save data
+            for (int i = 0; i < itemStateHandler.Count; i++)
+            {
+                itemStateHandler[i].saveData = itemStateSaveData[i];
+            }
         
             //get inventory which use inventoryData
             var inventorys = Inventory.GetInventorys();
@@ -125,12 +131,6 @@ namespace GloryJam.Inventories
                     if(inventorys[i].data.value != _inventoryData.value) continue;
                     inventorys[i].InitSlot();
                 }
-            }
-
-            //set save data
-            for (int i = 0; i < itemStateHandler.Count; i++)
-            {
-                itemStateHandler[i].saveData = itemStateSaveData[i];
             }
 
             //init load
