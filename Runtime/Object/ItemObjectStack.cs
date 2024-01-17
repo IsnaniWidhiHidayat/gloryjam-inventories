@@ -1,4 +1,6 @@
 using UnityEngine;
+using System;
+
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -10,15 +12,10 @@ namespace GloryJam.Inventories
     public class ItemObjectStack : MonoBehaviour ,IItemObjectStack
     {
         #region const
-        const string grpItem = "Item";
+        const string grpItem = "Stack";
         #endregion
 
         #region property
-        #if ODIN_INSPECTOR
-        [ShowInInspector,BoxGroup(grpItem),HideLabel,HideDuplicateReferenceBox,HideReferenceObjectPicker]
-        #endif
-        public Item item => stack != null? stack.item : default;
-
         #if ODIN_INSPECTOR
         [ShowInInspector,BoxGroup(grpItem),HideLabel,HideDuplicateReferenceBox,HideReferenceObjectPicker]
         #endif
@@ -29,6 +26,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region protected
+        [NonSerialized]
         protected ItemStack _stack;
         #endregion
     }
