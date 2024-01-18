@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Generic;
-using Sirenix.Utilities;
+using System.Reflection;
 
 namespace GloryJam.Inventories
 {
@@ -11,7 +10,7 @@ namespace GloryJam.Inventories
             if(component == null) return;
 
             var type  = component.GetType();
-            var allow = type.GetAttribute<DisallowMultipleItemComponent>() == null;
+            var allow = type.GetCustomAttribute<DisallowMultipleItemComponent>() == null;
             if(allow) return;
 
             var exist = component.item.component.FindAll(x => x!= null && x.GetType() == type);

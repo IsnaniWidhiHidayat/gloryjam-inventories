@@ -1,7 +1,5 @@
 using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using Sirenix.Utilities;
+using System.Reflection;
 
 namespace GloryJam.Inventories
 {
@@ -19,7 +17,7 @@ namespace GloryJam.Inventories
             
             var baseType = typeof(ItemComponent);
             var type = component.GetType();
-            var att  = type.GetAttribute<RequiredItemComponent>();
+            var att  = type.GetCustomAttribute<RequiredItemComponent>();
             if(att == null) return;
             if(!baseType.IsAssignableFrom(att.type)) return;
             if(component.item.component.Exists(x => x != null && x.GetType() == att.type)) return;
@@ -31,7 +29,7 @@ namespace GloryJam.Inventories
             component.item.component.Add(newComponent);
         }
         public static void ResolveAttribute(ItemComponentHandler handler){
-            var att = handler?.GetType()?.GetAttribute<RequiredItemComponent>();
+            var att = handler?.GetType()?.GetCustomAttribute<RequiredItemComponent>();
             if(att == null) return;
             if(handler.item.component.Exists(x => x != null && x.GetType() == att.type)) return;
             var newComponent = Activator.CreateInstance(att.type) as ItemComponent;
@@ -41,7 +39,7 @@ namespace GloryJam.Inventories
         public static bool IsTypeRequiredBy(Type type,ItemComponent component){
             if(component == null) return default;
             
-            var att  = component.GetType().GetAttribute<RequiredItemComponent>();
+            var att  = component.GetType().GetCustomAttribute<RequiredItemComponent>();
             if(att == null) return default;
             return att.type == type;
         }

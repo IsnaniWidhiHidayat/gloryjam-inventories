@@ -12,21 +12,24 @@ namespace GloryJam.Inventories
     public class ItemSpawnerEventListener : MonoBehaviour, EventListener<ItemSpawnerEvent>
     {
         #region const
-        const string grpConfig = "Config";
-        const string grpReuired = "Required";
-        const string grpEvent = "Event";
-        const string grpFilter = "Filter";
+        protected const string grpConfig = "Config";
+        protected const string grpReuired = "Required";
+        protected const string grpEvent = "Event";
+        protected const string grpFilter = "Filter";
         #endregion
 
         #region fields
         #if ODIN_INSPECTOR
-        [BoxGroup(grpFilter),HideLabel]
+        [BoxGroup(grpFilter)]
+        [HideLabel]
         #endif
         public ItemEventFilter filter;
         #endregion
 
         #region event
+        #if ODIN_INSPECTOR
         [BoxGroup(grpEvent)]
+        #endif
         public UnityEvent<ItemStack> onSpawn;
         #endregion
 

@@ -17,7 +17,8 @@ namespace GloryJam.Inventories
 
         #if ODIN_INSPECTOR
         [ListDrawerSettings(DraggableItems = false,Expanded = true,ListElementLabelName = "id")]
-        [HideReferenceObjectPicker,HideDuplicateReferenceBox]
+        [HideReferenceObjectPicker]
+        [HideDuplicateReferenceBox]
         #endif
         public List<ItemSaveData> items = new List<ItemSaveData>();
         #endregion
@@ -40,7 +41,8 @@ namespace GloryJam.Inventories
 
         #if ODIN_INSPECTOR
         [ListDrawerSettings(DraggableItems = false,ShowIndexLabels = true)]
-        [HideReferenceObjectPicker,HideDuplicateReferenceBox]
+        [HideReferenceObjectPicker]
+        [HideDuplicateReferenceBox]
         #endif
         public List<ItemStackSaveData> stack = new List<ItemStackSaveData>();
         #endregion
@@ -53,14 +55,18 @@ namespace GloryJam.Inventories
 
         #if ODIN_INSPECTOR
         [ListDrawerSettings(DraggableItems = false,Expanded = true,ListElementLabelName = "id")]
-        [HideReferenceObjectPicker,HideDuplicateReferenceBox]
+        [HideReferenceObjectPicker]
+        [HideDuplicateReferenceBox]
         #endif
         public List<ItemStateSaveData> state = new List<ItemStateSaveData>();
     }
 
     [Serializable]
-    public abstract class ItemStateSaveData{
+    public abstract class ItemStateSaveData
+    {
+        #if ODIN_INSPECTOR
         [Required]
+        #endif
         public string id;
     }
 

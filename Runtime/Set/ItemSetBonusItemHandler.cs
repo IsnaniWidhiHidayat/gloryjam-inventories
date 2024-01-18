@@ -14,10 +14,15 @@ namespace GloryJam.Inventories
         #region inner class
         [Serializable]
         public class ItemBonus{
-            [Required,TableColumnWidth(90,false)]
+            #if ODIN_INSPECTOR
+            [Required]
+            [TableColumnWidth(90,false)]
+            #endif
             public string inventory = "Main";
 
+            #if ODIN_INSPECTOR
             [TableList]
+            #endif
             public ItemReferenceCount[] bonusItems = new ItemReferenceCount[0];
         }
         #endregion

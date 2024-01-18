@@ -1,8 +1,9 @@
 
 using System;
+
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
-using UnityEngine;
-using UnityEngine.Events;
+#endif
 
 namespace GloryJam.Inventories.Test
 {

@@ -20,13 +20,16 @@ namespace GloryJam.Inventories
 
         #region fields
         #if ODIN_INSPECTOR
-        [BoxGroup(grpFilter),HideLabel]
+        [BoxGroup(grpFilter)]
+        [HideLabel]
         #endif
         public ItemEventFilter filter;
         #endregion
 
         #region event
+        #if ODIN_INSPECTOR
         [BoxGroup(grpEvent)]
+        #endif
         public UnityEvent<ItemStack> onDismantle;
         #endregion
 

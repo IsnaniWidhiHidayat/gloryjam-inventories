@@ -1,7 +1,9 @@
 using UnityEngine;
 using GloryJam.SaveLoad;
 using GloryJam.DataAsset;
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+#endif
 using System;
 using System.Collections.Generic;
 
@@ -11,10 +13,18 @@ namespace GloryJam.Inventories
     public class InventoryLoadHandler : LoadHandler<InventorySaveData>
     {
         #region private
-        [BoxGroup(grpSaveData),SerializeField]
+        [SerializeField]
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpSaveData)]
+        #endif
         private DataReference<InventorySaveData> _saveData;
 
-        [BoxGroup(grpRequired),SerializeField,Required,InlineEditor]
+        [SerializeField]
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpRequired)]
+        [Required]
+        [InlineEditor]
+        #endif
         private InventoryDataAsset _inventoryData;
         #endregion
 

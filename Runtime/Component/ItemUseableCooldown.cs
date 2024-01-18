@@ -23,7 +23,9 @@ namespace GloryJam.Inventories
         #region fields
         public bool Enabled;
 
+        #if ODIN_INSPECTOR
         [BoxGroup(grpConfig)]
+        #endif
         public int duration;
         #endregion
 

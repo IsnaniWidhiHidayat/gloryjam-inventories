@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using GloryJam.DataAsset;
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+#endif
 using UnityEngine;
 
 namespace GloryJam.Inventories
@@ -10,7 +12,9 @@ namespace GloryJam.Inventories
     public class ItemDatabaseData 
     {
         #region fields
+        #if ODIN_INSPECTOR
         [ListDrawerSettings(Expanded = true,DraggableItems = false)]
+        #endif
         public List<ItemAsset> items = new List<ItemAsset>();
         #endregion
 

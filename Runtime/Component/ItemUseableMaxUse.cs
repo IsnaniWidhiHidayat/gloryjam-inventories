@@ -22,22 +22,29 @@ namespace GloryJam.Inventories
         #region fields
         public bool Enabled;
 
-        [BoxGroup(grpConfig),MinValue(1)]
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpConfig)]
+        [MinValue(1)]
+        #endif
         public int count;
 
+        #if ODIN_INSPECTOR
         [BoxGroup(grpConfig)]
+        #endif
         public bool dispose;
         #endregion
 
         #region property
         #if ODIN_INSPECTOR
-        [BoxGroup(grpRuntime),DisplayAsString]
+        [BoxGroup(grpRuntime)]
+        [DisplayAsString]
         [ShowIf(nameof(InspectorShowRuntime))]
         #endif
         public bool isCanUse => _runtimeUsed < count;
 
         #if ODIN_INSPECTOR
-        [BoxGroup(grpRuntime),DisplayAsString]
+        [BoxGroup(grpRuntime)]
+        [DisplayAsString]
         [ShowIf(nameof(InspectorShowRuntime))]
         #endif
         public int runtimeUsed => _runtimeUsed;

@@ -23,8 +23,10 @@ namespace GloryJam.Inventories
         [InlineEditor]
         #endif
         public ItemAsset item;
-        
+
+        #if ODIN_INSPECTOR
         [TableColumnWidth(60,false)]
+        #endif
         public int count = 1;
     }
 }

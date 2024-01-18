@@ -1,4 +1,6 @@
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+#endif
 using UnityEngine;
 
 namespace GloryJam.Inventories
@@ -7,7 +9,10 @@ namespace GloryJam.Inventories
     public class ItemDisposeComponent : ItemComponent<ItemDisposeComponent>
     {
         #region fields
-        [BoxGroup(grpConfig),LabelWidth(200)]
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpConfig)]
+        [LabelWidth(200)]
+        #endif
         public bool disposeWhenInventoryIsNull;
         #endregion
 

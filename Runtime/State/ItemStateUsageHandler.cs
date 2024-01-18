@@ -1,5 +1,7 @@
 using System;
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+#endif
 using UnityEngine;
 
 namespace GloryJam.Inventories
@@ -20,23 +22,31 @@ namespace GloryJam.Inventories
         {
             public Type type;
 
+            #if ODIN_INSPECTOR
             [ShowIf(nameof(type),Type.ID)]
+            #endif
             public string UsageID;
             public bool inUse;
         }
         #endregion
 
         #region property
+        #if ODIN_INSPECTOR
         [BoxGroup(grpConfig)]
+        #endif
         public Type type;
 
+        #if ODIN_INSPECTOR
         [BoxGroup(grpConfig)]
         [ShowIf(nameof(type),Type.ID)]
         [ValueDropdown(nameof(InspectorGetComponentsID))]
         [ValidateInput(nameof(InspectorValidateComponentID),"ID not found",InfoMessageType.Error)]
+        #endif
         public string UsageID;
 
+        #if ODIN_INSPECTOR
         [BoxGroup(grpRuntime)]
+        #endif
         public bool inUse;
 
         public override ItemStateSaveData saveData{

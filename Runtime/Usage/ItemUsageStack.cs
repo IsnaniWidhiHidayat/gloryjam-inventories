@@ -1,6 +1,8 @@
 using System;
-using UnityEngine;
+
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+#endif
 
 namespace GloryJam.Inventories
 {
@@ -20,7 +22,9 @@ namespace GloryJam.Inventories
         #region property
         #if ODIN_INSPECTOR
         [ShowIf(nameof(InspectorShowRuntime))]
-        [BoxGroup(grpRuntime),ShowInInspector,DisplayAsString]
+        [BoxGroup(grpRuntime)]
+        [ShowInInspector]
+        [DisplayAsString]
         #endif
         public string currentUsage {
             get {
@@ -34,7 +38,9 @@ namespace GloryJam.Inventories
 
         #if ODIN_INSPECTOR
         [ShowIf(nameof(InspectorShowRuntime))]
-        [BoxGroup(grpRuntime),ShowInInspector,DisplayAsString]
+        [BoxGroup(grpRuntime)]
+        [ShowInInspector]
+        [DisplayAsString]
         #endif
         public string nextUsage{
             get {

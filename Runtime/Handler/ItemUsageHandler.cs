@@ -1,8 +1,8 @@
 using System;
+using UnityEngine;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
-using UnityEngine;
 #endif
 
 namespace GloryJam.Inventories
@@ -11,14 +11,18 @@ namespace GloryJam.Inventories
     public abstract class ItemUsageHandler : ItemComponentHandler
     {
         #region fields
-        [BoxGroup(grpConfig)]
         [Tooltip("check this if you want item not unuse when disposed")]
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpConfig)]
+        #endif
         public bool persistent;
         #endregion
 
         #region property 
         #if ODIN_INSPECTOR
-        [ShowInInspector,ShowIf(nameof(InspectorShowRuntime)),BoxGroup(grpRuntime)]
+        [ShowInInspector]
+        [ShowIf(nameof(InspectorShowRuntime))]
+        [BoxGroup(grpRuntime)]
         #endif
         public abstract bool inUse {get;}
         #endregion

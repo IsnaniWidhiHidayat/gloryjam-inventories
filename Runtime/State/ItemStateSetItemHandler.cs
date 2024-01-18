@@ -24,7 +24,9 @@ namespace GloryJam.Inventories
         {
             public Type type;
 
+            #if ODIN_INSPECTOR
             [ShowIf(nameof(type),Type.ID)]
+            #endif
             public string setID;
         }
         #endregion

@@ -12,10 +12,10 @@ namespace GloryJam.Inventories
     public class ItemConsumeEventListener : MonoBehaviour, EventListener<ItemConsumeEvent>
     {
         #region const
-        const string grpConfig = "Config";
-        const string grpReuired = "Required";
-        const string grpEvent = "Event";
-        const string grpFilter = "Filter";
+        protected const string grpConfig = "Config";
+        protected const string grpReuired = "Required";
+        protected const string grpEvent = "Event";
+        protected const string grpFilter = "Filter";
         #endregion
 
         #region fields
@@ -26,7 +26,9 @@ namespace GloryJam.Inventories
         #endregion
 
         #region event
+        #if ODIN_INSPECTOR
         [BoxGroup(grpEvent)]
+        #endif
         public UnityEvent<ItemStack> onConsume;
         #endregion
 

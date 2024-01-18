@@ -1,5 +1,7 @@
 using System;
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+#endif
 using UnityEngine;
 
 namespace GloryJam.Inventories
@@ -15,7 +17,10 @@ namespace GloryJam.Inventories
         #endregion
 
         #region property
-        [BoxGroup(grpRuntime),DisableInEditorMode]
+        #if ODIN_INSPECTOR
+        [BoxGroup(grpRuntime)]
+        [DisableInEditorMode]
+        #endif
         public bool isViewed;
         #endregion
 

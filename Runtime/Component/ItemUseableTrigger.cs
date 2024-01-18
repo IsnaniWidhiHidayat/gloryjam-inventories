@@ -1,6 +1,8 @@
 using System;
 using GloryJam.DataAsset;
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+#endif
 using UnityEngine;
 
 namespace GloryJam.Inventories
