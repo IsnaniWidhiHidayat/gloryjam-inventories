@@ -16,6 +16,7 @@ namespace GloryJam.Inventories
     {
         #region const
         const string grpEvent = "Events";
+        const string grpRequired = "Required";
         const string grpConfig = "Config";
         #endregion
 
