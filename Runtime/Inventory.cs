@@ -83,8 +83,10 @@ namespace GloryJam.Inventories
         #endif
         public ItemPair[] initialUseItems;
 
+        [SerializeField]
         #if ODIN_INSPECTOR
-        [BoxGroup(grpRuntime),SerializeField,HideLabel]
+        [BoxGroup(grpRuntime)]
+        [HideLabel]
         #endif
         public DataReference<InventoryData> data;
         #endregion
@@ -109,7 +111,7 @@ namespace GloryJam.Inventories
         #endregion
 
         #region events
-#if ODIN_INSPECTOR
+        #if ODIN_INSPECTOR
         [BoxGroup(grpEvent)]
         #endif
         public UnityEvent<ItemStack> onItemInit,onItemUse,onItemUnuse,onItemDispose,onItemConsume;
@@ -128,18 +130,28 @@ namespace GloryJam.Inventories
             return Application.isPlaying;
         }
 
-        [SerializeField,BoxGroup(grpDebug),LabelText("Item"),ShowIf(nameof(InspectorShowOnRuntime))]
+        [SerializeField]
+        [BoxGroup(grpDebug)]
+        [LabelText("Item")]
+        [ShowIf(nameof(InspectorShowOnRuntime))]
         private ItemAsset _debugItem;
 
-        [SerializeField,BoxGroup(grpDebug),LabelText("Count"),ShowIf(nameof(InspectorShowOnRuntime))]
+        [SerializeField]
+        [BoxGroup(grpDebug)]
+        [LabelText("Count")]
+        [ShowIf(nameof(InspectorShowOnRuntime))]
         private int _debugCount;
 
-        [Button("Add Item"),BoxGroup(grpDebug),ShowIf(nameof(InspectorShowOnRuntime))]
+        [Button("Add Item")]
+        [BoxGroup(grpDebug)]
+        [ShowIf(nameof(InspectorShowOnRuntime))]
         private void DebugAddItem(){
             AddItem(_debugItem.value,_debugCount,true);
         }
 
-        [Button("Dispose Item"),BoxGroup(grpDebug),ShowIf(nameof(InspectorShowOnRuntime))]
+        [Button("Dispose Item")]
+        [BoxGroup(grpDebug)]
+        [ShowIf(nameof(InspectorShowOnRuntime))]
         private void DebugDisposeItem(){
             DisposeItem(_debugItem.value,_debugCount);
         }
