@@ -31,6 +31,7 @@ namespace GloryJam.Inventories
         #if ODIN_INSPECTOR
         [BoxGroup(grpConfig),PropertyOrder(-1)]
         [ShowIf(nameof(showID))]
+        [ValidateInput(nameof(InspectorValidateID),"ID Required",InfoMessageType.Error)]
         #endif
         public string id;
         #endregion

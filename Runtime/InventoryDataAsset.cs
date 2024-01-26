@@ -14,10 +14,12 @@ namespace GloryJam.Inventories
     {
         #region fields
         #if ODIN_INSPECTOR
-        [ListDrawerSettings(IsReadOnly = true,ListElementLabelName = "title")]
-        [NonSerialized,ShowInInspector]
-        [HideDuplicateReferenceBox,HideReferenceObjectPicker]
+        [ListDrawerSettings(IsReadOnly = true,ListElementLabelName = "title",Expanded = true)]
+        [ShowInInspector]
+        [HideDuplicateReferenceBox]
+        [HideReferenceObjectPicker]
         #endif
+        [NonSerialized]
         public ItemSlot[] slots;
         #endregion
 
@@ -28,6 +30,6 @@ namespace GloryJam.Inventories
         #endregion
     }
 
-    [CreateAssetMenu(menuName = "Glory Jam/Inventory/Inventory Data")]
+    [CreateAssetMenu(menuName = "Glory Jam/Inventory/Inventory Data Asset")]
     public class InventoryDataAsset : DataAsset<InventoryData>{}
 }
